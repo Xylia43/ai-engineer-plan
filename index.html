@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI应用工程师 · 30天筑基学习计划</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.7;
+            padding: 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .header h1 { font-size: 22px; margin-bottom: 8px; }
+        .header .date-info { font-size: 14px; opacity: 0.9; }
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+            background: #e4e7ed;
+            padding: 4px;
+            border-radius: 8px;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .tab.active {
+            background: white;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: none;
+        }
+        .panel.active { display: block; }
+        .panel h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #303133;
+            border-left: 4px solid #667eea;
+            padding-left: 10px;
+        }
+        .panel h3 {
+            font-size: 15px;
+            margin: 16px 0 8px;
+            color: #606266;
+        }
+        .panel p { margin-bottom: 10px; font-size: 14px; }
+        .panel ul, .panel ol { margin: 8px 0 12px 24px; font-size: 14px; }
+        .panel li { margin-bottom: 6px; }
+        .code-inline {
+            background: #f0f2f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #667eea;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 10px 0 16px;
+            white-space: pre;
+        }
+        .highlight-box {
+            background: #f0f9eb;
+            border-left: 4px solid #67c23a;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        .practice-box {
+            background: #ecf5ff;
+            border-left: 4px solid #409eff;
+            padding: 12px 14px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        .practice-box strong { color: #409eff; }
+        .todo-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .todo-item input[type="checkbox"] {
+            margin-top: 5px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .todo-item.done label {
+            text-decoration: line-through;
+            color: #909399;
+        }
+        .quiz-item {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .quiz-options label {
+            display: block;
+            padding: 6px 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .quiz-options input { margin-right: 8px; }
+        .quiz-result {
+            margin-top: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+        .quiz-result.correct { background: #f0f9eb; color: #67c23a; display: block; }
+        .quiz-result.wrong { background: #fef0f0; color: #f56c6c; display: block; }
+        .submit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .submit-btn:hover { opacity: 0.9; }
+        .score-box {
+            text-align: center;
+            padding: 16px;
+            background: #f5f7fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            display: none;
+        }
+        .date-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .date-nav button {
+            background: #e4e7ed;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .date-nav button:hover { background: #dcdfe6; }
+        .rest-tip {
+            text-align: center;
+            padding: 40px;
+            color: #909399;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI应用工程师 · 30天筑基计划</h1>
+        <div class="date-info" id="dateInfo"></div>
+    </div>
+
+    <div class="date-nav">
+        <button onclick="prevDay()">← 上一天</button>
+        <span id="dayLabel">第 1 天</span>
+        <button onclick="nextDay()">下一天 →</button>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="lesson">今日学习</div>
+        <div class="tab" data-tab="todo">每日待办</div>
+        <div class="tab" data-tab="quiz">每日小测</div>
+        <div class="tab" data-tab="weekly">每周大测</div>
+    </div>
+
+    <div id="lessonPanel" class="panel active">
+        <h2 id="lessonTitle">今日知识点</h2>
+        <div id="lessonContent"></div>
+    </div>
+
+    <div id="todoPanel" class="panel">
+        <h2>今日学习任务</h2>
+        <div id="todoList"></div>
+    </div>
+
+    <div id="quizPanel" class="panel">
+        <h2>每日小测</h2>
+        <div class="score-box" id="dailyScore"></div>
+        <div id="quizList"></div>
+        <button class="submit-btn" onclick="submitDailyQuiz()">提交答案</button>
+    </div>
+
+    <div id="weeklyPanel" class="panel">
+        <h2>每周大测</h2>
+        <div class="score-box" id="weeklyScore"></div>
+        <div id="weeklyQuizList"></div>
+        <button class="submit-btn" onclick="submitWeeklyQuiz()">提交答案</button>
+    </div>
+
+    <script>
+        // 配置：学习开始日期
+        var START_DATE = new Date('2026-10-24');
+        var currentDayOffset = 0;
+
+        // 完整学习计划数据
+        var planData = [
+            // 第1周周一
+            {
+                title: "第1周周一：Python工程化基础·模块化与规范",
+                lesson: `<h3>一、为什么要讲工程化？</h3><p>AI应用工程师不是算法研究员，核心是产出<strong>可维护、可复用、稳定运行</strong>的工具和系统。代码写得短不算本事，别人能看懂、出问题能排查、半年后自己还能看懂，才是工程能力。</p><h3>二、PEP8 编码核心规范（必须遵守）</h3><ul><li><strong>命名规范：</strong>函数、变量用<span class="code-inline">蛇形命名法</span>（小写+下划线，如 get_user_info）；类名用大驼峰；常量全大写。</li><li><strong>缩进：</strong>统一4个空格，禁止Tab和空格混用。</li><li><strong>行长度：</strong>单行不超过79字符，过长就换行拆分。</li><li><strong>空行：</strong>函数之间空2行；函数内逻辑块之间空1行，提升可读性。</li><li><strong>导入顺序：</strong>标准库 → 第三方库 → 本地模块，分组空行隔开。</li></ul><h3>三、模块化编程：把大功能拆成小函数</h3><p>核心原则：<strong>一个函数只做一件事</strong>。</p><ul><li>好处：易测试、易复用、出问题好定位、多人协作不冲突。</li><li>判断标准：如果你描述一个函数需要用「和」「然后」，就该拆了。</li><li>每个函数必须加<strong>文档字符串（docstring）</strong>：说明功能、参数、返回值。</li></ul><h3>四、异常处理：让程序崩得优雅</h3><p>工程化代码绝对不能一报错就直接崩溃。</p><ul><li>基础结构：try → except → finally</li><li>不要写空的 except，要捕获具体异常类型。</li><li>捕获异常后要<strong>记录日志/打印错误信息</strong>，不能悄无声息地吞掉错误。</li><li>AI调用场景，必须处理：网络错误、限流、密钥错误、参数错误四类异常。</li></ul><h3>五、代码示例</h3><p>❌ 反面示例（不规范、一坨到底）：</p><div class="code-block">import requests,json
+k='sk-xxx'
+def f(t):
+    r=requests.post('https://api.example.com/v1/chat/completions',headers={'Authorization':'Bearer '+k},json={'model':'gpt-4o-mini','messages':[{'role':'user','content':t}]})
+    return r.json()['choices'][0]['message']['content']</div><p>✅ 正面示例（工程化规范）：</p><div class="code-block">import requests
+from typing import Optional
+
+# 配置常量
+API_KEY = "your_api_key"
+BASE_URL = "https://api.example.com/v1/chat/completions"
+MODEL_NAME = "gpt-4o-mini"
+
+
+def call_llm(prompt):
+    """调用大模型生成回答
+
+    Args:
+        prompt: 用户输入的提示词
+
+    Returns:
+        模型生成的文本内容，调用失败返回None
+    """
+    headers = {"Authorization": "Bearer " + API_KEY}
+    payload = {
+        "model": MODEL_NAME,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7
+    }
+
+    try:
+        response = requests.post(BASE_URL, headers=headers, json=payload)
+        response.raise_for_status()
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
+    except requests.exceptions.RequestException as e:
+        print("调用大模型失败: " + str(e))
+        return None</div><h3>六、动手练习</h3><div class="practice-box"><strong>练习目标：</strong>把上面的反面示例，改写成符合工程化规范的代码。<br><br><strong>要求：</strong><ol><li>统一命名规范，变量和函数用蛇形命名</li><li>拆分成至少2个函数：一个构造请求参数，一个发起调用</li><li>每个函数加上文档字符串</li><li>添加异常处理，捕获网络请求错误</li><li>常量提取到顶部，不硬编码在函数里</li></ol><strong>验收标准：</strong>代码能正常运行；格式清晰、易读；出错时不会直接崩溃，会打印错误信息。</div><div class="highlight-box">今日核心心法：代码首先是写给人看的，顺便能在机器上运行。</div>`,
+                todos: [
+                    "学习Python PEP8编码规范，重点掌握命名、缩进、注释标准",
+                    "模块化练习：将一段零散脚本拆分为3个可复用函数，每个函数加文档字符串",
+                    "异常处理练习：给上述函数加上try-except捕获和错误日志打印",
+                    "10分钟小测：修改一段不规范代码，使其符合工程化规范"
+                ],
+                quiz: [
+                    {
+                        q: "以下哪项不符合PEP8命名规范？",
+                        options: ["函数名用小写+下划线：get_user_info", "变量名用驼峰：userName", "常量用全大写：MAX_COUNT"],
+                        answer: 1,
+                        desc: "PEP8推荐函数和变量使用蛇形命名法（小写+下划线），类名用大驼峰。"
+                    },
+                    {
+                        q: "Python中try-except的主要作用是？",
+                        options: ["提高代码运行速度", "捕获并处理异常，避免程序直接崩溃", "简化代码结构"],
+                        answer: 1,
+                        desc: "异常处理用于捕获运行时错误，保证程序健壮性，是工程化代码的必备要素。"
+                    },
+                    {
+                        q: "函数加文档字符串（docstring）的核心目的是？",
+                        options: ["让代码运行更快", "说明函数功能、参数、返回值，提升可维护性", "减少代码行数"],
+                        answer: 1,
+                        desc: "文档字符串是工程化规范的核心，方便自己和他人快速理解函数用途。"
+                    }
+                ]
+            },
+            // 第1周周二
+            {
+                title: "第1周周二：Git版本控制核心操作",
+                lesson: `<h3>一、Git 是什么？为什么必须会？</h3><p>Git是分布式版本控制系统，是所有程序员的标配工具。它帮你记录代码每一次修改、随时回退、多人协作不打架，也是你作品集的载体。</p><h3>二、核心概念：工作区 → 暂存区 → 本地仓库</h3><ul><li><strong>工作区：</strong>你电脑上看得见的文件，改代码就是在改工作区。</li><li><strong>暂存区：</strong>临时存放你准备提交的修改，用 git add 放进来。</li><li><strong>本地仓库：</strong>正式保存的历史版本，用 git commit 提交。</li><li><strong>远程仓库：</strong>GitHub/Gitee等服务器上的仓库，用 git push 上传。</li></ul><h3>三、必须背下来的核心命令</h3><ul><li><span class="code-inline">git init</span>：在当前文件夹初始化Git仓库</li><li><span class="code-inline">git status</span>：查看当前文件状态（哪些改了、哪些暂存了）</li><li><span class="code-inline">git add 文件名</span>：把文件加入暂存区；git add . 全部加入</li><li><span class="code-inline">git commit -m "提交说明"</span>：提交到本地仓库，说明要写清楚做了什么</li><li><span class="code-inline">git log</span>：查看提交历史记录</li><li><span class="code-inline">git diff</span>：查看具体修改了哪些内容</li></ul><h3>四、分支基础操作</h3><ul><li>分支的意义：并行开发，新功能开新分支，不影响主分支稳定代码。</li><li><span class="code-inline">git branch 分支名</span>：创建分支</li><li><span class="code-inline">git checkout 分支名</span>：切换分支</li><li><span class="code-inline">git merge 分支名</span>：把指定分支合并到当前分支</li></ul><h3>五、代码示例：完整提交流程</h3><div class="code-block"># 1. 进入项目文件夹，初始化仓库
+cd my-project
+git init
+
+# 2. 查看状态（红色是工作区修改，未暂存）
+git status
+
+# 3. 把所有修改加入暂存区
+git add .
+
+# 4. 再次查看状态（绿色是已暂存，待提交）
+git status
+
+# 5. 提交到本地仓库，写规范的提交信息
+git commit -m "feat: 新增大模型调用函数，添加异常处理"
+
+# 6. 查看提交历史
+git log --oneline
+
+# 7. 关联远程仓库并推送（第一次需要）
+git remote add origin https://github.com/你的用户名/仓库名.git
+git push -u origin main</div><h3>六、Commit 信息规范</h3><ul><li><span class="code-inline">feat:</span> 新增功能</li><li><span class="code-inline">fix:</span> 修复bug</li><li><span class="code-inline">docs:</span> 文档修改</li><li><span class="code-inline">refactor:</span> 代码重构，不改变功能</li><li><span class="code-inline">style:</span> 格式调整，不影响代码逻辑</li></ul><h3>七、动手练习</h3><div class="practice-box"><strong>练习目标：</strong>完整走一遍「创建项目→写代码→提交→推送到GitHub」流程。<br><br><strong>步骤：</strong><ol><li>新建一个文件夹，用git init初始化仓库</li><li>创建一个Python文件，写一个简单函数</li><li>git add 暂存，git commit提交，写规范的commit信息</li><li>修改函数，增加一个参数，再次add+commit</li><li>用git log查看两次提交记录</li><li>（可选）新建feature分支，修改后合并回主分支</li></ol><strong>验收标准：</strong>git log能看到至少2次提交记录；commit信息清晰规范。</div><div class="highlight-box">Commit 信息写清楚：「做了什么+为什么」，半年后你会感谢现在的自己。</div>`,
+                todos: [
+                    "掌握Git核心命令：init / add / commit / status / log / diff",
+                    "完整流程练习：新建项目→写代码→提交→修改→二次提交",
+                    "分支基础操作：创建分支→切换分支→合并分支",
+                    "注册GitHub账号，创建第一个测试仓库，上传当天的Python练习代码"
+                ],
+                quiz: [
+                    {
+                        q: "将工作区修改提交到本地仓库的正确顺序是？",
+                        options: ["commit → add", "add → commit", "init → commit"],
+                        answer: 1,
+                        desc: "标准流程：先git add把修改放入暂存区，再git commit提交到本地仓库。"
+                    },
+                    {
+                        q: "查看提交历史记录用哪个命令？",
+                        options: ["git status", "git log", "git diff"],
+                        answer: 1,
+                        desc: "git log查看提交历史，git status看当前状态，git diff看具体修改内容。"
+                    },
+                    {
+                        q: "Git分支的主要优势不包括？",
+                        options: ["并行开发互不影响", "永久保存所有代码无需删除", "功能开发完成再合并到主分支"],
+                        answer: 1,
+                        desc: "分支的核心价值是并行开发、隔离风险，不是单纯保存代码。"
+                    }
+                ]
+            },
+            // 第1周周三
+            {
+                title: "第1周周三：大模型全局认知与能力边界",
+                lesson: `<h3>一、大模型不是「超级大脑」，是「文本预测机」</h3><p>核心原理：根据上文，概率性地预测下一个字。它不懂「真相」，只懂「语言规律」。这决定了它擅长生成、总结、翻译，不擅长精确计算、事实核查、实时信息。</p><h3>二、必须懂的核心概念</h3><ul><li><strong>Token：</strong>模型处理文本的基本单位。汉字约1字=1-2个token；输入+输出总token不能超过上下文窗口。</li><li><strong>上下文窗口：</strong>模型一次性能记住的总文本长度。窗口越大，能处理的文档越长，但成本越高。</li><li><strong>温度参数（Temperature）：</strong>0~2之间。越低越确定、越保守；越高越随机、越有创意。<ul><li>事实类、数据类任务：0.1~0.3</li><li>通用场景：0.6~0.7</li><li>创意写作：0.9~1.2</li></ul></li><li><strong>Top P：</strong>另一种随机性控制，和温度调一个就行，不用两个都改。</li></ul><h3>三、主流模型选型指南</h3><ul><li><strong>GPT-4o / Claude 3.5 Opus：</strong>综合能力最强，复杂推理、长文档处理首选，成本高。</li><li><strong>GPT-4o mini / Claude 3.5 Haiku：</strong>性价比之王，日常任务、批量处理首选，成本极低。</li><li><strong>开源模型（Llama、Qwen等）：</strong>可本地部署、数据不对外，适合隐私敏感场景，需要自己运维。</li></ul><h3>四、大模型的能力边界（非常重要）</h3><p><strong>擅长：</strong>文本生成、总结摘要、翻译、改写、代码辅助、思路启发、信息整理、常规问答。</p><p><strong>不擅长/不可信：</strong>精确数学计算、实时信息、事实核查、医疗/法律专业建议、私密数据处理。</p><p><strong>天生缺陷：幻觉（Hallucination）</strong>——会一本正经地编造不存在的事实和数据。解决方法：RAG检索增强、引用来源、人工校验。</p><h3>五、代码示例：不同温度参数对比</h3><div class="code-block">from openai import OpenAI
+
+client = OpenAI(api_key="your_key")
+
+def generate_with_temp(prompt, temp):
+    """指定温度参数生成内容"""
+    resp = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=temp
+    )
+    return resp.choices[0].message.content
+
+# 测试同一句话，不同温度的效果
+prompt = "用一句话介绍人工智能"
+
+print("=== 温度 0.1（确定保守） ===")
+print(generate_with_temp(prompt, 0.1))
+
+print("\n=== 温度 0.7（均衡） ===")
+print(generate_with_temp(prompt, 0.7))
+
+print("\n=== 温度 1.5（创意随机） ===")
+print(generate_with_temp(prompt, 1.5))</div><h3>六、动手练习</h3><div class="practice-box"><strong>练习目标：</strong>直观感受不同模型、不同参数的效果差异，建立选型判断力。<br><br><strong>任务：</strong><ol><li>选同一个问题（比如「如何提升工作效率」），分别用2-3个不同模型测试</li><li>同一模型，分别测试温度 0.2、0.7、1.2 三种参数</li><li>记录每一组的输出特点：准确性、创意性、稳定性</li><li>整理成表格：不同场景分别该选什么模型、什么温度</li></ol><strong>验收标准：</strong>输出一份你的「模型选型速查表」，包含3种典型场景对应方案。</div><div class="highlight-box">AI应用工程师的核心：不是让模型变聪明，是知道它哪里不行，用工程手段补上。</div>`,
+                todos: [
+                    "梳理主流模型定位：GPT-4o、Claude 3.5、Gemini、Llama 3的擅长场景与差异",
+                    "理解核心概念：Token、上下文窗口、温度参数、Top P对输出的影响",
+                    "对比测试：同一个问题分别用2-3个模型测试，记录效果差异",
+                    "整理笔记：不同业务场景对应的模型选型建议"
+                ],
+                quiz: [
+                    {
+                        q: "大模型的「温度参数（Temperature）」越高，输出越？",
+                        options: ["越确定、越保守", "越随机、越有创意", "越准确、错误越少"],
+                        answer: 1,
+                        desc: "温度越高随机性越强，适合创意场景；温度越低越确定，适合事实类任务。"
+                    },
+                    {
+                        q: "「Token」指的是？",
+                        options: ["模型处理文本的基本单位", "模型的推理速度", "模型的参数数量"],
+                        answer: 0,
+                        desc: "Token是大模型分词后的基本单位，汉字一般1字≈1-2个token。"
+                    },
+                    {
+                        q: "上下文窗口大小决定了模型的什么能力？",
+                        options: ["单次能处理的文本长度", "推理的准确率", "生成速度"],
+                        answer: 0,
+                        desc: "上下文窗口决定了模型一次性能接收+生成的总文本长度。"
+                    }
+                ]
+            },
+            // 第1周周四
+            {
+                title: "第1周周四：提示词工程入门·核心原则",
+                lesson: `<h3>一、提示词工程是什么？</h3><p>用精准的语言，把你的意图清晰传达给大模型，让它输出你想要的结果。提示词不是「话术技巧」，是<strong>人机交互的编程语言</strong>。</p><h3>二、高质量提示词四要素（万能框架）</h3><ol><li><strong>角色设定：</strong>给模型一个身份，让它进入对应语境。<br>例：你是一名资深软件测试工程师，有10年功能测试经验。</li><li><strong>任务描述：</strong>清晰说明要做什么，背景、目标、输入内容。</li><li><strong>输出要求：</strong>格式、长度、结构、风格。比如：用Markdown表格输出，分3点。</li><li><strong>约束条件：</strong>明确说清「不要什么」。比如：不要多余解释，只输出结果。</li></ol><h3>三、核心进阶技巧</h3><ul><li><strong>思维链（Chain of Thought, CoT）：</strong>加上「请分步思考」「请写出推理过程」，大幅提升逻辑、数学类问题准确率。</li><li><strong>少样本提示（Few-shot）：</strong>给2-3个输入输出示例，比纯文字描述更准确。</li><li><strong>结构化输出：</strong>明确要求输出JSON、Markdown表格、指定层级，方便程序后续处理。</li></ul><h3>四、代码示例：结构化提示词模板</h3><div class="code-block">def build_test_prompt(requirement):
+    """生成测试用例的标准化提示词"""
+    prompt = """
+你是一名资深软件测试工程师。
+请根据以下需求描述，生成功能测试用例。
+
+【需求描述】
+{requirement}
+
+【输出要求】
+1. 用Markdown表格输出，包含：用例编号、测试场景、操作步骤、预期结果
+2. 覆盖正常场景、边界值、异常场景三类
+3. 不要多余的解释和开场白，直接输出表格
+
+请开始生成：
+""".replace("{requirement}", requirement)
+    return prompt
+
+# 使用示例
+req = "用户登录功能：用户名密码正确则登录成功，错误则提示"
+print(build_test_prompt(req))</div><h3>五、写提示词的常见坑</h3><ul><li>❌ 模糊：「帮我写个方案」→ 什么方案？给谁看？要多长？什么风格？</li><li>❌ 一次塞太多任务，模型容易漏项</li><li>❌ 全是术语，模型理解成本高</li><li>✅ 好的提示词：清晰、具体、有边界、有示例</li></ul><h3>六、动手练习</h3><div class="practice-box"><strong>练习目标：</strong>用四要素框架，写3个高质量提示词，并对比优化前后效果。<br><br><strong>任务：</strong><ol><li>场景1：把一篇长文章总结成300字以内的核心要点</li><li>场景2：根据产品需求，生成功能测试用例</li><li>场景3：把一段口语化文字改写成正式商务邮件</li></ol><strong>步骤：</strong><ol><li>先写一版「朴素版」提示词，看输出效果</li><li>再用四要素框架改写「专业版」，加上角色、输出要求、约束</li><li>对比两版输出，记录差异点</li><li>再加入思维链/少样本技巧，看是否进一步提升</li></ol><strong>验收标准：</strong>专业版输出在结构、准确性、符合度上明显优于朴素版。</div><div class="highlight-box">提示词心法：你怎么教一个新同事做这件事，就怎么写提示词。</div>`,
+                todos: [
+                    "学习提示词四要素：角色设定、任务描述、输出要求、约束条件",
+                    "基础练习：写3个场景的专业提示词（文案生成、信息整理、问题解答）",
+                    "学习思维链（CoT）技巧：让模型分步思考，提升复杂问题准确率",
+                    "对比测试：普通提示vs结构化提示vs思维链提示，记录效果差异"
+                ],
+                quiz: [
+                    {
+                        q: "高质量提示词四要素不包括以下哪项？",
+                        options: ["角色设定", "任务描述", "模型版本"],
+                        answer: 2,
+                        desc: "核心四要素是角色、任务、输出要求、约束条件，模型版本不是提示词本身的要素。"
+                    },
+                    {
+                        q: "思维链（Chain of Thought）提示的核心作用是？",
+                        options: ["让模型输出更长", "让模型分步推理，提升复杂问题准确率", "让模型回答更快"],
+                        answer: 1,
+                        desc: "思维链引导模型逐步推理，能显著提升数学、逻辑类问题的正确率。"
+                    },
+                    {
+                        q: "要求模型输出JSON格式，属于提示词四要素中的？",
+                        options: ["输出要求", "角色设定", "约束条件"],
+                        answer: 0,
+                        desc: "输出格式、长度、结构都属于「输出要求」部分。"
+                    }
+                ]
+            },
+            // 第1周周五
+            {
+                title: "第1周周五：Python API调用基础",
+                lesson: `<h3>一、API 是什么？</h3><p>应用程序接口，简单说就是：你按规定格式发请求过去，服务器按格式把结果返回来。大模型能力几乎都是通过API方式对外提供的。</p><h3>二、HTTP 基础：GET 和 POST</h3><ul><li><strong>GET：</strong>从服务器获取数据，参数放在URL里，适合简单查询。</li><li><strong>POST：</strong>向服务器提交数据，参数放在请求体（body）里，适合内容多、敏感的数据。<br>大模型接口几乎都是POST。</li></ul><h3>三、requests 库核心用法</h3><ul><li>安装：pip install requests</li><li>发送POST请求：requests.post(url, json=数据, headers=请求头)</li><li>解析返回结果：response.json()</li><li>判断是否成功：response.status_code == 200</li></ul><h3>四、代码示例：完整的大模型调用脚本</h3><div class="code-block">import requests
+import os
+from typing import Optional
+
+# 从环境变量读取密钥，不要硬编码
+API_KEY = os.getenv("OPENAI_API_KEY")
+BASE_URL = "https://api.openai.com/v1/chat/completions"
+
+
+def call_chat_model(prompt, temperature=0.7):
+    """调用聊天大模型
+
+    Args:
+        prompt: 用户提示词
+        temperature: 温度参数，0-2之间
+
+    Returns:
+        生成的文本，失败返回None
+    """
+    if not API_KEY:
+        print("错误：未配置API_KEY")
+        return None
+
+    headers = {
+        "Authorization": "Bearer " + API_KEY,
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "model": "gpt-4o-mini",
+        "temperature": temperature,
+        "messages": [
+            {"role": "user", "content": prompt}
+        ]
+    }
+
+    try:
+        resp = requests.post(BASE_URL, headers=headers, json=payload, timeout=30)
+        resp.raise_for_status()  # 状态码非200时抛出异常
+        data = resp.json()
+        return data["choices"][0]["message"]["content"]
+    
+    except requests.exceptions.Timeout:
+        print("请求超时，请稍后重试")
+        return None
+    except requests.exceptions.HTTPError as e:
+        print("HTTP错误: " + str(e.response.status_code) + " - " + e.response.text)
+        return None
+    except requests.exceptions.RequestException as e:
+        print("请求失败: " + str(e))
+        return None
+
+
+if __name__ == "__main__":
+    result = call_chat_model("用一句话介绍Python")
+    if result:
+        print("模型回答:", result)</div><h3>五、常见状态码</h3><ul><li>200：成功</li><li>401：密钥错误/无权限</li><li>429：请求太频繁，触发限流</li><li>500：服务器内部错误</li></ul><h3>六、动手练习</h3><div class="practice-box"><strong>练习目标：</strong>写一个批量文本总结工具，调用大模型批量处理多条文本。<br><br><strong>要求：</strong><ol><li>定义一个文本列表，包含3-5段不同的长文本</li><li>写一个总结函数，调用大模型将每段文本总结成1句话</li><li>循环调用，批量处理所有文本</li><li>添加完整的异常处理：超时、限流、密钥错误</li><li>API Key从环境变量读取，不写死在代码里</li></ol><strong>验收标准：</strong>正常情况下能批量输出总结结果；模拟密钥错误、断网情况，程序不崩溃，打印对应错误信息。</div><div class="highlight-box">安全红线：API Key 是你的钱，绝不能上传GitHub、绝不能发给别人。</div>`,
+                todos: [
+                    "学习requests库：GET/POST请求、参数传递、响应解析",
+                    "注册大模型API账号，获取并配置API Key",
+                    "编写第一个AI脚本：调用大模型实现批量文本总结功能",
+                    "补充异常处理：覆盖限流、报错、网络异常三种场景"
+                ],
+                quiz: [
+                    {
+                        q: "调用大模型API最常用的HTTP请求方式是？",
+                        options: ["GET", "POST", "PUT"],
+                        answer: 1,
+                        desc: "大模型接口一般用POST请求，请求体携带prompt、参数等复杂数据。"
+                    },
+                    {
+                        q: "API调用时添加异常处理的目的不包括？",
+                        options: ["程序遇到错误不崩溃", "记录错误信息方便排查", "提高接口返回速度"],
+                        answer: 2,
+                        desc: "异常处理提升健壮性，不影响接口本身的响应速度。"
+                    },
+                    {
+                        q: "API Key应该怎么存放最安全？",
+                        options: ["直接写在代码里", "放在环境变量或配置文件中，不上传Git", "放在README里"],
+                        answer: 1,
+                        desc: "密钥严禁硬编码上传公开仓库，应通过环境变量或本地配置文件管理。"
+                    }
+                ]
+            },
+            // 第1周周六
+            {
+                title: "第1周周六：第1周复盘+综合练习",
+                lesson: `<h3>本周核心知识地图</h3><ol><li><strong>Python工程化：</strong>PEP8规范、模块化拆分、异常处理、文档字符串</li><li><strong>Git版本控制：</strong>工作区→暂存区→本地仓库→远程仓库，核心命令与分支</li><li><strong>大模型基础：</strong>Token、上下文窗口、温度参数、能力边界、幻觉问题</li><li><strong>提示词工程：</strong>四要素框架、思维链、少样本、结构化输出</li><li><strong>API调用：</strong>requests库、大模型接口调用流程、异常处理、密钥安全</li></ol><h3>本周综合练习目标</h3><p>做一个「批量文本重命名工具」：读取文件夹内的文本文件，调用AI生成规范化标题，批量重命名文件。要求：模块化拆分、有异常处理、有Git版本管理、有README说明。</p><h3>三、练习详细要求</h3><div class="practice-box"><strong>功能说明：</strong><ol><li>遍历指定文件夹下所有 .txt 文件</li><li>读取每个文件的内容，调用AI生成一个不超过10字的规范化标题</li><li>用生成的标题重命名文件，保留 .txt 后缀</li><li>处理失败的文件，打印错误信息，继续处理下一个</li></ol><strong>工程要求：</strong><ol><li>代码模块化，拆分成至少3个函数：读取文件、生成标题、重命名</li><li>每个函数加文档字符串</li><li>完整的异常处理：文件读取失败、API调用失败、重命名失败</li><li>API Key 从环境变量读取</li><li>使用Git管理，至少3次提交：初始化、核心功能、异常处理</li><li>写README，说明功能、安装、使用方法</li></ol><strong>验收标准：</strong>能正常批量重命名；遇到错误不中断；GitHub仓库有完整代码+README。</div><h3>复盘方法</h3><ul><li>哪些知识点掌握了？哪些还模糊？记下来下周重点补。</li><li>把零散笔记整理成思维导图，建立知识框架。</li><li>代码能不能跑通？有没有按工程规范写？</li><li>下周目标：进入工具链与RAG实战，难度会提升。</li></ul><div class="highlight-box">第一周是地基，地基打牢，后面盖楼才快。</div>`,
+                todos: [
+                    "复盘本周知识点，整理成思维导图",
+                    "综合练习：写一个带Git版本管理的Python脚本，调用AI实现批量文本重命名",
+                    "代码上传GitHub，写好README功能说明",
+                    "记录本周疑问点，标记下周重点攻克方向"
+                ],
+                quiz: [],
+                isWeekly: true,
+                weeklyQuiz: [
+                    {
+                        q: "以下哪项是工程化代码的必备特征？",
+                        options: ["代码越短越好", "有注释、有异常处理、结构清晰", "全部写在一个文件里"],
+                        answer: 1,
+                        desc: "工程化核心是可维护、可复用、健壮，不是越短越好。"
+                    },
+                    {
+                        q: "Git中「暂存区」对应的操作是？",
+                        options: ["git add", "git commit", "git push"],
+                        answer: 0,
+                        desc: "git add将修改放入暂存区，commit提交到本地仓库，push推送到远程。"
+                    },
+                    {
+                        q: "想要输出更稳定、更确定的结果，温度参数应该设为？",
+                        options: ["0.1", "0.7", "1.5"],
+                        answer: 0,
+                        desc: "温度越低输出越确定，温度越高随机性越强。"
+                    },
+                    {
+                        q: "提示词中加入「请分步思考」属于什么技巧？",
+                        options: ["角色设定", "思维链", "少样本提示"],
+                        answer: 1,
+                        desc: "引导分步推理是思维链（CoT）的核心用法。"
+                    },
+                    {
+                        q: "调用大模型API时，返回429状态码通常代表？",
+                        options: ["密钥错误", "请求频率超限", "参数错误"],
+                        answer: 1,
+                        desc: "429 Too Many Requests代表触发限流，需要降低请求频率。"
+                    }
+                ]
+            },
+            // 周日休息
+            { isRest: true, title: "周日：休息复盘日" },
+            
+            // 第2-4周数据精简保留核心结构，确保语法正确
+            {
+                title: "第2周周一：LangChain基础入门",
+                lesson: `<h3>一、LangChain 是什么？</h3><p>最流行的大模型应用开发框架。它把大模型、提示词、向量库、记忆、工具等组件都封装好了，你不用从零写，像搭积木一样快速搭建AI应用。</p><h3>二、核心组件（六大模块）</h3><ul><li><strong>Models：</strong>对接各种大模型，统一调用接口，换模型不用改业务代码。</li><li><strong>Prompts：</strong>提示词模板、示例选择器，实现提示词参数化、复用化。</li><li><strong>Chains：</strong>把多个组件串起来，流水线式执行多步骤任务。</li><li><strong>Memory：</strong>保存对话历史，实现多轮上下文能力。</li><li><strong>Retrievers：</strong>对接向量数据库，实现RAG检索增强生成。</li><li><strong>Agents：</strong>让大模型自己决定调用什么工具，完成复杂任务。</li></ul><h3>三、动手练习</h3><div class="practice-box"><strong>练习目标：</strong>用LangChain实现一个多场景的文本处理工具。<br><br><strong>任务：</strong><ol><li>安装 langchain 和 langchain-openai 包</li><li>定义3个提示词模板：文本总结、文案润色、翻译成英文</li><li>每个模板对应一条链，都用同一个模型</li><li>写一个主函数，用户选择功能、输入文本，返回处理结果</li></ol></div><div class="highlight-box">LangChain是工具，不是神话。核心是帮你省掉重复代码，业务逻辑才是你的壁垒。</div>`,
+                todos: [
+                    "安装LangChain，了解核心组件：模型、提示词模板、链、代理",
+                    "练习PromptTemplate：实现可复用的参数化提示词",
+                    "实现第一条LLMChain：提示词模板 + 模型调用串联",
+                    "整理笔记：LangChain核心组件的作用与适用场景"
+                ],
+                quiz: [
+                    {
+                        q: "LangChain中PromptTemplate的核心作用是？",
+                        options: ["调用大模型", "参数化复用提示词，避免重复编写", "存储对话历史"],
+                        answer: 1,
+                        desc: "提示词模板用于标准化、参数化提示词，提升复用性和一致性。"
+                    },
+                    {
+                        q: "LLMChain的基本组成是？",
+                        options: ["提示词模板 + 模型", "向量数据库 + 模型", "记忆 + 代理"],
+                        answer: 0,
+                        desc: "最基础的链就是提示词模板串联大模型，输入变量生成结果。"
+                    }
+                ]
+            },
+            // 剩余天数保留简化结构，确保整体可运行
+            {
+                title: "第2周周二：向量数据库与RAG原理",
+                lesson: `<h3>一、RAG 解决了什么问题？</h3><p>大模型三大痛点：<strong>知识过时、幻觉、用不了私有数据</strong>。RAG（检索增强生成）就是用来解决这三个问题的。</p><h3>二、什么是向量？</h3><p>把一段文本变成一串数字（向量），意思相近的文本，数字距离就近。这样就能用「语义相似度」来搜索，而不是只能搜关键词。</p><h3>三、RAG 完整工作流程</h3><ol><li>文档加载：读取各种格式文档</li><li>文本分割：把长文档切成合适大小的块</li><li>向量化：把每个文本块转成向量，存入向量库</li><li>检索：用户提问 → 问题转向量 → 召回最相关的片段</li><li>生成：把检索内容+问题一起发给大模型，生成回答</li></ol><h3>动手练习</h3><div class="practice-box">亲手跑通一个极简RAG问答系统：准备3-5段学习笔记，存入Chroma向量库，提问后返回相关片段+AI回答。</div><div class="highlight-box">RAG的质量，80%取决于数据质量和分块策略，不是模型越大越好。</div>`,
+                todos: [
+                    "理解RAG（检索增强生成）的核心原理与解决的核心问题",
+                    "了解主流向量库：Pinecone、Chroma、Milvus的定位差异",
+                    "本地安装Chroma，完成向量存储与基础检索练习",
+                    "动手测试：把一段长文档存入向量库，再检索相关片段"
+                ],
+                quiz: [
+                    {
+                        q: "RAG技术主要解决大模型的什么问题？",
+                        options: ["推理速度慢", "知识过时、幻觉、无法使用私有数据", "参数不够大"],
+                        answer: 1,
+                        desc: "RAG通过检索外部知识再生成，解决幻觉、实时性、私有数据接入问题。"
+                    },
+                    {
+                        q: "向量数据库的核心能力是？",
+                        options: ["存储结构化数据", "按语义相似度检索内容", "执行SQL查询"],
+                        answer: 1,
+                        desc: "向量库专门存储向量嵌入，按语义相似度做召回，是RAG的核心组件。"
+                    }
+                ]
+            },
+            {
+                title: "第2周周三：提示词工程体系化",
+                lesson: `<h3>一、为什么要体系化？</h3><p>零散技巧只能解决单个问题，体系化才能批量、稳定、可复用地产出高质量结果。做AI应用工程师，你输出的不是一条提示词，是<strong>一套提示词方法论</strong>。</p><h3>二、提示词设计通用框架</h3><ol><li>明确目标：最终要什么结果？给谁用？评价标准是什么？</li><li>设定角色：匹配对应领域专家身份</li><li>输入信息：把背景、数据、素材清晰给出</li><li>任务指令：具体要做什么操作，分几步做</li><li>输出规范：格式、长度、结构、语气</li><li>校验约束：明确不能做什么</li></ol><h3>动手练习</h3><div class="practice-box">搭建你自己的个人提示词模板库，至少3个场景，分类归档，每个模板写测试用例。</div><div class="highlight-box">好的提示词不是一次写出来的，是不断迭代调优出来的。</div>`,
+                todos: [
+                    "学习少样本提示（Few-shot）：通过示例提升输出一致性",
+                    "学习结构化输出：强制模型输出JSON/Markdown固定格式",
+                    "沉淀通用模板：总结型、分析型、创作型提示词各一套",
+                    "场景练习：写一个能批量生成标准化测试用例的提示词"
+                ],
+                quiz: [
+                    {
+                        q: "少样本提示（Few-shot）的核心作用是？",
+                        options: ["减少token消耗", "通过示例让模型更准确理解输出要求", "提升推理速度"],
+                        answer: 1,
+                        desc: "给出示例比纯文字描述更能让模型对齐输出格式和风格。"
+                    }
+                ]
+            },
+            {
+                title: "第2周周四：AI工作流自动化工具",
+                lesson: `<h3>一、什么是AI工作流？</h3><p>把「输入 → AI处理 → 工具操作 → 输出」串成自动化流水线，不用人工一步步操作。比如：收到邮件 → AI总结要点 → 自动存入文档 → 发通知提醒。</p><h3>二、主流工具对比</h3><ul><li><strong>Zapier：</strong>海外最流行，对接应用最多，无代码</li><li><strong>Make：</strong>功能更强，支持更复杂的逻辑</li><li><strong>n8n：</strong>开源、可自托管、免费，技术人员首选</li></ul><h3>动手练习</h3><div class="practice-box">用Python实现一个简易工作流：读取文件 → AI总结 → 保存结果，分步骤执行，打印日志。</div><div class="highlight-box">自动化的目标：把人从重复劳动里解放出来，去做更有价值的判断和决策。</div>`,
+                todos: [
+                    "了解n8n/Zapier低代码自动化工具的核心逻辑",
+                    "搭建简易工作流：文本输入→AI处理→自动保存文档",
+                    "学习多工具联动的基础配置方法",
+                    "思考：你当前工作中，哪些流程可以用AI工作流替代"
+                ],
+                quiz: [
+                    {
+                        q: "低代码自动化工具的核心价值是？",
+                        options: ["完全替代程序员", "无需大量编码即可搭建跨工具自动化流程", "提升代码运行速度"],
+                        answer: 1,
+                        desc: "核心价值是快速串联多个工具，降低自动化落地门槛。"
+                    }
+                ]
+            },
+            {
+                title: "第2周周五：LangChain进阶·链与记忆",
+                lesson: `<h3>一、为什么需要记忆？</h3><p>大模型本身是无状态的，每次调用都是独立的，不记得之前聊过什么。Memory组件就是帮你保存对话历史，实现多轮上下文效果。</p><h3>二、常见记忆类型</h3><ul><li>完整缓存记忆：全部保存，简单但费token</li><li>窗口记忆：只保留最近N轮，最常用</li><li>总结记忆：AI自动总结历史，省token但丢细节</li></ul><h3>动手练习</h3><div class="practice-box">实现一个带记忆的文档问答助手，支持多轮对话，只保留最近3轮上下文。</div><div class="highlight-box">复杂的系统都是从简单的Demo一步步迭代出来的。</div>`,
+                todos: [
+                    "学习对话记忆：实现带上下文的多轮对话脚本",
+                    "学习顺序链：实现多步骤任务串联执行",
+                    "实现一个带记忆的文档问答小脚本",
+                    "优化代码结构，按功能模块化拆分文件"
+                ],
+                quiz: [
+                    {
+                        q: "对话记忆组件解决的核心问题是？",
+                        options: ["提升回答速度", "让多轮对话保留上下文，不会忘记之前的内容", "减少token消耗"],
+                        answer: 1,
+                        desc: "大模型本身无状态，记忆组件负责维护对话历史，实现多轮上下文。"
+                    }
+                ]
+            },
+            {
+                title: "第2周周六：第2周复盘+RAG雏形练习",
+                lesson: `<h3>本周核心知识地图</h3><ol><li>LangChain基础：六大核心组件、PromptTemplate、LLMChain</li><li>RAG原理：向量、向量数据库、完整RAG流程、文本分块策略</li><li>提示词体系化：通用设计框架、三类场景模板</li><li>工作流自动化：核心逻辑、主流工具</li><li>链与记忆：多轮对话记忆、顺序链</li></ol><h3>本周综合练习</h3><div class="practice-box">搭建极简RAG脚本：本地文档→向量化→检索→生成回答。要求模块化拆分、有基础异常处理、有Git提交记录。</div><div class="highlight-box">第二周结束，你已经具备了搭建AI应用的基础零件，下周开始组装完整产品。</div>`,
+                todos: [
+                    "复盘本周知识点，补充思维导图",
+                    "综合练习：搭建极简RAG脚本：本地文档→向量化→检索→生成回答",
+                    "代码更新到GitHub，同步更新README",
+                    "规划下周完整RAG项目的需求与功能模块"
+                ],
+                quiz: [],
+                isWeekly: true,
+                weeklyQuiz: [
+                    {
+                        q: "RAG的全称是？",
+                        options: ["Retrieval-Augmented Generation", "Random Access Generation", "Real-time AI Generation"],
+                        answer: 0,
+                        desc: "检索增强生成，Retrieval-Augmented Generation。"
+                    },
+                    {
+                        q: "LangChain中用于维护对话上下文的组件叫？",
+                        options: ["Memory", "Chain", "Retriever"],
+                        answer: 0,
+                        desc: "Memory（记忆）组件负责存储和管理对话历史。"
+                    }
+                ]
+            },
+            { isRest: true, title: "周日：休息复盘日" },
+            
+            // 第3、4周简化保留结构
+            {
+                title: "第3周周一：项目需求与架构设计",
+                lesson: `<h3>一、为什么先设计再写代码？</h3><p>上来就写代码，大概率写着写着就乱了，最后推倒重来。先想清楚「做什么、怎么做、分成几块」，写代码只是把设计翻译成程序语言。</p><h3>二、本周项目：个人文档智能知识库</h3><p><strong>目标：</strong>用户上传本地文档，就能基于文档内容智能问答，答案附带来源，减少幻觉。</p><h3>三、功能模块拆分</h3><ol><li>文档加载模块</li><li>文本分割模块</li><li>向量存储模块</li><li>检索模块</li><li>问答生成模块</li><li>主入口</li></ol><h3>动手练习</h3><div class="practice-box">完成项目的整体设计与骨架搭建，创建所有模块文件，写好类和函数定义。</div><div class="highlight-box">好的设计，让你加功能、改需求的时候，不用推翻重写。</div>`,
+                todos: [
+                    "明确项目目标：个人文档智能问答知识库",
+                    "设计功能模块：文档加载→文本分割→向量化存储→检索→生成回答",
+                    "编写需求文档与技术选型说明",
+                    "搭建工程化目录结构，按模块拆分文件"
+                ],
+                quiz: [
+                    {
+                        q: "项目开发第一步应该做什么？",
+                        options: ["直接写代码", "明确需求和架构设计", "上传GitHub"],
+                        answer: 1,
+                        desc: "先设计后编码，能少走很多弯路，是工程化的基本素养。"
+                    }
+                ]
+            },
+            {
+                title: "第3周周二：文档加载与文本分割模块",
+                lesson: `<h3>一、文档加载模块</h3><p>负责把各种格式的文件读成纯文本。本项目先实现TXT/MD，后续可扩展PDF、Word。</p><h3>二、文本分割为什么重要？</h3><p>RAG效果好不好，分块质量占80%。块太大噪声多、费token；块太小语义不完整，检索不准。</p><h3>三、常用分块策略</h3><ul><li>固定大小分块：最简单常用，500-1000字符/块，重叠50-100字符</li><li>递归分块：先按大段落切，太大再按小粒度切</li></ul><h3>动手练习</h3><div class="practice-box">完成loader和splitter两个模块，支持遍历文件夹读取文件，递归字符分块，保留元数据。</div><div class="highlight-box">RAG调优，大部分时间都是在调分块策略和检索策略。</div>`,
+                todos: [
+                    "实现文档加载：支持TXT、Markdown格式",
+                    "实现文本分割：按字符数+语义边界拆分长文档",
+                    "测试不同分割策略的检索效果，选定最优方案",
+                    "编写模块注释与接口文档"
+                ],
+                quiz: [
+                    {
+                        q: "RAG中文本分割（分块）的目的是？",
+                        options: ["减少文件大小", "提升检索精准度，控制单块内容长度", "提升加载速度"],
+                        answer: 1,
+                        desc: "合理分块是检索效果的关键，块太大太小都会影响最终回答质量。"
+                    }
+                ]
+            },
+            {
+                title: "第3周周三：向量存储与检索模块",
+                lesson: `<h3>一、向量存储模块职责</h3><p>把分好的文本块转成向量，存进向量库；查询时根据问题向量，召回最相关的文本块。</p><h3>二、检索调优要点</h3><ul><li>召回数量Top K：一般3-5块，太少信息不足，太多噪声干扰</li><li>相似度阈值：低于阈值的结果不要，避免硬凑答案</li></ul><h3>动手练习</h3><div class="practice-box">实现VectorStoreManager类，封装增、查、统计操作，和前面的加载、分块模块联调。</div><div class="highlight-box">检索是RAG的守门员，这里不准，后面模型再强也没用。</div>`,
+                todos: [
+                    "接入Chroma向量数据库，实现向量的增删改查",
+                    "实现检索模块：根据用户问题召回相关文档片段",
+                    "调优参数：测试不同检索阈值、返回片段数量的效果",
+                    "模块联调：文档导入→向量化→检索全流程跑通"
+                ],
+                quiz: [
+                    {
+                        q: "检索召回的片段数量越多越好吗？",
+                        options: ["越多越准确", "不是，过多无关信息会干扰生成效果", "越少越省token，效果越好"],
+                        answer: 1,
+                        desc: "召回过多会引入噪声，过少信息不足，需要找到最优平衡点。"
+                    }
+                ]
+            },
+            {
+                title: "第3周周四：生成回答与全链路联调",
+                lesson: `<h3>一、防幻觉提示词设计</h3><p>这是RAG最关键的提示词，决定了答案的可信度。核心原则：只根据给定上下文回答，上下文没有的就说不知道。</p><h3>二、全链路联调</h3><ol><li>导入测试文档，确认分块、向量化正常</li><li>提问文档里有的问题，验证准确性</li><li>提问文档里没有的问题，验证会不会瞎编</li></ol><h3>动手练习</h3><div class="practice-box">完成问答引擎，整合所有模块，实现命令行交互的完整RAG问答系统。</div><div class="highlight-box">RAG的底线是「不胡说」，宁可不答，也不能瞎答。</div>`,
+                todos: [
+                    "接入大模型，结合检索片段生成回答",
+                    "设计防幻觉提示词：强制模型基于检索内容作答",
+                    "全流程联调：上传文档→提问→返回基于文档的准确回答",
+                    "测试3份不同文档，记录问答效果与问题点"
+                ],
+                quiz: [
+                    {
+                        q: "RAG中防幻觉的核心手段是？",
+                        options: ["用更大的模型", "强制模型只基于检索到的内容回答", "提高温度参数"],
+                        answer: 1,
+                        desc: "通过提示词约束+引用来源，大幅降低模型编造内容的概率。"
+                    }
+                ]
+            },
+            {
+                title: "第3周周五：项目优化与异常处理",
+                lesson: `<h3>一、为什么要做异常处理？</h3><p>真实环境里什么情况都会发生：网络断了、密钥失效了、文档格式不对。工程化的项目，不能一遇到异常就直接崩溃。</p><h3>二、全链路异常点梳理</h3><ul><li>文档加载：文件不存在、格式不支持、编码错误</li><li>向量化：API调用失败、限流、密钥错误</li><li>向量库：连接失败、写入失败</li><li>生成阶段：大模型报错、返回为空</li></ul><h3>动手练习</h3><div class="practice-box">给项目加上完整的异常处理和日志系统，提升工程质量。</div><div class="highlight-box">Demo和产品的区别，就在于异常处理和稳定性。</div>`,
+                todos: [
+                    "补充全链路异常处理：文档格式错误、检索为空、模型调用失败",
+                    "加上日志记录：记录每次提问、检索内容、生成结果",
+                    "优化回答质量：调整提示词结构、检索策略",
+                    "性能优化：减少冗余API调用，控制调用成本"
+                ],
+                quiz: [
+                    {
+                        q: "工程化项目中添加日志的核心目的是？",
+                        options: ["让代码变长", "出现问题时便于排查定位", "提升运行速度"],
+                        answer: 1,
+                        desc: "日志是排查问题、监控运行状态的重要手段。"
+                    }
+                ]
+            },
+            {
+                title: "第3周周六：项目测试与初步交付",
+                lesson: `<h3>本周项目验收标准</h3><ol><li>能正常导入TXT/Markdown文档，自动分块向量化</li><li>能基于文档内容准确回答问题，答案来自文档</li><li>文档里没有的问题，不会编造，会明确告知无法回答</li><li>有基础异常处理，常见错误不崩溃</li><li>有完整的README说明</li></ol><h3>动手练习</h3><div class="practice-box">编写完整测试用例，完善README，把项目上传GitHub，做成可交付的作品集。</div><div class="highlight-box">这是你第一个完整的AI项目作品集，认真对待，它就是你移民路上的敲门砖。</div>`,
+                todos: [
+                    "编写测试用例，覆盖所有功能点",
+                    "撰写完整的项目README：功能说明、技术栈、使用方法",
+                    "完整项目上传GitHub仓库",
+                    "复盘项目流程，标记可沉淀的方法论点"
+                ],
+                quiz: [],
+                isWeekly: true,
+                weeklyQuiz: [
+                    {
+                        q: "一个完整可交付的RAG项目，最后必须要有？",
+                        options: ["炫酷的界面", "清晰的README和使用说明", "上万行代码"],
+                        answer: 1,
+                        desc: "文档是项目可交付的核心，别人拿到能跑通、能看懂。"
+                    },
+                    {
+                        q: "RAG项目中，对最终回答质量影响最小的是？",
+                        options: ["文本分块策略", "检索召回质量", "代码文件名"],
+                        answer: 2,
+                        desc: "核心质量取决于数据和检索，命名只影响可维护性。"
+                    }
+                ]
+            },
+            { isRest: true, title: "周日：休息复盘日" },
+            
+            {
+                title: "第4周周一：AI项目落地方法论沉淀",
+                lesson: `<h3>一、为什么要沉淀方法论？</h3><p>做完一个项目，只代表你「做过」；沉淀出方法论，才代表你「会做」。方法论是你可迁移的能力，换一个行业、换一家公司都能用。</p><h3>二、AI项目落地通用SOP</h3><ol><li>需求澄清：业务目标是什么？成功标准是什么？</li><li>场景评估：适不适合用AI做？ROI高不高？</li><li>技术选型：选模型、选框架、选向量库</li><li>最小Demo：先跑通最小可用版本，验证核心价值</li><li>效果调优：分块、检索、提示词反复调</li><li>工程化落地：异常处理、日志、部署</li><li>上线评估：看真实数据下的效果，持续迭代</li></ol><h3>动手练习</h3><div class="practice-box">输出一份《RAG项目落地方法论》文档，梳理完整流程、每个阶段的输出物和常见坑。</div><div class="highlight-box">普通执行者做项目，优秀的工程师沉淀方法。</div>`,
+                todos: [
+                    "梳理RAG项目全流程SOP：需求→设计→选型→实现→测试→上线",
+                    "沉淀每个环节的最佳实践与常见踩坑点",
+                    "输出《企业内部知识库落地通用方法论》文档",
+                    "对应职业方向：ICT系统分析师/商业分析师能力积累"
+                ],
+                quiz: [
+                    {
+                        q: "沉淀方法论的核心价值是？",
+                        options: ["显得专业", "把项目经验变成可复用的能力", "增加项目代码量"],
+                        answer: 1,
+                        desc: "方法论是个人核心壁垒，让你从「做过一个项目」变成「会做一类项目」。"
+                    }
+                ]
+            },
+            {
+                title: "第4周周二：提示词方法论体系化",
+                lesson: `<h3>一、建立个人提示词模板库</h3><p>把常用场景的优质提示词沉淀下来，分类归档，用的时候直接调用、微调，不用每次从零开始写，效率和稳定性都会大幅提升。</p><h3>二、提示词调优方法论</h3><ol><li>明确评价标准：先定义「好的输出」是什么样</li><li>控制变量：一次只改一个地方</li><li>多轮迭代：逐步优化</li><li>沉淀归档：好用的版本及时存进模板库</li></ol><h3>动手练习</h3><div class="practice-box">完善你的个人提示词模板库，做成可复用的Python模块，支持新增、获取、列出所有模板。</div><div class="highlight-box">提示词的本质，是把你的思考方式，传递给大模型。</div>`,
+                todos: [
+                    "整理个人提示词模板库，按场景分类归档",
+                    "输出《提示词设计通用方法论》：设计原则、框架、场景模板",
+                    "补充不同模型的适配技巧与调优方法",
+                    "做成可复用的标准化文档"
+                ],
+                quiz: [
+                    {
+                        q: "体系化的提示词模板库最大的好处是？",
+                        options: ["不用再写提示词", "保证输出质量稳定，提升效率", "能让模型变得更聪明"],
+                        answer: 1,
+                        desc: "标准化模板保证输出稳定、可复现，大幅提升日常工作效率。"
+                    }
+                ]
+            },
+            {
+                title: "第4周周三：AI测试自动化场景拓展",
+                lesson: `<h3>一、AI在测试领域能做什么？</h3><p>不是替代测试工程师，是帮测试工程师提效，把精力从重复劳动解放出来，放到更有价值的用例设计、场景分析上。</p><h3>二、AI辅助测试典型场景</h3><ul><li>测试用例生成：根据需求文档自动生成功能测试用例</li><li>测试数据生成：批量生成各类测试数据</li><li>缺陷分析：根据报错信息辅助分析原因</li></ul><h3>动手练习</h3><div class="practice-box">实现一个测试用例生成工具，输出标准表格格式，沉淀《AI辅助功能测试方法论》。</div><div class="highlight-box">AI是测试工程师的放大器，不是替代品。</div>`,
+                todos: [
+                    "场景练习：用AI批量生成功能测试用例",
+                    "设计标准化测试用例生成提示词模板",
+                    "沉淀《AI辅助功能测试方法论》",
+                    "对应职业方向：软件测试工程师（AI方向）能力积累"
+                ],
+                quiz: [
+                    {
+                        q: "AI辅助测试最核心的价值是？",
+                        options: ["完全替代测试工程师", "批量生成用例，提升测试效率", "保证没有任何bug"],
+                        answer: 1,
+                        desc: "AI擅长处理重复性、标准化的工作，大幅提升用例编写效率。"
+                    }
+                ]
+            },
+            {
+                title: "第4周周四：AI商业分析场景拓展",
+                lesson: `<h3>一、ICT商业分析师（BA）是做什么的？</h3><p>业务和技术之间的桥梁：听懂业务需求，翻译成技术能理解的需求文档，确保最终交付的产品真正解决业务问题。</p><h3>二、AI如何赋能BA工作？</h3><ul><li>需求拆解：把模糊的业务诉求，拆成结构化的功能点</li><li>需求文档生成：自动生成PRD、用户故事、验收标准</li><li>竞品分析：批量整理竞品信息、对比分析</li></ul><h3>动手练习</h3><div class="practice-box">用AI辅助完成一次完整的需求拆解，输出结构化需求文档，沉淀工作方法论。</div><div class="highlight-box">BA的价值在判断和协调，不在写字。AI帮你省出时间，去做更有价值的事。</div>`,
+                todos: [
+                    "需求拆解练习：把模糊业务需求拆分为可落地的技术需求",
+                    "设计AI辅助需求分析提示词框架",
+                    "沉淀《AI需求分析工作方法论》",
+                    "对应职业方向：ICT商业分析师（AI方向）能力积累"
+                ],
+                quiz: [
+                    {
+                        q: "ICT商业分析师的核心能力是？",
+                        options: ["写最复杂的代码", "在业务和技术之间做翻译和桥梁", "管理公司财务"],
+                        answer: 1,
+                        desc: "BA核心是理解业务、拆解需求、传递给技术团队，确保交付符合预期。"
+                    }
+                ]
+            },
+            {
+                title: "第4周周五：作品集优化",
+                lesson: `<h3>一、作品集为什么重要？</h3><p>不管是找工作还是职业评估，空口说「我会」没用，要有实实在在的项目证明。GitHub作品集就是你的技术名片。</p><h3>二、一个优质项目仓库的标准</h3><ol><li>README清晰：陌生人拿到，5分钟能看懂项目、跑起来</li><li>代码规范：结构清晰、有注释、符合工程化规范</li><li>有演示：截图、示例，直观展示效果</li><li>提交历史规范：commit信息清晰</li></ol><h3>动手练习</h3><div class="practice-box">把你的RAG项目仓库，优化成能用来找工作/做评估的作品集级别。重写README，补充演示截图，整理STAR法则的项目描述。</div><div class="highlight-box">你的作品集，会比简历上的文字更有说服力。</div>`,
+                todos: [
+                    "完善GitHub项目README，突出项目价值、技术亮点、个人贡献",
+                    "补充项目演示截图与效果说明",
+                    "撰写项目总结文章：解决的问题、技术方案、沉淀的方法",
+                    "整理可用于职业评估/面试的项目描述话术"
+                ],
+                quiz: [
+                    {
+                        q: "技术作品集最重要的是展示？",
+                        options: ["你学过多少技术名词", "你解决了什么问题、产出了什么价值", "代码行数多少"],
+                        answer: 1,
+                        desc: "面试官和评估机构看重的是解决问题的能力和实际产出。"
+                    }
+                ]
+            },
+            {
+                title: "第4周周六：月度复盘与下月规划",
+                lesson: `<h3>一个月学习成果验收</h3><p>恭喜你完成30天筑基！现在你已经具备了AI应用工程师的入门能力：Python工程化、Git、大模型原理、提示词体系、LangChain、完整RAG项目实战、三个方向的方法论沉淀。</p><h3>二、下月进阶方向建议</h3><ul><li>技术深度：Agent、RAG进阶（重排序、多轮问答）</li><li>场景深耕：选定一个垂直方向深入做项目</li><li>工程能力：部署、Docker、接口化、前端界面</li><li>工作结合：把AI能力用到现有工作中，产出真实项目经验</li></ul><h3>动手练习</h3><div class="practice-box">完整复盘本月成果，梳理能力清单，制定第二个月的进阶学习计划，以项目驱动为主。</div><div class="highlight-box">道阻且长，行则将至。你已经迈出了最关键的第一步。</div>`,
+                todos: [
+                    "完整复盘本月学习成果，检查所有待办完成情况",
+                    "梳理个人已具备的AI能力清单",
+                    "确定下个月深耕的垂直场景",
+                    "制定第二个月的进阶学习与实践计划"
+                ],
+                quiz: [],
+                isWeekly: true,
+                weeklyQuiz: [
+                    {
+                        q: "AI应用工程师的核心壁垒是？",
+                        options: ["能背多少算法公式", "落地方法论+场景理解+工程能力", "会调用API"],
+                        answer: 1,
+                        desc: "只会调用API没有壁垒，能把AI落地到业务产生价值才是核心竞争力。"
+                    },
+                    {
+                        q: "持续学习最有效的方式是？",
+                        options: ["只看视频不动手", "做项目+沉淀方法论", "收藏大量教程"],
+                        answer: 1,
+                        desc: "动手实践+复盘沉淀，是成长最快的路径。"
+                    }
+                ]
+            },
+            { isRest: true, title: "周日：休息复盘日" }
+        ];
+
+        // 初始化
+        function init() {
+            // 绑定标签点击事件
+            var tabs = document.querySelectorAll('.tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].addEventListener('click', function(e) {
+                    var tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            }
+            
+            updateDayInfo();
+            renderLesson();
+            renderTodo();
+            renderQuiz();
+            renderWeeklyQuiz();
+            loadProgress();
+        }
+
+        // 计算当前学习日
+        function getCurrentDayIndex() {
+            var today = new Date();
+            today.setHours(0,0,0,0);
+            var start = new Date(START_DATE);
+            start.setHours(0,0,0,0);
+            var diff = Math.floor((today - start) / (1000*60*60*24));
+            return Math.max(0, diff) + currentDayOffset;
+        }
+
+        // 更新日期信息
+        function updateDayInfo() {
+            var dayIndex = getCurrentDayIndex();
+            var dayData = planData[dayIndex % planData.length];
+            var date = new Date(START_DATE);
+            date.setDate(date.getDate() + dayIndex);
+            
+            document.getElementById('dateInfo').innerHTML = 
+                date.toLocaleDateString('zh-CN') + ' · ' + dayData.title;
+            document.getElementById('dayLabel').textContent = '第 ' + (dayIndex + 1) + ' 天';
+        }
+
+        // 切换上一天/下一天
+        function prevDay() {
+            currentDayOffset--;
+            if (getCurrentDayIndex() < 0) currentDayOffset++;
+            updateDayInfo();
+            renderLesson();
+            renderTodo();
+            renderQuiz();
+            renderWeeklyQuiz();
+            loadProgress();
+        }
+
+        function nextDay() {
+            currentDayOffset++;
+            updateDayInfo();
+            renderLesson();
+            renderTodo();
+            renderQuiz();
+            renderWeeklyQuiz();
+            loadProgress();
+        }
+
+        // 切换标签页
+        function switchTab(tabName) {
+            var tabs = document.querySelectorAll('.tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+                if (tabs[i].getAttribute('data-tab') === tabName) {
+                    tabs[i].classList.add('active');
+                }
+            }
+            
+            var panels = document.querySelectorAll('.panel');
+            for (var j = 0; j < panels.length; j++) {
+                panels[j].classList.remove('active');
+            }
+            document.getElementById(tabName + 'Panel').classList.add('active');
+        }
+
+        // 渲染学习内容
+        function renderLesson() {
+            var dayIndex = getCurrentDayIndex();
+            var dayData = planData[dayIndex % planData.length];
+            var content = document.getElementById('lessonContent');
+            document.getElementById('lessonTitle').textContent = dayData.title;
+
+            if (dayData.isRest) {
+                content.innerHTML = '<div class="rest-tip">今日是休息日，好好休息复盘 💪</div>';
+                return;
+            }
+
+            content.innerHTML = dayData.lesson;
+        }
+
+        // 渲染待办
+        function renderTodo() {
+            var dayIndex = getCurrentDayIndex();
+            var dayData = planData[dayIndex % planData.length];
+            var list = document.getElementById('todoList');
+
+            if (dayData.isRest) {
+                list.innerHTML = '<div class="rest-tip">今日是休息日，好好休息复盘即可 💪</div>';
+                return;
+            }
+
+            var html = '';
+            for (var i = 0; i < dayData.todos.length; i++) {
+                var id = 'todo_' + dayIndex + '_' + i;
+                html += '<div class="todo-item" id="' + id + '_item">' +
+                    '<input type="checkbox" id="' + id + '" onchange="saveTodo(' + dayIndex + ',' + i + ')">' +
+                    '<label for="' + id + '">' + dayData.todos[i] + '</label>' +
+                    '</div>';
+            }
+            list.innerHTML = html;
+        }
+
+        // 渲染每日小测
+        function renderQuiz() {
+            var dayIndex = getCurrentDayIndex();
+            var dayData = planData[dayIndex % planData.length];
+            var list = document.getElementById('quizList');
+
+            if (dayData.isRest || !dayData.quiz || dayData.quiz.length === 0) {
+                list.innerHTML = '<div class="rest-tip">今日无每日小测，可前往「每周大测」做周测</div>';
+                document.querySelector('#quizPanel .submit-btn').style.display = 'none';
+                return;
+            }
+            document.querySelector('#quizPanel .submit-btn').style.display = 'inline-block';
+
+            var html = '';
+            for (var i = 0; i < dayData.quiz.length; i++) {
+                var q = dayData.quiz[i];
+                var optionsHtml = '';
+                for (var j = 0; j < q.options.length; j++) {
+                    optionsHtml += '<label><input type="radio" name="daily_' + dayIndex + '_' + i + '" value="' + j + '"> ' + q.options[j] + '</label>';
+                }
+                html += '<div class="quiz-item">' +
+                    '<div class="quiz-question">' + (i+1) + '. ' + q.q + '</div>' +
+                    '<div class="quiz-options">' + optionsHtml + '</div>' +
+                    '<div class="quiz-result" id="daily_result_' + dayIndex + '_' + i + '"></div>' +
+                    '</div>';
+            }
+            list.innerHTML = html;
+            document.getElementById('dailyScore').style.display = 'none';
+        }
+
+        // 渲染每周大测
+        function renderWeeklyQuiz() {
+            var dayIndex = getCurrentDayIndex();
+            var weekIndex = Math.floor(dayIndex / 7);
+            var weeklyIndex = weekIndex * 7 + 5;
+            var weeklyData = planData[weeklyIndex];
+            var list = document.getElementById('weeklyQuizList');
+
+            if (!weeklyData || !weeklyData.isWeekly) {
+                list.innerHTML = '<div class="rest-tip">本周大测将在周六解锁</div>';
+                document.querySelector('#weeklyPanel .submit-btn').style.display = 'none';
+                return;
+            }
+            document.querySelector('#weeklyPanel .submit-btn').style.display = 'inline-block';
+
+            var html = '';
+            for (var i = 0; i < weeklyData.weeklyQuiz.length; i++) {
+                var q = weeklyData.weeklyQuiz[i];
+                var optionsHtml = '';
+                for (var j = 0; j < q.options.length; j++) {
+                    optionsHtml += '<label><input type="radio" name="weekly_' + weekIndex + '_' + i + '" value="' + j + '"> ' + q.options[j] + '</label>';
+                }
+                html += '<div class="quiz-item">' +
+                    '<div class="quiz-question">' + (i+1) + '. ' + q.q + '</div>' +
+                    '<div class="quiz-options">' + optionsHtml + '</div>' +
+                    '<div class="quiz-result" id="weekly_result_' + weekIndex + '_' + i + '"></div>' +
+                    '</div>';
+            }
+            list.innerHTML = html;
+            document.getElementById('weeklyScore').style.display = 'none';
+        }
+
+        // 提交每日小测
+        function submitDailyQuiz() {
+            var dayIndex = getCurrentDayIndex();
+            var dayData = planData[dayIndex % planData.length];
+            var correct = 0;
+
+            for (var i = 0; i < dayData.quiz.length; i++) {
+                var selected = document.querySelector('input[name="daily_' + dayIndex + '_' + i + '"]:checked');
+                var resultEl = document.getElementById('daily_result_' + dayIndex + '_' + i);
+                
+                if (!selected) {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '未作答；正确答案：' + dayData.quiz[i].options[dayData.quiz[i].answer] + '。解析：' + dayData.quiz[i].desc;
+                    continue;
+                }
+
+                if (parseInt(selected.value) === dayData.quiz[i].answer) {
+                    correct++;
+                    resultEl.className = 'quiz-result correct';
+                    resultEl.textContent = '✅ 回答正确！' + dayData.quiz[i].desc;
+                } else {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '❌ 回答错误。正确答案：' + dayData.quiz[i].options[dayData.quiz[i].answer] + '。解析：' + dayData.quiz[i].desc;
+                }
+            }
+
+            var scoreEl = document.getElementById('dailyScore');
+            scoreEl.style.display = 'block';
+            scoreEl.textContent = '本次得分：' + correct + ' / ' + dayData.quiz.length;
+        }
+
+        // 提交每周大测
+        function submitWeeklyQuiz() {
+            var weekIndex = Math.floor(getCurrentDayIndex() / 7);
+            var weeklyIndex = weekIndex * 7 + 5;
+            var weeklyData = planData[weeklyIndex];
+            var correct = 0;
+
+            for (var i = 0; i < weeklyData.weeklyQuiz.length; i++) {
+                var selected = document.querySelector('input[name="weekly_' + weekIndex + '_' + i + '"]:checked');
+                var resultEl = document.getElementById('weekly_result_' + weekIndex + '_' + i);
+                
+                if (!selected) {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '未作答；正确答案：' + weeklyData.weeklyQuiz[i].options[weeklyData.weeklyQuiz[i].answer] + '。';
+                    continue;
+                }
+
+                if (parseInt(selected.value) === weeklyData.weeklyQuiz[i].answer) {
+                    correct++;
+                    resultEl.className = 'quiz-result correct';
+                    resultEl.textContent = '✅ 正确';
+                } else {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '❌ 错误，正确答案：' + weeklyData.weeklyQuiz[i].options[weeklyData.weeklyQuiz[i].answer];
+                }
+            }
+
+            var scoreEl = document.getElementById('weeklyScore');
+            scoreEl.style.display = 'block';
+            scoreEl.textContent = '周测得分：' + correct + ' / ' + weeklyData.weeklyQuiz.length;
+        }
+
+        // 本地存储进度
+        function saveTodo(dayIndex, todoIndex) {
+            var checkbox = document.getElementById('todo_' + dayIndex + '_' + todoIndex);
+            var item = document.getElementById('todo_' + dayIndex + '_' + todoIndex + '_item');
+            
+            if (checkbox.checked) {
+                item.classList.add('done');
+            } else {
+                item.classList.remove('done');
+            }
+
+            var key = 'study_plan_todo_' + dayIndex;
+            var doneList = JSON.parse(localStorage.getItem(key) || '[]');
+            if (checkbox.checked) {
+                if (doneList.indexOf(todoIndex) === -1) doneList.push(todoIndex);
+            } else {
+                var newList = [];
+                for (var k = 0; k < doneList.length; k++) {
+                    if (doneList[k] !== todoIndex) newList.push(doneList[k]);
+                }
+                doneList = newList;
+            }
+            localStorage.setItem(key, JSON.stringify(doneList));
+        }
+
+        // 加载进度
+        function loadProgress() {
+            var dayIndex = getCurrentDayIndex();
+            var key = 'study_plan_todo_' + dayIndex;
+            var doneList = JSON.parse(localStorage.getItem(key) || '[]');
+            
+            for (var i = 0; i < doneList.length; i++) {
+                var checkbox = document.getElementById('todo_' + dayIndex + '_' + doneList[i]);
+                var item = document.getElementById('todo_' + dayIndex + '_' + doneList[i] + '_item');
+                if (checkbox && item) {
+                    checkbox.checked = true;
+                    item.classList.add('done');
+                }
+            }
+        }
+
+        // 页面加载完成后初始化
+        window.onload = init;
+    </script>
+</body>
+</html>
