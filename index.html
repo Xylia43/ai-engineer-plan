@@ -192,6 +192,249 @@
             color: #909399;
             font-size: 16px;
         }
+
+        /* 每日代码练习 */
+        .quiz-guide {
+            color: #606266;
+            margin-bottom: 16px;
+        }
+        .practice-card {
+            margin-bottom: 24px;
+            padding: 20px;
+            border: 1px solid #d9e4ff;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.08);
+        }
+        .practice-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .practice-eyebrow {
+            display: inline-block;
+            margin-bottom: 5px;
+            color: #667eea;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+        .practice-title {
+            margin: 0 !important;
+            color: #303133 !important;
+            font-size: 18px !important;
+            line-height: 1.45;
+        }
+        .practice-language-tag,
+        .practice-status {
+            flex: 0 0 auto;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .practice-language-tag {
+            color: #3a6fd8;
+            background: #e8f0ff;
+            border: 1px solid #c9d9ff;
+        }
+        .practice-status {
+            display: none;
+            color: #4f9b35;
+            background: #f0f9eb;
+            border: 1px solid #d5edc8;
+        }
+        .practice-status.visible { display: inline-block; }
+        .practice-prompt {
+            color: #4f5665;
+            margin-bottom: 14px !important;
+        }
+        .practice-requirements {
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            background: #f4f7ff;
+        }
+        .practice-requirements strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #3f4f70;
+        }
+        .practice-requirements ul {
+            margin: 0 0 0 20px;
+        }
+        .practice-requirements li {
+            margin-bottom: 3px;
+            color: #606266;
+        }
+        .practice-editor-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 7px;
+            color: #3f4f70;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .practice-draft-status {
+            color: #909399;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .practice-editor {
+            display: block;
+            width: 100%;
+            min-height: 280px;
+            padding: 15px 16px;
+            resize: vertical;
+            border: 1px solid #3b4252;
+            border-radius: 9px;
+            outline: none;
+            background: #1f2430;
+            color: #e6e9ef;
+            caret-color: #93b4ff;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            tab-size: 4;
+            white-space: pre;
+        }
+        .practice-editor:focus {
+            border-color: #7c9cff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.18);
+        }
+        .practice-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .practice-btn {
+            padding: 8px 14px;
+            border: 1px solid #c7d4ed;
+            border-radius: 7px;
+            background: #fff;
+            color: #53627d;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.15s ease;
+        }
+        .practice-btn:hover {
+            border-color: #9eb3db;
+            background: #f5f8ff;
+        }
+        .practice-btn.primary {
+            border-color: #667eea;
+            background: #667eea;
+            color: #fff;
+            font-weight: 600;
+        }
+        .practice-btn.primary:hover {
+            border-color: #5268d1;
+            background: #5268d1;
+        }
+        .practice-panel {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-left: 4px solid #e6a23c;
+            border-radius: 7px;
+            background: #fdf6ec;
+            color: #735c2b;
+            font-size: 13px;
+        }
+        .practice-panel.solution {
+            border-left-color: #67c23a;
+            background: #f4faf0;
+            color: #365d27;
+        }
+        .practice-solution-code {
+            margin: 8px 0 0;
+            padding: 12px;
+            overflow-x: auto;
+            border-radius: 6px;
+            background: #282c34;
+            color: #d9e2f0;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 12px;
+            line-height: 1.55;
+            white-space: pre;
+        }
+        .practice-results {
+            margin-top: 14px;
+            padding: 13px 14px;
+            border-radius: 8px;
+            background: #fafbfc;
+            border: 1px solid #ebeef5;
+        }
+        .practice-results[hidden] { display: none; }
+        .practice-check-summary {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .practice-check-summary.success { color: #529b3e; }
+        .practice-check-summary.warning { color: #b47b1b; }
+        .practice-check-summary.neutral { color: #606266; }
+        .practice-rule-list {
+            display: grid;
+            gap: 5px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .practice-rule {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 13px;
+        }
+        .practice-rule.pass { color: #4f8f39; }
+        .practice-rule.fail { color: #c45656; }
+        .practice-note {
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+            color: #909399;
+            font-size: 12px !important;
+        }
+        .quiz-group-heading {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding-top: 2px;
+        }
+        .quiz-group-heading h3 { margin: 0; color: #303133; font-size: 16px; }
+        .quiz-group-heading span { color: #909399; font-size: 12px; }
+        .quiz-empty,
+        .practice-empty {
+            padding: 18px;
+            border-radius: 8px;
+            background: #f7f8fa;
+            color: #7a8291;
+            text-align: center;
+            font-size: 14px;
+        }
+        .quiz-empty .practice-btn { margin-top: 10px; }
+        @media (max-width: 640px) {
+            body { padding: 12px; }
+            .panel { padding: 16px; }
+            .practice-card { padding: 15px; }
+            .practice-card-header { display: block; }
+            .practice-language-tag, .practice-status {
+                display: inline-block;
+                margin-top: 8px;
+                margin-right: 4px;
+            }
+            .practice-status { display: none; }
+            .practice-status.visible { display: inline-block; }
+            .practice-editor { min-height: 230px; font-size: 12px; }
+            .practice-actions .practice-btn { flex: 1 1 auto; }
+            .quiz-group-heading { display: block; }
+            .quiz-group-heading span { display: block; margin-top: 2px; }
+        }
     </style>
 </head>
 <body>
@@ -225,9 +468,11 @@
 
     <div id="quizPanel" class="panel">
         <h2>每日小测</h2>
+        <p class="quiz-guide" id="quizGuide">先完成编程练习，再提交选择题，检查今天是否真正掌握。</p>
+        <div id="practiceSection"></div>
         <div class="score-box" id="dailyScore"></div>
         <div id="quizList"></div>
-        <button class="submit-btn" onclick="submitDailyQuiz()">提交答案</button>
+        <button class="submit-btn" id="dailyQuizSubmit" onclick="submitDailyQuiz()">提交选择题答案</button>
     </div>
 
     <div id="weeklyPanel" class="panel">
@@ -973,6 +1218,1169 @@ if __name__ == "__main__":
             { isRest: true, title: "周日：休息复盘日" }
         ];
 
+        // 代码练习检查规则辅助函数
+        function rule(label, test) {
+            return { label: label, test: test };
+        }
+
+        function countMatches(text, regex) {
+            return (text.match(regex) || []).length;
+        }
+
+        // 每日代码实践：与当天学习主题对应
+        var practiceData = {
+            0: {
+                title: "重构价格汇总脚本",
+                language: "Python",
+                type: "python",
+                prompt: "把这段“能跑但难维护”的脚本重构成工程化代码：拆分读取、计算、输出三个职责，并处理非法价格。",
+                requirements: [
+                    "至少定义 3 个职责清晰的函数",
+                    "每个函数都有 docstring",
+                    "捕获 ValueError 或 TypeError，并打印可读的错误信息",
+                    "最终输出有效价格的汇总结果"
+                ],
+                starter: `prices = ["100", "200", "bad"]
+total = 0
+for price in prices:
+    total += float(price)
+print(total)`,
+                hint: "先思考每个函数只做一件事：解析价格、计算总价、打印结果。",
+                solution: `def parse_prices(raw_prices):
+    """把字符串价格转换为浮点数，跳过非法值。"""
+    valid_prices = []
+    for raw_price in raw_prices:
+        try:
+            valid_prices.append(float(raw_price))
+        except (ValueError, TypeError) as exc:
+            print("跳过非法价格:", raw_price, exc)
+    return valid_prices
+
+
+def calculate_total(prices):
+    """计算价格总和。"""
+    return sum(prices)
+
+
+def print_summary(total):
+    """打印汇总结果。"""
+    print("有效价格合计:", total)
+
+
+if __name__ == "__main__":
+    prices = parse_prices(["100", "200", "bad"])
+    print_summary(calculate_total(prices))`,
+                todoIndexes: [1, 2, 3],
+                rules: [
+                    rule("至少定义 3 个函数", function(code) { return countMatches(code, /\bdef\s+[a-z_][a-z0-9_]*\s*\(/g) >= 3; }),
+                    rule("至少包含 2 个 docstring", function(code) { return countMatches(code, /"""|'''/g) >= 2; }),
+                    rule("使用 try / except 处理异常", function(code) { return /\btry\s*:/.test(code) && /\bexcept\b/.test(code); }),
+                    rule("捕获具体异常类型", function(code) { return /\bexcept\s*\(\s*(ValueError|TypeError)[^)]*\)|\bexcept\s+(ValueError|TypeError)\b/.test(code); }),
+                    rule("错误信息不会静默吞掉", function(code) { return /print\s*\(|logging\.|logger\./.test(code); }),
+                    rule("保留汇总输出", function(code) { return /sum\s*\(|total\s*\+=|print\s*\(/.test(code); })
+                ]
+            },
+            1: {
+                title: "完成一次规范 Git 工作流",
+                language: "Bash",
+                type: "shell",
+                prompt: "写出从初始化仓库到合并功能分支的完整命令序列。可以创建并切换分支，提交两次，再回到主分支合并。",
+                requirements: [
+                    "初始化仓库并检查状态",
+                    "提交文件并查看提交历史",
+                    "创建功能分支、切换分支并合并",
+                    "所有步骤顺序合理"
+                ],
+                starter: `# 在空目录中开始\n`,
+                hint: "常见顺序：git init → git status → git add → git commit → 创建/切换分支 → 修改提交 → 切回主分支 → merge → log。",
+                solution: `git init
+git status
+git add .
+git commit -m "init project"
+git branch feature/day-2
+git checkout feature/day-2
+git add .
+git commit -m "add feature"
+git checkout main
+git merge feature/day-2
+git log --oneline`,
+                todoIndexes: [1, 2, 3],
+                rules: [
+                    rule("初始化仓库", function(code) { return /\bgit\s+init\b/.test(code); }),
+                    rule("查看工作区状态", function(code) { return /\bgit\s+status\b/.test(code); }),
+                    rule("添加并提交修改", function(code) { return /\bgit\s+add\b/.test(code) && /\bgit\s+commit\b/.test(code); }),
+                    rule("创建或切换分支", function(code) { return /\bgit\s+(branch|checkout\s+-b|switch\s+-c)\b/.test(code) && /\bgit\s+(checkout|switch)\b/.test(code); }),
+                    rule("合并功能分支", function(code) { return /\bgit\s+merge\b/.test(code); }),
+                    rule("查看提交历史", function(code) { return /\bgit\s+log\b/.test(code); })
+                ]
+            },
+            2: {
+                title: "按任务选择模型温度",
+                language: "Python",
+                type: "python",
+                prompt: "实现 choose_temperature(task_type) 函数：事实类任务返回 0.2，创意类任务返回 1.0，其他任务返回 0.7；未知的非法输入抛出 ValueError。",
+                requirements: [
+                    "函数名使用蛇形命名",
+                    "包含 docstring",
+                    "覆盖 facts、creative、default 三类返回",
+                    "非法类型抛出 ValueError"
+                ],
+                starter: `def choose_temperature(task_type):
+    # TODO: 根据任务类型返回合适温度
+    pass`,
+                hint: "可以先统一转成小写，再用 if / elif / else 分支。",
+                solution: `def choose_temperature(task_type):
+    """根据任务类型返回推荐的 temperature。"""
+    if not isinstance(task_type, str):
+        raise ValueError("task_type 必须是字符串")
+
+    normalized = task_type.strip().lower()
+    if normalized in ("facts", "fact", "事实"):
+        return 0.2
+    if normalized in ("creative", "创意"):
+        return 1.0
+    if normalized in ("default", "general", "通用"):
+        return 0.7
+    raise ValueError("未知任务类型: " + normalized)`,
+                todoIndexes: [2, 3],
+                rules: [
+                    rule("定义 choose_temperature 函数", function(code) { return /\bdef\s+choose_temperature\s*\(/.test(code); }),
+                    rule("包含 docstring", function(code) { return /"""|'''/.test(code); }),
+                    rule("返回事实类温度 0.2", function(code) { return /return\s+0\.2\b/.test(code); }),
+                    rule("返回创意类温度 1.0", function(code) { return /return\s+1(?:\.0)?\b/.test(code); }),
+                    rule("返回默认温度 0.7", function(code) { return /return\s+0\.7\b/.test(code); }),
+                    rule("非法输入抛出 ValueError", function(code) { return /\braise\s+ValueError\b/.test(code); })
+                ]
+            },
+            3: {
+                title: "用四要素写结构化提示词",
+                language: "Python",
+                type: "python",
+                prompt: "实现 build_summary_prompt(article) 函数，生成一个用于“把文章总结成 300 字以内要点”的提示词，必须包含角色、任务、输出要求和约束条件。",
+                requirements: [
+                    "四要素都清晰出现",
+                    "要求输出 300 字以内",
+                    "明确只输出摘要、不要额外解释",
+                    "函数返回最终提示词字符串"
+                ],
+                starter: `def build_summary_prompt(article):
+    # TODO: 使用四要素构建提示词
+    return ""`,
+                hint: "把 article 用字符串拼接或 f-string 嵌入模板，不要真的调用模型。",
+                solution: `def build_summary_prompt(article):
+    """构建文章总结提示词。"""
+    return f"""
+你是一名资深内容编辑。
+请阅读下面的文章，提炼核心观点，并用 3-5 个要点总结。
+
+【文章】
+{article}
+
+【输出要求】
+1. 总字数不超过 300 字
+2. 使用 Markdown 无序列表
+3. 只输出摘要，不要开场白、解释或标题
+""".strip()`,
+                todoIndexes: [1, 2, 3],
+                rules: [
+                    rule("定义提示词构建函数", function(code) { return /\bdef\s+build_summary_prompt\s*\(/.test(code); }),
+                    rule("包含角色设定", function(code) { return /你是一名|你是.*(编辑|专家|工程师)/.test(code); }),
+                    rule("包含总结任务", function(code) { return /总结|摘要|提炼/.test(code); }),
+                    rule("包含 300 字输出限制", function(code) { return /300\s*字/.test(code); }),
+                    rule("包含输出格式要求", function(code) { return /Markdown|列表|要点/.test(code); }),
+                    rule("包含约束条件", function(code) { return /不要|禁止|只输出|仅输出/.test(code); }),
+                    rule("函数返回提示词", function(code) { return /return\b/.test(code); })
+                ]
+            },
+            4: {
+                title: "编写安全的 API 调用函数",
+                language: "Python",
+                type: "python",
+                prompt: "实现 summarize(text) 函数：从环境变量读取 API Key，调用兼容 OpenAI 的接口并返回摘要；要设置超时、检查 HTTP 状态并处理请求异常。不要在代码里硬编码密钥。",
+                requirements: [
+                    "使用 os.getenv 或环境变量读取密钥",
+                    "使用 requests.post 并设置 timeout",
+                    "调用 raise_for_status",
+                    "捕获 requests.RequestException",
+                    "错误时打印或记录日志"
+                ],
+                starter: `import os
+import requests
+
+
+def summarize(text):
+    """调用模型生成摘要。"""
+    # TODO: 完成安全调用
+    pass`,
+                hint: "响应 JSON 可从 response.json()['choices'][0]['message']['content'] 读取。",
+                solution: `import os
+import requests
+
+
+def summarize(text):
+    """调用模型生成摘要。"""
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("缺少 OPENAI_API_KEY 环境变量")
+
+    try:
+        response = requests.post(
+            "https://api.example.com/v1/chat/completions",
+            headers={"Authorization": "Bearer " + api_key},
+            json={
+                "model": "gpt-4o-mini",
+                "messages": [{"role": "user", "content": "请总结：" + text}],
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        return response.json()["choices"][0]["message"]["content"]
+    except requests.RequestException as exc:
+        print("API 调用失败:", exc)
+        return None`,
+                todoIndexes: [2, 3],
+                rules: [
+                    rule("从环境变量读取 API Key", function(code) { return /os\.getenv\s*\(\s*['"][^'"]*KEY/.test(code); }),
+                    rule("没有硬编码真实密钥", function(code) { return !/sk-[A-Za-z0-9]{8,}/.test(code); }),
+                    rule("使用 requests.post", function(code) { return /requests\.post\s*\(/.test(code); }),
+                    rule("设置请求超时", function(code) { return /\btimeout\s*=/.test(code); }),
+                    rule("调用 raise_for_status", function(code) { return /\.raise_for_status\s*\(\s*\)/.test(code); }),
+                    rule("捕获请求异常", function(code) { return /except\s+requests\.(exceptions\.)?RequestException/.test(code); }),
+                    rule("记录失败信息", function(code) { return /print\s*\(|logging\.|logger\./.test(code); })
+                ]
+            },
+            5: {
+                title: "设计批量文本重命名脚本",
+                language: "Python",
+                type: "python",
+                prompt: "设计一个批量重命名 TXT 文件的脚本骨架：调用 AI 生成标题，失败时继续处理其他文件，并保留原后缀。重点是模块拆分和异常处理。",
+                requirements: [
+                    "至少拆成生成标题、重命名两个函数",
+                    "用 pathlib 遍历 .txt 文件",
+                    "出现异常时记录并继续",
+                    "函数带 docstring"
+                ],
+                starter: `from pathlib import Path
+
+
+def generate_title(content):
+    # TODO: 调用 AI，失败时抛出异常
+    pass
+
+
+def rename_text_files(folder):
+    # TODO: 遍历并重命名文件
+    pass`,
+                hint: "重命名前先检查目标文件是否已存在；单个文件失败不应中断整批任务。",
+                solution: `from pathlib import Path
+
+
+def generate_title(content):
+    """根据文本内容生成安全、简短的文件标题。"""
+    title = content.strip().splitlines()[0][:20]
+    if not title:
+        raise ValueError("内容为空，无法生成标题")
+    return title.replace("/", "-")
+
+
+def rename_text_files(folder):
+    """批量重命名目录下的 TXT 文件。"""
+    folder_path = Path(folder)
+    for file_path in folder_path.glob("*.txt"):
+        try:
+            content = file_path.read_text(encoding="utf-8")
+            title = generate_title(content)
+            target = file_path.with_name(title + file_path.suffix)
+            if target.exists():
+                raise FileExistsError("目标文件已存在: " + str(target))
+            file_path.rename(target)
+        except (OSError, ValueError) as exc:
+            print("跳过文件", file_path, exc)`,
+                todoIndexes: [1, 2, 3],
+                rules: [
+                    rule("至少定义 2 个函数", function(code) { return countMatches(code, /\bdef\s+[a-z_][a-z0-9_]*\s*\(/g) >= 2; }),
+                    rule("使用 pathlib 或 Path", function(code) { return /from\s+pathlib\s+import\s+Path|pathlib\.Path/.test(code); }),
+                    rule("筛选 TXT 文件", function(code) { return /\.txt|suffix|glob\s*\(/.test(code); }),
+                    rule("调用 rename 或 replace", function(code) { return /\.rename\s*\(|\.replace\s*\(/.test(code); }),
+                    rule("单文件异常后继续处理", function(code) { return /try\s*:[\s\S]*except[\s\S]*for\s+|for\s+[\s\S]*try\s*:[\s\S]*except/.test(code); }),
+                    rule("包含 docstring", function(code) { return /"""|'''/.test(code); })
+                ]
+            },
+            7: {
+                title: "创建可复用的 LangChain 提示词模板",
+                language: "Python",
+                type: "python",
+                prompt: "使用 LangChain 的 PromptTemplate 创建测试用例生成模板，包含 requirement 变量，并演示 format 生成最终提示词。",
+                requirements: [
+                    "导入 PromptTemplate",
+                    "声明 input_variables=['requirement']",
+                    "模板中包含角色和测试用例输出要求",
+                    "使用 format 生成结果"
+                ],
+                starter: `from langchain_core.prompts import PromptTemplate
+
+# TODO: 创建模板并生成 prompt
+prompt = ""`,
+                hint: "模板中的占位符必须和 input_variables 名称完全一致。",
+                solution: `from langchain_core.prompts import PromptTemplate
+
+template = """
+你是一名资深软件测试工程师。
+请根据以下需求生成测试用例：
+
+需求：{requirement}
+
+输出要求：
+1. 用 Markdown 表格输出
+2. 覆盖正常、边界和异常场景
+3. 不要输出多余解释
+"""
+
+prompt_template = PromptTemplate(
+    input_variables=["requirement"],
+    template=template,
+)
+prompt = prompt_template.format(requirement="用户登录功能")`,
+                todoIndexes: [1, 2],
+                rules: [
+                    rule("导入 PromptTemplate", function(code) { return /from\s+langchain[^\n]*import\s+PromptTemplate/.test(code); }),
+                    rule("声明 requirement 输入变量", function(code) { return /input_variables\s*=\s*\[[^\]]*['"]requirement['"]/.test(code); }),
+                    rule("包含模板占位符", function(code) { return /\{requirement\}/.test(code); }),
+                    rule("提示词包含角色与输出要求", function(code) { return /(你是|你是一名)/.test(code) && /输出|表格|测试用例/.test(code); }),
+                    rule("使用 format 生成结果", function(code) { return /\.format\s*\(\s*requirement\s*=/.test(code); })
+                ]
+            },
+            8: {
+                title: "实现关键词版 RAG 召回",
+                language: "Python",
+                type: "python",
+                prompt: "实现 retrieve(question, chunks, top_k=3)：把问题和文档片段转成小写，按关键词重合数量排序，返回最相关的 top_k 个片段；空输入时返回空列表。",
+                requirements: [
+                    "处理空问题和空文档",
+                    "按关键词匹配数量排序",
+                    "支持 top_k 参数",
+                    "返回文档片段列表"
+                ],
+                starter: `def retrieve(question, chunks, top_k=3):
+    """召回与问题最相关的文档片段。"""
+    # TODO: 实现简单关键词检索
+    return []`,
+                hint: "可以先用空格和标点粗分问题关键词，再统计每个片段命中的关键词数量。",
+                solution: `import re
+
+
+def retrieve(question, chunks, top_k=3):
+    """按关键词重合度召回文档片段。"""
+    if not question or not chunks:
+        return []
+
+    keywords = {
+        word.lower()
+        for word in re.findall(r"[\w\u4e00-\u9fff]+", question)
+        if len(word) > 1
+    }
+    ranked = []
+    for index, chunk in enumerate(chunks):
+        text = chunk.lower()
+        score = sum(1 for keyword in keywords if keyword in text)
+        if score > 0:
+            ranked.append((score, index, chunk))
+
+    ranked.sort(key=lambda item: (-item[0], item[1]))
+    return [item[2] for item in ranked[:top_k]]`,
+                todoIndexes: [2, 3],
+                rules: [
+                    rule("定义 retrieve 函数", function(code) { return /\bdef\s+retrieve\s*\(/.test(code); }),
+                    rule("包含 docstring", function(code) { return /"""|'''/.test(code); }),
+                    rule("处理空问题或空文档", function(code) { return /if\s+not\s+question|if\s+not\s+chunks|len\s*\(\s*chunks/.test(code); }),
+                    rule("统一转为小写", function(code) { return /\.lower\s*\(\s*\)/.test(code); }),
+                    rule("计算关键词重合", function(code) { return /score|count|sum\s*\(/.test(code); }),
+                    rule("排序并截取 top_k", function(code) { return /sort\s*\(|sorted\s*\(/.test(code) && /top_k/.test(code); })
+                ]
+            },
+            9: {
+                title: "编写 Few-shot 测试用例提示词",
+                language: "Text / Prompt",
+                type: "text",
+                prompt: "写一个用于批量生成测试用例的提示词：必须先给 1 个输入输出示例，再要求模型以 JSON 输出，并覆盖正常、边界、异常场景。",
+                requirements: [
+                    "包含至少一个输入/输出示例",
+                    "明确 JSON 字段结构",
+                    "覆盖正常、边界、异常场景",
+                    "禁止编造需求外的功能"
+                ],
+                starter: `你是一名测试工程师。\n\n# TODO：补充示例、输出格式和约束\n`,
+                hint: "示例最好至少包含“需求输入 → JSON 输出”的完整一对。",
+                solution: `你是一名资深软件测试工程师。请根据用户给出的产品需求生成测试用例。
+
+示例 1：
+输入：用户输入正确用户名和密码后可以登录。
+输出：
+{"cases":[{"title":"正确账号登录","type":"normal","steps":["输入正确账号","点击登录"],"expected":"登录成功"}]}
+
+请严格输出 JSON，格式如下：
+{"cases":[{"title":"...","type":"normal|boundary|exception","steps":["..."],"expected":"..."}]}
+
+要求：
+1. 同时覆盖正常、边界、异常三类场景
+2. 只依据给定需求，不得编造需求外的功能
+3. 只输出 JSON，不要 Markdown 代码块或额外解释`,
+                todoIndexes: [2, 3],
+                rules: [
+                    rule("包含输入与输出示例", function(code) { return /示例/.test(code) && /输入/.test(code) && /输出/.test(code); }),
+                    rule("要求 JSON 输出", function(code) { return /JSON/.test(code); }),
+                    rule("给出 JSON 字段结构", function(code) { return /\{/.test(code) && /title/.test(code) && /expected/.test(code); }),
+                    rule("覆盖正常场景", function(code) { return /正常/.test(code); }),
+                    rule("覆盖边界场景", function(code) { return /边界/.test(code); }),
+                    rule("覆盖异常场景", function(code) { return /异常/.test(code); }),
+                    rule("包含防编造约束", function(code) { return /不得|不要|禁止|只依据/.test(code); })
+                ]
+            },
+            10: {
+                title: "用 JSON 描述 AI 自动化工作流",
+                language: "JSON",
+                type: "json",
+                prompt: "把“文本输入 → AI 处理 → 保存结果”的工作流描述成 JSON，至少包含触发器、3 个步骤和失败处理。",
+                requirements: [
+                    "JSON 可正常解析",
+                    "包含 trigger、steps、output",
+                    "steps 至少 3 个且包含 AI 与存储步骤",
+                    "包含失败处理策略"
+                ],
+                starter: `{
+  "name": "文本摘要工作流",
+  "trigger": "收到新的文本输入",
+  "steps": [
+    "TODO"
+  ],
+  "output": "保存摘要"
+}`,
+                hint: "每个 step 可以写成包含 type 和 action 的对象，便于后续程序化执行。",
+                solution: `{
+  "name": "文本摘要工作流",
+  "trigger": "收到新的文本输入",
+  "steps": [
+    {"type": "validate", "action": "校验文本非空"},
+    {"type": "ai", "action": "调用模型生成摘要"},
+    {"type": "storage", "action": "把摘要保存到文件"}
+  ],
+  "output": "文件路径",
+  "on_error": {"action": "记录错误并通知负责人"},
+  "retry": {"max_attempts": 2, "backoff_seconds": 5}
+}`,
+                todoIndexes: [1, 2, 3],
+                rules: [
+                    rule("包含 trigger", function(code) { return /"trigger"\s*:/.test(code); }),
+                    rule("包含至少 3 个 steps", function(code) { var m = code.match(/"steps"\s*:\s*\[([\s\S]*?)\]/); return !!m && countMatches(m[1], /\{/g) >= 3; }),
+                    rule("包含 AI 处理步骤", function(code) { return /"type"\s*:\s*"ai"|AI|模型/.test(code); }),
+                    rule("包含存储步骤", function(code) { return /storage|保存|写入/.test(code); }),
+                    rule("包含 output", function(code) { return /"output"\s*:/.test(code); }),
+                    rule("包含失败处理", function(code) { return /on_error|error|retry|失败|重试/.test(code); })
+                ]
+            },
+            11: {
+                title: "实现带窗口的对话记忆",
+                language: "Python",
+                type: "python",
+                prompt: "实现 ConversationMemory 类：保存最近的对话，add_message(role, content) 追加消息，get_context() 只返回最近 max_turns 条记录。",
+                requirements: [
+                    "类名和初始化方法正确",
+                    "保存 role 与 content",
+                    "限制保留的最大消息数",
+                    "get_context 返回最近记录"
+                ],
+                starter: `class ConversationMemory:
+    def __init__(self, max_turns=6):
+        # TODO: 初始化消息列表
+        pass
+
+    def add_message(self, role, content):
+        pass
+
+    def get_context(self):
+        pass`,
+                hint: "列表切片 messages[-max_turns:] 可以取得最近记录。",
+                solution: `class ConversationMemory:
+    """保存有限窗口内的多轮对话。"""
+
+    def __init__(self, max_turns=6):
+        if max_turns < 1:
+            raise ValueError("max_turns 必须大于 0")
+        self.max_turns = max_turns
+        self.messages = []
+
+    def add_message(self, role, content):
+        """追加一条消息并裁剪历史窗口。"""
+        self.messages.append({"role": role, "content": content})
+        self.messages = self.messages[-self.max_turns:]
+
+    def get_context(self):
+        """返回最近的消息列表。"""
+        return list(self.messages)`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("定义 ConversationMemory 类", function(code) { return /\bclass\s+ConversationMemory\b/.test(code); }),
+                    rule("初始化 max_turns 与消息列表", function(code) { return /max_turns/.test(code) && /messages\s*=\s*\[\s*\]|messages\s*:\s*list/.test(code); }),
+                    rule("实现 add_message", function(code) { return /\bdef\s+add_message\s*\(/.test(code); }),
+                    rule("保存 role 和 content", function(code) { return /"role"|'role'/.test(code) && /"content"|'content'/.test(code); }),
+                    rule("实现 get_context", function(code) { return /\bdef\s+get_context\s*\(/.test(code); }),
+                    rule("只保留最近消息", function(code) { return /\[-self\.max_turns\s*:\]|\[-\s*max_turns\s*:\]/.test(code); })
+                ]
+            },
+            12: {
+                title: "搭建极简 RAG 流程",
+                language: "Python",
+                type: "python",
+                prompt: "实现 SimpleRAG 类：接收文档列表和 llm 回调，retrieve 做关键词召回，answer 把召回内容放进上下文后再调用 llm，并处理没有召回结果的情况。",
+                requirements: [
+                    "包含 retrieve 和 answer 两个方法",
+                    "只把召回到的上下文交给模型",
+                    "没有召回时返回兜底提示",
+                    "提示词要求模型不得编造"
+                ],
+                starter: `class SimpleRAG:
+    def __init__(self, documents, llm):
+        self.documents = documents
+        self.llm = llm
+
+    def retrieve(self, question):
+        # TODO
+        return []
+
+    def answer(self, question):
+        # TODO
+        return ""`,
+                hint: "先用关键词做粗略召回即可，重点是把“检索结果 → 上下文提示词 → LLM”链路串起来。",
+                solution: `class SimpleRAG:
+    """极简检索增强生成示例。"""
+
+    def __init__(self, documents, llm):
+        self.documents = documents
+        self.llm = llm
+
+    def retrieve(self, question):
+        """按关键词召回最多 3 个文档片段。"""
+        keywords = [word for word in question.lower().split() if word]
+        ranked = []
+        for document in self.documents:
+            score = sum(word in document.lower() for word in keywords)
+            if score:
+                ranked.append((score, document))
+        ranked.sort(key=lambda item: item[0], reverse=True)
+        return [document for _, document in ranked[:3]]
+
+    def answer(self, question):
+        """基于召回内容生成回答。"""
+        contexts = self.retrieve(question)
+        if not contexts:
+            return "知识库中没有找到相关信息。"
+
+        context_text = "\n\n".join(contexts)
+        prompt = f"""
+你是知识库问答助手。
+只能根据下面的上下文回答，信息不足时回答“不知道”。
+不要使用上下文之外的知识。
+
+上下文：
+{context_text}
+
+问题：{question}
+"""
+        return self.llm(prompt)`,
+                todoIndexes: [1, 2, 3],
+                rules: [
+                    rule("定义 SimpleRAG 类", function(code) { return /\bclass\s+SimpleRAG\b/.test(code); }),
+                    rule("实现 retrieve 方法", function(code) { return /\bdef\s+retrieve\s*\(/.test(code); }),
+                    rule("实现 answer 方法", function(code) { return /\bdef\s+answer\s*\(/.test(code); }),
+                    rule("没有召回时返回兜底信息", function(code) { return /if\s+not\s+contexts|if\s+len\s*\(\s*contexts\s*\)\s*==\s*0/.test(code) && /return/.test(code); }),
+                    rule("把上下文传入提示词", function(code) { return /context|上下文/.test(code) && /self\.llm|llm\s*\(/.test(code); }),
+                    rule("约束模型不得编造", function(code) { return /只能|不得|不要使用|不知道/.test(code); })
+                ]
+            },
+            14: {
+                title: "设计 RAG 项目目录与模块",
+                language: "Text / Markdown",
+                type: "markdown",
+                prompt: "为一个“个人文档智能问答知识库”设计工程目录和模块职责。请覆盖文档加载、文本分割、向量存储、检索、生成、配置和测试。",
+                requirements: [
+                    "给出清晰的目录树",
+                    "说明每个模块的主要职责",
+                    "包含配置与测试模块",
+                    "补充一条数据流说明"
+                ],
+                starter: `# 个人文档问答知识库\n\n## 目录结构\n\nTODO\n\n## 数据流\n\nTODO\n`,
+                hint: "目录树最重要的是职责边界，而不是文件数量。可以用 loader、splitter、vector_store、retriever、generator、config、tests。",
+                solution: `# 个人文档问答知识库
+
+## 目录结构
+
+rag_knowledge_base/
+├── app.py
+├── config.py
+├── loaders/
+│   └── document_loader.py
+├── processing/
+│   └── text_splitter.py
+├── storage/
+│   └── vector_store.py
+├── retrieval/
+│   └── retriever.py
+├── generation/
+│   └── answer_generator.py
+└── tests/
+    └── test_pipeline.py
+
+## 模块职责
+- document_loader：读取 TXT/Markdown，统一成文本
+- text_splitter：按长度和语义边界切分文本
+- vector_store：向量化并持久化文档片段
+- retriever：根据问题召回最相关片段
+- answer_generator：构造防幻觉提示词并调用模型
+- config：集中管理路径、模型和密钥配置
+- tests：覆盖加载、切分、检索和回答链路
+
+## 数据流
+文档 → 加载 → 分块 → 向量化存储 → 用户提问 → 检索 → 生成回答 → 返回引用`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("包含目录结构", function(code) { return /目录|结构|├──|└──/.test(code); }),
+                    rule("包含文档加载模块", function(code) { return /load|加载/.test(code); }),
+                    rule("包含文本分割模块", function(code) { return /split|分割|分块/.test(code); }),
+                    rule("包含向量与检索模块", function(code) { return /vector|向量/.test(code) && /retriev|检索/.test(code); }),
+                    rule("包含生成模块", function(code) { return /generat|生成/.test(code); }),
+                    rule("包含配置与测试模块", function(code) { return /config|配置/.test(code) && /test|测试/.test(code); }),
+                    rule("描述完整数据流", function(code) { return /数据流|流程/.test(code) && /检索/.test(code) && /生成/.test(code); })
+                ]
+            },
+            15: {
+                title: "实现带重叠的文本分块",
+                language: "Python",
+                type: "python",
+                prompt: "实现 split_text(text, chunk_size=200, overlap=30)，把长文本切成有重叠的块；必须验证参数，并尽量在空格或换行边界切分。",
+                requirements: [
+                    "返回文档块列表",
+                    "overlap 必须小于 chunk_size",
+                    "块之间有重叠",
+                    "空文本返回空列表"
+                ],
+                starter: `def split_text(text, chunk_size=200, overlap=30):
+    """把长文本切分为带重叠的片段。"""
+    # TODO
+    return []`,
+                hint: "循环起点每次前进 chunk_size - overlap，截取 text[start:start + chunk_size]。",
+                solution: `def split_text(text, chunk_size=200, overlap=30):
+    """把长文本切分为带重叠的片段。"""
+    if chunk_size <= 0:
+        raise ValueError("chunk_size 必须大于 0")
+    if overlap < 0 or overlap >= chunk_size:
+        raise ValueError("overlap 必须满足 0 <= overlap < chunk_size")
+    if not text or not text.strip():
+        return []
+
+    chunks = []
+    step = chunk_size - overlap
+    start = 0
+    while start < len(text):
+        end = min(start + chunk_size, len(text))
+        chunk = text[start:end].strip()
+        if chunk:
+            chunks.append(chunk)
+        if end == len(text):
+            break
+        start += step
+    return chunks`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("定义 split_text 函数", function(code) { return /\bdef\s+split_text\s*\(/.test(code); }),
+                    rule("包含 docstring", function(code) { return /"""|'''/.test(code); }),
+                    rule("校验 overlap 参数", function(code) { return /overlap\s*>=?\s*chunk_size|chunk_size\s*<=\s*overlap|0\s*<=\s*overlap/.test(code); }),
+                    rule("使用 chunk_size - overlap", function(code) { return /chunk_size\s*-\s*overlap|step\s*=/.test(code); }),
+                    rule("通过循环收集片段", function(code) { return /\bwhile\b|\bfor\b/.test(code) && /append\s*\(/.test(code); }),
+                    rule("空文本返回空列表", function(code) { return /if\s+not\s+text|not\s+text\.strip/.test(code) && /return\s*\[\s*\]/.test(code); }),
+                    rule("返回片段列表", function(code) { return /return\s+chunks/.test(code); })
+                ]
+            },
+            16: {
+                title: "实现余弦相似度与 Top-K 检索",
+                language: "Python",
+                type: "python",
+                prompt: "实现 cosine_similarity(a, b) 和 retrieve_top_k(query_vector, documents, k=3)。相似度要处理零向量，检索结果按分数从高到低返回。",
+                requirements: [
+                    "两个函数职责清晰",
+                    "余弦相似度包含点积和模长",
+                    "零向量不会除零",
+                    "Top-K 按分数降序返回"
+                ],
+                starter: `import math
+
+
+def cosine_similarity(a, b):
+    # TODO
+    return 0.0
+
+
+def retrieve_top_k(query_vector, documents, k=3):
+    # documents 示例: [{"id": "1", "vector": [0.1, 0.2], "text": "..."}]
+    # TODO
+    return []`,
+                hint: "点积可以用 sum(x * y for x, y in zip(a, b))，排序时把分数作为 key。",
+                solution: `import math
+
+
+def cosine_similarity(a, b):
+    """计算两个向量的余弦相似度。"""
+    if len(a) != len(b):
+        raise ValueError("向量维度必须一致")
+
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = math.sqrt(sum(x * x for x in a))
+    norm_b = math.sqrt(sum(y * y for y in b))
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+    return dot / (norm_a * norm_b)
+
+
+def retrieve_top_k(query_vector, documents, k=3):
+    """按余弦相似度返回最相关的文档。"""
+    ranked = []
+    for document in documents:
+        score = cosine_similarity(query_vector, document["vector"])
+        ranked.append((score, document))
+    ranked.sort(key=lambda item: item[0], reverse=True)
+    return [document for _, document in ranked[:k]]`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("定义 cosine_similarity", function(code) { return /\bdef\s+cosine_similarity\s*\(/.test(code); }),
+                    rule("实现对向量维度校验", function(code) { return /len\s*\(\s*a\s*\)\s*!=\s*len\s*\(\s*b\s*\)|zip\s*\(/.test(code); }),
+                    rule("计算点积", function(code) { return /dot|sum\s*\([^)]*x\s*\*\s*y/.test(code); }),
+                    rule("计算模长并防除零", function(code) { return /sqrt\s*\(/.test(code) && /norm.*==\s*0|if\s+not\s+norm_a/.test(code); }),
+                    rule("定义 retrieve_top_k", function(code) { return /\bdef\s+retrieve_top_k\s*\(/.test(code); }),
+                    rule("按分数降序排序", function(code) { return /sort\s*\([^)]*reverse\s*=\s*True|sorted\s*\([^)]*reverse\s*=\s*True/.test(code); }),
+                    rule("截取前 k 个结果", function(code) { return /\[\s*:\s*k\s*\]/.test(code); })
+                ]
+            },
+            17: {
+                title: "构建防幻觉 RAG 提示词",
+                language: "Python",
+                type: "python",
+                prompt: "实现 build_rag_prompt(context, question)：提示模型只能依据给定上下文回答，信息不足时明确说“不知道”，并禁止补充上下文之外的知识。",
+                requirements: [
+                    "同时包含 context 和 question",
+                    "明确只允许使用检索上下文",
+                    "规定信息不足时拒绝编造",
+                    "函数返回完整提示词"
+                ],
+                starter: `def build_rag_prompt(context, question):
+    """构建 RAG 防幻觉提示词。"""
+    # TODO
+    return ""`,
+                hint: "把最关键的限制写成短句：只依据上下文、信息不足就说不知道、不得补充外部知识。",
+                solution: `def build_rag_prompt(context, question):
+    """构建 RAG 防幻觉提示词。"""
+    return f"""
+你是知识库问答助手。请严格根据下面的检索上下文回答问题。
+
+检索上下文：
+{context}
+
+用户问题：
+{question}
+
+回答规则：
+1. 只能使用检索上下文中的信息
+2. 如果上下文不足以回答，直接回复“不知道”
+3. 不得补充上下文之外的知识，不得编造引用
+4. 先给出答案，再简要列出依据
+""".strip()`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("定义 build_rag_prompt", function(code) { return /\bdef\s+build_rag_prompt\s*\(/.test(code); }),
+                    rule("包含 context 和 question", function(code) { return /\{context\}|["']?\s*\+\s*context|context/.test(code) && /\{question\}|["']?\s*\+\s*question|question/.test(code); }),
+                    rule("限制只使用上下文", function(code) { return /只能.*上下文|仅.*上下文|严格根据/.test(code); }),
+                    rule("信息不足时回答不知道", function(code) { return /不知道|无法回答|信息不足/.test(code); }),
+                    rule("禁止编造或外部知识", function(code) { return /不得|禁止|不要/.test(code) && /编造|外部知识/.test(code); }),
+                    rule("函数返回提示词", function(code) { return /return\b/.test(code); })
+                ]
+            },
+            18: {
+                title: "为 LLM 调用增加日志与异常处理",
+                language: "Python",
+                type: "python",
+                prompt: "实现 safe_llm_call(prompt)，使用 requests 调用模型并记录开始、成功、失败日志；请求失败时返回 None，不让程序崩溃。",
+                requirements: [
+                    "配置 logger",
+                    "记录调用参数或问题摘要，不泄露密钥",
+                    "捕获 RequestException",
+                    "设置 timeout 并在 finally 或成功/失败路径记录日志"
+                ],
+                starter: `import logging
+import requests
+
+logger = logging.getLogger(__name__)
+
+
+def safe_llm_call(prompt):
+    """带日志和异常保护的模型调用。"""
+    # TODO
+    return None`,
+                hint: "不要打印完整密钥；日志至少记录调用开始、耗时或结果、异常类型。",
+                solution: `import logging
+import requests
+
+logger = logging.getLogger(__name__)
+
+
+def safe_llm_call(prompt):
+    """带日志和异常保护的模型调用。"""
+    logger.info("开始调用模型，prompt_length=%s", len(prompt))
+    try:
+        response = requests.post(
+            "https://api.example.com/v1/chat/completions",
+            json={"messages": [{"role": "user", "content": prompt}]},
+            timeout=30,
+        )
+        response.raise_for_status()
+        result = response.json()["choices"][0]["message"]["content"]
+        logger.info("模型调用成功")
+        return result
+    except requests.RequestException as exc:
+        logger.exception("模型调用失败: %s", exc)
+        return None`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("定义 safe_llm_call", function(code) { return /\bdef\s+safe_llm_call\s*\(/.test(code); }),
+                    rule("配置 logger", function(code) { return /logging\.getLogger|logger\s*=/.test(code); }),
+                    rule("记录调用日志", function(code) { return /logger\.(info|debug|warning|error|exception)/.test(code); }),
+                    rule("设置请求超时", function(code) { return /\btimeout\s*=/.test(code); }),
+                    rule("捕获 RequestException", function(code) { return /except\s+requests\.(exceptions\.)?RequestException/.test(code); }),
+                    rule("失败时返回 None", function(code) { return /return\s+None/.test(code); })
+                ]
+            },
+            19: {
+                title: "为文本分块模块编写测试",
+                language: "Python",
+                type: "python",
+                prompt: "为 split_text 编写至少 3 个 pytest 测试：正常分块、空文本、非法 overlap。每个测试都要有 assert，边界条件必须单独覆盖。",
+                requirements: [
+                    "至少 3 个 test_ 开头的测试函数",
+                    "每个测试包含 assert",
+                    "覆盖空文本",
+                    "覆盖非法参数并期望 ValueError"
+                ],
+                starter: `import pytest
+from processing.text_splitter import split_text
+
+
+def test_split_text_normal():
+    # TODO
+    pass
+`,
+                hint: "非法参数测试可以使用 pytest.raises(ValueError)。",
+                solution: `import pytest
+from processing.text_splitter import split_text
+
+
+def test_split_text_normal():
+    chunks = split_text("0123456789", chunk_size=4, overlap=1)
+    assert chunks
+    assert chunks[0] == "0123"
+
+
+def test_split_text_empty():
+    assert split_text("") == []
+    assert split_text("   ") == []
+
+
+def test_split_text_invalid_overlap():
+    with pytest.raises(ValueError):
+        split_text("abc", chunk_size=3, overlap=3)`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("导入 pytest", function(code) { return /import\s+pytest/.test(code); }),
+                    rule("至少 3 个测试函数", function(code) { return countMatches(code, /\bdef\s+test_[a-zA-Z0-9_]+\s*\(/g) >= 3; }),
+                    rule("每个测试都有 assert", function(code) { return countMatches(code, /\bassert\b/g) >= 3; }),
+                    rule("覆盖空文本", function(code) { return /empty|空|""|''/.test(code); }),
+                    rule("使用 pytest.raises 检查异常", function(code) { return /pytest\.raises\s*\(\s*ValueError/.test(code); })
+                ]
+            },
+            21: {
+                title: "沉淀一份 RAG 项目落地方法论",
+                language: "Markdown",
+                type: "markdown",
+                prompt: "写一份简洁的《企业内部知识库落地方法论》，覆盖需求澄清、场景评估、技术选型、最小 Demo、调优、工程化、上线评估和风险控制。",
+                requirements: [
+                    "使用清晰的 Markdown 标题",
+                    "覆盖 8 个关键阶段",
+                    "每阶段至少写出一个输出物或检查点",
+                    "补充常见风险"
+                ],
+                starter: `# 企业内部知识库落地方法论\n\n## 1. 需求澄清\n\nTODO\n`,
+                hint: "可以按 SOP 顺序组织，每个阶段写“目标 + 输出物 + 常见坑”。",
+                solution: `# 企业内部知识库落地方法论
+
+## 1. 需求澄清
+目标：明确业务问题、用户与成功指标。输出物：需求说明、验收标准。
+
+## 2. 场景评估
+判断知识是否可用、错误成本、数据权限与 ROI。
+
+## 3. 技术选型
+选择模型、向量库、文档解析方案，并记录取舍理由。
+
+## 4. 最小 Demo
+先跑通“导入文档 → 检索 → 回答”的最小链路，验证核心价值。
+
+## 5. 效果调优
+针对分块、召回、重排序和提示词做评测与迭代。
+
+## 6. 工程化
+补齐异常处理、日志、配置管理、权限与成本控制。
+
+## 7. 上线评估
+基于真实问题集评估准确率、拒答率、响应时间和用户满意度。
+
+## 8. 风险控制
+防范幻觉、越权访问、敏感信息泄露、模型供应商锁定和成本失控。`,
+                todoIndexes: [0, 1, 2],
+                rules: [
+                    rule("包含需求澄清", function(code) { return /需求/.test(code); }),
+                    rule("包含场景评估", function(code) { return /场景|评估/.test(code); }),
+                    rule("包含技术选型", function(code) { return /技术选型|选型/.test(code); }),
+                    rule("包含最小 Demo", function(code) { return /Demo|最小.*验证|最小.*链路/i.test(code); }),
+                    rule("包含调优与工程化", function(code) { return /调优/.test(code) && /工程/.test(code); }),
+                    rule("包含上线评估", function(code) { return /上线|评估/.test(code); }),
+                    rule("包含风险控制", function(code) { return /风险|权限|安全/.test(code); }),
+                    rule("使用 Markdown 标题", function(code) { return countMatches(code, /^#{1,3}\s+/gm) >= 3; })
+                ]
+            },
+            22: {
+                title: "实现可校验的提示词模板",
+                language: "Python",
+                type: "python",
+                prompt: "实现 PromptTemplate 类：保存模板和必需变量，render(values) 时检查缺失变量并抛 ValueError，再使用 str.format 生成最终提示词。",
+                requirements: [
+                    "初始化时接收 template 和 variables",
+                    "render 检查所有必需变量",
+                    "缺失变量抛出 ValueError",
+                    "使用 format 生成结果"
+                ],
+                starter: `class PromptTemplate:
+    def __init__(self, template, variables):
+        # TODO
+        pass
+
+    def render(self, values):
+        # TODO
+        return ""`,
+                hint: "可以用 set(variables) - set(values) 计算缺失项。",
+                solution: `class PromptTemplate:
+    """带变量校验的提示词模板。"""
+
+    def __init__(self, template, variables):
+        self.template = template
+        self.variables = list(variables)
+
+    def render(self, values):
+        """校验并渲染提示词。"""
+        missing = [name for name in self.variables if name not in values]
+        if missing:
+            raise ValueError("缺少模板变量: " + ", ".join(missing))
+        return self.template.format(**values)`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("定义 PromptTemplate 类", function(code) { return /\bclass\s+PromptTemplate\b/.test(code); }),
+                    rule("保存 template 和 variables", function(code) { return /self\.template/.test(code) && /self\.variables/.test(code); }),
+                    rule("实现 render 方法", function(code) { return /\bdef\s+render\s*\(/.test(code); }),
+                    rule("检查缺失变量", function(code) { return /missing|not in values|缺少/.test(code); }),
+                    rule("缺失时抛出 ValueError", function(code) { return /\braise\s+ValueError\b/.test(code); }),
+                    rule("使用 format 渲染", function(code) { return /\.format\s*\(\s*\*\*\s*values/.test(code); })
+                ]
+            },
+            23: {
+                title: "编写 AI 测试用例生成提示词",
+                language: "Text / Prompt",
+                type: "text",
+                prompt: "设计一个用于功能测试用例生成的提示词。要求输入是需求文本，输出为 Markdown 表格，至少包含用例编号、场景、前置条件、步骤、预期结果，并覆盖正常/边界/异常。",
+                requirements: [
+                    "明确角色和输入",
+                    "规定表格列结构",
+                    "覆盖三类场景",
+                    "要求只依据需求、不编造"
+                ],
+                starter: `你是一名软件测试工程师。\n\n需求：{{requirement}}\n\n# TODO：补充输出表格和约束\n`,
+                hint: "表格列越明确，模型输出越稳定；再加一句“缺少信息时标记待确认”。",
+                solution: `你是一名资深软件测试工程师。请根据下面的需求生成功能测试用例。
+
+需求：{{requirement}}
+
+输出要求：
+1. 使用 Markdown 表格
+2. 列包括：用例编号、测试场景、前置条件、操作步骤、预期结果、场景类型
+3. 覆盖正常、边界、异常三类场景
+4. 只依据给定需求，不得编造需求外功能
+5. 信息不足时在对应单元格标记“待确认”，不要自行假设
+
+直接输出表格，不要额外解释。`,
+                todoIndexes: [0, 1, 2],
+                rules: [
+                    rule("包含测试工程师角色", function(code) { return /测试工程师/.test(code); }),
+                    rule("包含需求输入占位", function(code) { return /requirement|需求/.test(code); }),
+                    rule("要求 Markdown 表格", function(code) { return /Markdown.*表格|表格/.test(code); }),
+                    rule("包含用例编号和预期结果", function(code) { return /用例编号/.test(code) && /预期结果/.test(code); }),
+                    rule("包含操作步骤和前置条件", function(code) { return /操作步骤/.test(code) && /前置条件/.test(code); }),
+                    rule("覆盖正常边界异常", function(code) { return /正常/.test(code) && /边界/.test(code) && /异常/.test(code); }),
+                    rule("禁止编造", function(code) { return /不得|不要|只依据/.test(code); })
+                ]
+            },
+            24: {
+                title: "把模糊需求拆成结构化需求",
+                language: "JSON",
+                type: "json",
+                prompt: "把“希望员工能快速查到公司制度”拆成可落地需求：补充业务目标、用户、至少 3 条功能需求、验收标准、假设与风险。",
+                requirements: [
+                    "JSON 可正常解析",
+                    "包含业务目标与目标用户",
+                    "至少 3 条功能需求和 3 条验收标准",
+                    "包含假设与风险"
+                ],
+                starter: `{
+  "business_goal": "TODO",
+  "users": [],
+  "functional_requirements": [],
+  "acceptance_criteria": [],
+  "assumptions": [],
+  "risks": []
+}`,
+                hint: "功能需求写得可验证，验收标准尽量使用“能够/不超过/必须”等明确表述。",
+                solution: `{
+  "business_goal": "让员工在 3 分钟内找到准确的制度答案，减少重复咨询",
+  "users": ["普通员工", "HR", "制度维护人员"],
+  "functional_requirements": [
+    {"id": "FR-1", "text": "支持上传并解析公司制度文档"},
+    {"id": "FR-2", "text": "支持自然语言提问并返回答案与来源"},
+    {"id": "FR-3", "text": "答案必须展示引用文档和章节"},
+    {"id": "FR-4", "text": "权限不足时拒绝返回敏感制度内容"}
+  ],
+  "acceptance_criteria": [
+    "常见制度问题回答准确率达到约定阈值",
+    "无依据时明确拒答，不编造制度条款",
+    "答案可在 5 秒内返回并展示来源链接"
+  ],
+  "assumptions": ["制度文档已完成数字化", "员工账号已接入统一权限系统"],
+  "risks": ["文档过期导致错误", "权限配置错误导致泄密", "模型幻觉"]
+}`,
+                todoIndexes: [0, 1, 2],
+                rules: [
+                    rule("包含业务目标", function(code) { return /"business_goal"\s*:/.test(code); }),
+                    rule("包含目标用户", function(code) { return /"users"\s*:\s*\[/.test(code); }),
+                    rule("至少 3 条功能需求", function(code) { var m = code.match(/"functional_requirements"\s*:\s*\[([\s\S]*?)\]/); return !!m && countMatches(m[1], /\{/g) >= 3; }),
+                    rule("至少 3 条验收标准", function(code) { var m = code.match(/"acceptance_criteria"\s*:\s*\[([\s\S]*?)\]/); return !!m && countMatches(m[1], /"/g) >= 6; }),
+                    rule("包含假设", function(code) { return /"assumptions"\s*:/.test(code); }),
+                    rule("包含风险", function(code) { return /"risks"\s*:/.test(code); })
+                ]
+            },
+            25: {
+                title: "优化项目 README 结构",
+                language: "Markdown",
+                type: "markdown",
+                prompt: "为你的 RAG 项目写一份作品集级 README 大纲，覆盖项目背景、核心问题、功能、架构、安装、使用、演示、测试和个人贡献。",
+                requirements: [
+                    "项目价值一眼可见",
+                    "包含架构与数据流",
+                    "包含可复现的安装使用步骤",
+                    "展示测试结果和个人贡献"
+                ],
+                starter: `# 项目名称\n\n一句话介绍项目价值。\n\n## 项目背景\n\nTODO\n`,
+                hint: "README 的第一屏要先说清“解决什么问题、有什么结果”，再展开技术细节。",
+                solution: `# 企业制度智能问答助手
+
+基于 RAG 的企业制度知识库，帮助员工在 5 秒内获得带来源的准确答案。
+
+## 解决的业务问题
+制度分散、检索慢、重复咨询多，且通用模型容易编造。
+
+## 核心功能
+- 文档导入与自动分块
+- 向量检索与来源引用
+- 防幻觉回答与无依据拒答
+
+## 技术架构
+TXT/Markdown → 文本分割 → 向量存储 → 检索 → 提示词 → LLM → 带引用回答
+
+## 安装
+python -m venv .venv
+pip install -r requirements.txt
+cp .env.example .env
+
+## 使用
+python app.py
+上传文档后输入问题即可查询。
+
+## 演示
+附上首页、问答结果和引用来源截图。
+
+## 测试
+pytest
+说明测试覆盖、通过率和关键验收结果。
+
+## 我的贡献
+负责需求拆解、RAG 架构、检索调优、异常处理、测试与部署。`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("包含项目名称与价值", function(code) { return countMatches(code, /^#\s+/gm) >= 1 && /价值|解决|帮助/.test(code); }),
+                    rule("包含项目背景或问题", function(code) { return /背景|问题/.test(code); }),
+                    rule("包含核心功能", function(code) { return /功能/.test(code); }),
+                    rule("包含技术架构", function(code) { return /架构|数据流/.test(code); }),
+                    rule("包含安装与使用", function(code) { return /安装/.test(code) && /使用/.test(code); }),
+                    rule("包含演示或截图", function(code) { return /演示|截图/.test(code); }),
+                    rule("包含测试", function(code) { return /测试|pytest/i.test(code); }),
+                    rule("包含个人贡献", function(code) { return /贡献|负责/.test(code); })
+                ]
+            },
+            26: {
+                title: "制定下月进阶行动计划",
+                language: "Markdown",
+                type: "markdown",
+                prompt: "完成一份月度复盘：列出已完成的成果与证据、仍存在的短板、下月目标和每周可执行动作。不要只写“继续努力”。",
+                requirements: [
+                    "成果必须有可验证证据",
+                    "指出至少 2 个能力短板",
+                    "下月目标可衡量",
+                    "按周拆分行动"
+                ],
+                starter: `# 月度复盘与下月计划\n\n## 本月成果\n\nTODO\n\n## 能力短板\n\nTODO\n`,
+                hint: "建议使用“目标 → 产出物 → 截止时间 → 验收标准”的格式。",
+                solution: `# 月度复盘与下月计划
+
+## 本月成果
+- 完成 Python 工程化、Git、LLM API、LangChain 与 RAG 学习
+- 完成企业文档问答 Demo，代码与 README 已上传 GitHub
+- 证据：提交记录、项目仓库、测试报告、演示截图
+
+## 能力短板
+- 复杂 RAG 评测与重排序经验不足
+- 前端界面与部署工程化能力不足
+
+## 下月目标
+1. 完成一个可公网访问的 RAG 项目，核心问题集准确率达到 80%
+2. 补充 20 道评测题并形成自动化评测报告
+
+## 每周行动
+- 第 1 周：补充评测数据集与基线指标
+- 第 2 周：实现重排序与引用展示
+- 第 3 周：完成部署、日志和异常处理
+- 第 4 周：整理作品集文章并复盘面试表达`,
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule("包含本月成果", function(code) { return /成果/.test(code); }),
+                    rule("成果包含证据或产出物", function(code) { return /证据|截图|仓库|提交|报告/.test(code); }),
+                    rule("包含能力短板", function(code) { return /短板|不足/.test(code); }),
+                    rule("下月目标可衡量", function(code) { return /目标/.test(code) && /\d|%/ .test(code); }),
+                    rule("按周拆分行动", function(code) { return /第\s*1\s*周/.test(code) && /第\s*2\s*周/.test(code) && /第\s*3\s*周/.test(code) && /第\s*4\s*周/.test(code); })
+                ]
+            }
+        };
+
         // 初始化
         function init() {
             // 绑定标签点击事件
@@ -1071,7 +2479,9 @@ if __name__ == "__main__":
         // 渲染待办
         function renderTodo() {
             var dayIndex = getCurrentDayIndex();
-            var dayData = planData[dayIndex % planData.length];
+            var planIndex = dayIndex % planData.length;
+            var dayData = planData[planIndex];
+            var practice = practiceData[planIndex];
             var list = document.getElementById('todoList');
 
             if (dayData.isRest) {
@@ -1079,31 +2489,71 @@ if __name__ == "__main__":
                 return;
             }
 
+            var movedIndexes = practice && practice.todoIndexes ? practice.todoIndexes : [];
             var html = '';
+            var remainingCount = 0;
+
             for (var i = 0; i < dayData.todos.length; i++) {
+                if (movedIndexes.indexOf(i) !== -1) continue;
+
                 var id = 'todo_' + dayIndex + '_' + i;
                 html += '<div class="todo-item" id="' + id + '_item">' +
                     '<input type="checkbox" id="' + id + '" onchange="saveTodo(' + dayIndex + ',' + i + ')">' +
                     '<label for="' + id + '">' + dayData.todos[i] + '</label>' +
                     '</div>';
+                remainingCount++;
             }
+
+            if (remainingCount === 0) {
+                html = '<div class="quiz-empty">今日的动手练习已移入「每日小测」，完成代码后可以直接检查结果。' +
+                    '<br><button class="practice-btn primary" onclick="switchTab(\'quiz\')">前往每日小测</button></div>';
+            } else if (practice) {
+                html += '<div class="practice-box"><strong>提示：</strong>今日代码练习题已移入「每日小测」，' +
+                    '<a href="javascript:void(0)" onclick="switchTab(\'quiz\')">去写代码并检查</a>。</div>';
+            }
+
             list.innerHTML = html;
         }
-
         // 渲染每日小测
         function renderQuiz() {
             var dayIndex = getCurrentDayIndex();
-            var dayData = planData[dayIndex % planData.length];
+            var planIndex = dayIndex % planData.length;
+            var dayData = planData[planIndex];
+            var practice = practiceData[planIndex];
             var list = document.getElementById('quizList');
+            var guide = document.getElementById('quizGuide');
+            var submitButton = document.getElementById('dailyQuizSubmit');
+            var scoreEl = document.getElementById('dailyScore');
 
-            if (dayData.isRest || !dayData.quiz || dayData.quiz.length === 0) {
-                list.innerHTML = '<div class="rest-tip">今日无每日小测，可前往「每周大测」做周测</div>';
-                document.querySelector('#quizPanel .submit-btn').style.display = 'none';
+            renderPractice(planIndex);
+
+            if (dayData.isRest) {
+                guide.textContent = '今天是休息复盘日，暂时没有新的练习和选择题。';
+                list.innerHTML = '<div class="rest-tip">今日无每日小测，好好休息复盘即可 💪</div>';
+                submitButton.style.display = 'none';
+                scoreEl.style.display = 'none';
                 return;
             }
-            document.querySelector('#quizPanel .submit-btn').style.display = 'inline-block';
 
-            var html = '';
+            if (!dayData.quiz || dayData.quiz.length === 0) {
+                guide.textContent = practice
+                    ? '今日先完成上面的编程练习；本日没有额外选择题。'
+                    : '今日没有每日小测，可前往「每周大测」做周测。';
+                list.innerHTML = practice
+                    ? '<div class="quiz-empty">今日没有额外的选择题，可前往「每周大测」检验本周学习效果。</div>'
+                    : '<div class="rest-tip">今日无每日小测，可前往「每周大测」做周测</div>';
+                submitButton.style.display = 'none';
+                scoreEl.style.display = 'none';
+                return;
+            }
+
+            guide.textContent = practice
+                ? '先完成上面的编程练习，再提交选择题，检查今天是否真正掌握。'
+                : '完成今日选择题，提交后即可查看答案与解析。';
+            submitButton.style.display = 'inline-block';
+            scoreEl.style.display = 'none';
+
+            var html = '<div class="quiz-group-heading"><h3>选择题巩固</h3><span>共 ' + dayData.quiz.length + ' 题</span></div>';
             for (var i = 0; i < dayData.quiz.length; i++) {
                 var q = dayData.quiz[i];
                 var optionsHtml = '';
@@ -1117,9 +2567,204 @@ if __name__ == "__main__":
                     '</div>';
             }
             list.innerHTML = html;
-            document.getElementById('dailyScore').style.display = 'none';
         }
 
+        // 转义展示用文本
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, function(char) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[char];
+            });
+        }
+
+        function getPracticeDraftKey(planIndex) {
+            return 'study_plan_practice_' + planIndex;
+        }
+
+        function getPracticeDoneKey(planIndex) {
+            return 'study_plan_practice_done_' + planIndex;
+        }
+
+        function loadPracticeDraft(planIndex) {
+            try {
+                return localStorage.getItem(getPracticeDraftKey(planIndex));
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function updatePracticeStatus(planIndex, passed) {
+            try {
+                if (passed) {
+                    localStorage.setItem(getPracticeDoneKey(planIndex), '1');
+                } else {
+                    localStorage.removeItem(getPracticeDoneKey(planIndex));
+                }
+            } catch (error) {
+                // 浏览器禁用本地存储时，练习仍可正常检查和查看。
+            }
+
+            var status = document.getElementById('practiceStatus_' + planIndex);
+            if (status) {
+                status.classList.toggle('visible', Boolean(passed));
+            }
+        }
+
+        function savePracticeDraft(planIndex, value) {
+            try {
+                localStorage.setItem(getPracticeDraftKey(planIndex), value);
+            } catch (error) {
+                // 不阻塞编辑；仅无法跨刷新保存。
+            }
+            updatePracticeStatus(planIndex, false);
+
+            var status = document.getElementById('practiceDraftStatus_' + planIndex);
+            if (status) {
+                status.textContent = '已自动保存';
+            }
+        }
+
+        // 渲染代码练习
+        function renderPractice(planIndex) {
+            var container = document.getElementById('practiceSection');
+            var practice = practiceData[planIndex];
+
+            if (!practice) {
+                container.innerHTML = '';
+                return;
+            }
+
+            var requirementsHtml = '';
+            for (var i = 0; i < practice.requirements.length; i++) {
+                requirementsHtml += '<li>' + escapeHtml(practice.requirements[i]) + '</li>';
+            }
+
+            var isDone = false;
+            try {
+                isDone = localStorage.getItem(getPracticeDoneKey(planIndex)) === '1';
+            } catch (error) {
+                isDone = false;
+            }
+
+            container.innerHTML = '<section class="practice-card" id="practiceCard_' + planIndex + '">' +
+                '<div class="practice-card-header">' +
+                    '<div><span class="practice-eyebrow">DAILY CODE PRACTICE</span>' +
+                    '<h3 class="practice-title">' + escapeHtml(practice.title) + '</h3></div>' +
+                    '<div><span class="practice-language-tag">' + escapeHtml(practice.language) + '</span>' +
+                    '<span class="practice-status' + (isDone ? ' visible' : '') + '" id="practiceStatus_' + planIndex + '">已通过检查</span></div>' +
+                '</div>' +
+                '<p class="practice-prompt">' + escapeHtml(practice.prompt) + '</p>' +
+                '<div class="practice-requirements"><strong>验收要求</strong><ul>' + requirementsHtml + '</ul></div>' +
+                '<div class="practice-editor-label"><label for="practiceCode_' + planIndex + '">代码编辑器</label>' +
+                    '<span class="practice-draft-status" id="practiceDraftStatus_' + planIndex + '">草稿自动保存在本机</span></div>' +
+                '<textarea class="practice-editor" id="practiceCode_' + planIndex + '" spellcheck="false" aria-label="练习代码编辑器"></textarea>' +
+                '<div class="practice-actions">' +
+                    '<button class="practice-btn primary" type="button" id="practiceCheck_' + planIndex + '">检查代码</button>' +
+                    '<button class="practice-btn" type="button" id="practiceHintBtn_' + planIndex + '">查看提示</button>' +
+                    '<button class="practice-btn" type="button" id="practiceSolutionBtn_' + planIndex + '">查看参考答案</button>' +
+                '</div>' +
+                '<div class="practice-panel" id="practiceHint_' + planIndex + '" hidden>' +
+                    '<strong>提示：</strong><span id="practiceHintText_' + planIndex + '"></span></div>' +
+                '<div class="practice-panel solution" id="practiceSolution_' + planIndex + '" hidden>' +
+                    '<strong>参考答案（请先独立尝试）</strong>' +
+                    '<pre class="practice-solution-code"><code id="practiceSolutionCode_' + planIndex + '"></code></pre></div>' +
+                '<div class="practice-results" id="practiceResults_' + planIndex + '" hidden aria-live="polite"></div>' +
+                '</section>';
+
+            var editor = document.getElementById('practiceCode_' + planIndex);
+            var draft = loadPracticeDraft(planIndex);
+            editor.value = draft === null ? practice.starter : draft;
+            editor.addEventListener('input', function() {
+                savePracticeDraft(planIndex, editor.value);
+            });
+            editor.addEventListener('keydown', function(event) {
+                if (event.key !== 'Tab') return;
+                event.preventDefault();
+                var start = editor.selectionStart;
+                var end = editor.selectionEnd;
+                editor.value = editor.value.substring(0, start) + '    ' + editor.value.substring(end);
+                editor.selectionStart = editor.selectionEnd = start + 4;
+                savePracticeDraft(planIndex, editor.value);
+            });
+            document.getElementById('practiceHintText_' + planIndex).textContent = practice.hint;
+            document.getElementById('practiceSolutionCode_' + planIndex).textContent = practice.solution;
+            document.getElementById('practiceCheck_' + planIndex).addEventListener('click', function() {
+                checkPractice(planIndex);
+            });
+            document.getElementById('practiceHintBtn_' + planIndex).addEventListener('click', function() {
+                togglePracticeHint(planIndex);
+            });
+            document.getElementById('practiceSolutionBtn_' + planIndex).addEventListener('click', function() {
+                togglePracticeSolution(planIndex);
+            });
+        }
+
+        // 在浏览器本地检查关键要求
+        function checkPractice(planIndex) {
+            var practice = practiceData[planIndex];
+            var editor = document.getElementById('practiceCode_' + planIndex);
+            var resultsEl = document.getElementById('practiceResults_' + planIndex);
+            if (!practice || !editor || !resultsEl) return;
+
+            var code = editor.value;
+            if (!code.trim()) {
+                resultsEl.hidden = false;
+                resultsEl.innerHTML = '<div class="practice-check-summary warning">请先写下代码，再进行检查。</div>';
+                editor.focus();
+                return;
+            }
+
+            var passedCount = 0;
+            var rulesHtml = '';
+            for (var i = 0; i < practice.rules.length; i++) {
+                var currentRule = practice.rules[i];
+                var passed = false;
+                try {
+                    passed = Boolean(currentRule.test(code));
+                } catch (error) {
+                    passed = false;
+                }
+                if (passed) passedCount++;
+                rulesHtml += '<li class="practice-rule ' + (passed ? 'pass' : 'fail') + '">' +
+                    '<span aria-hidden="true">' + (passed ? '✅' : '❌') + '</span>' +
+                    '<span>' + escapeHtml(currentRule.label) + '</span></li>';
+            }
+
+            var allPassed = passedCount === practice.rules.length;
+            var summary = allPassed
+                ? '通过全部 ' + practice.rules.length + ' 项关键检查，做得不错！'
+                : '通过 ' + passedCount + ' / ' + practice.rules.length + ' 项，请根据未通过项继续完善。';
+            var summaryClass = allPassed ? 'success' : 'warning';
+
+            resultsEl.hidden = false;
+            resultsEl.innerHTML = '<div class="practice-check-summary ' + summaryClass + '">' +
+                (allPassed ? '🎉 ' : '🔎 ') + escapeHtml(summary) + '</div>' +
+                '<ul class="practice-rule-list">' + rulesHtml + '</ul>' +
+                '<p class="practice-note">这是基于关键代码结构的本地检查，帮助你定位缺口，不替代运行测试和人工代码审查。</p>';
+
+            updatePracticeStatus(planIndex, allPassed);
+        }
+
+        function togglePracticeHint(planIndex) {
+            var panel = document.getElementById('practiceHint_' + planIndex);
+            var button = document.getElementById('practiceHintBtn_' + planIndex);
+            if (!panel || !button) return;
+            panel.hidden = !panel.hidden;
+            button.textContent = panel.hidden ? '查看提示' : '收起提示';
+        }
+
+        function togglePracticeSolution(planIndex) {
+            var panel = document.getElementById('practiceSolution_' + planIndex);
+            var button = document.getElementById('practiceSolutionBtn_' + planIndex);
+            if (!panel || !button) return;
+            panel.hidden = !panel.hidden;
+            button.textContent = panel.hidden ? '查看参考答案' : '收起参考答案';
+        }
         // 渲染每周大测
         function renderWeeklyQuiz() {
             var dayIndex = getCurrentDayIndex();
@@ -1157,6 +2802,8 @@ if __name__ == "__main__":
             var dayIndex = getCurrentDayIndex();
             var dayData = planData[dayIndex % planData.length];
             var correct = 0;
+
+            if (!dayData.quiz || dayData.quiz.length === 0) return;
 
             for (var i = 0; i < dayData.quiz.length; i++) {
                 var selected = document.querySelector('input[name="daily_' + dayIndex + '_' + i + '"]:checked');
