@@ -64,8 +64,8 @@
         .checkin-calendar {
             position: relative;
             z-index: 1;
-            flex: 0 0 280px;
-            padding: 15px;
+            flex: 0 0 330px;
+            padding: 14px;
             border: 1px solid rgba(255, 255, 255, 0.24);
             border-radius: 14px;
             background: rgba(255, 255, 255, 0.14);
@@ -76,54 +76,145 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 8px;
-            font-size: 12px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
-        .calendar-month { font-weight: 700; letter-spacing: 0.03em; }
-        .calendar-weekday {
-            padding: 2px 8px;
+        .calendar-month-title {
+            flex: 1;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-align: center;
+        }
+        .calendar-month-nav,
+        .calendar-today-btn {
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .calendar-month-nav {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-size: 18px;
+            line-height: 1;
+        }
+        .calendar-today-btn {
+            padding: 3px 7px;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.14);
-            color: rgba(255, 255, 255, 0.88);
+            font-size: 10px;
+            white-space: nowrap;
         }
-        .calendar-date-row {
+        .calendar-month-nav:hover,
+        .calendar-today-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .calendar-weekdays,
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+        }
+        .calendar-weekdays {
+            gap: 3px;
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 9px;
+            text-align: center;
+        }
+        .calendar-grid {
+            gap: 3px;
+            min-height: 180px;
+        }
+        .calendar-day-empty { min-height: 28px; }
+        .calendar-day-btn {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 12px;
+            justify-content: center;
+            min-width: 0;
+            min-height: 28px;
+            border: 1px solid transparent;
+            border-radius: 7px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.88);
+            cursor: pointer;
+            font: inherit;
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+            transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+        }
+        .calendar-day-btn:hover { background: rgba(255, 255, 255, 0.14); }
+        .calendar-day-btn.is-today { border-color: rgba(255, 255, 255, 0.7); }
+        .calendar-day-btn.is-selected {
+            border-color: #ffffff;
+            background: #ffffff;
+            color: #5365bd;
+            font-weight: 700;
+        }
+        .calendar-day-check {
+            position: absolute;
+            right: 2px;
+            bottom: 0;
+            color: #d8ffcb;
+            font-size: 8px;
+            font-weight: 700;
+            opacity: 0;
+        }
+        .calendar-day-btn.has-checkin .calendar-day-check { opacity: 1; }
+        .calendar-day-btn.is-selected .calendar-day-check { color: #5ca647; }
+        .calendar-selection {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .calendar-selected-date {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
         }
         .calendar-day {
             color: #ffffff;
-            font-size: 52px;
+            font-size: 38px;
             font-weight: 700;
             line-height: 0.95;
             letter-spacing: -0.05em;
             font-variant-numeric: tabular-nums;
         }
-        .calendar-meta {
+        .calendar-selected-meta,
+        .calendar-clock {
             display: flex;
             flex-direction: column;
-            gap: 1px;
-            color: rgba(255, 255, 255, 0.74);
-            font-size: 11px;
+            line-height: 1.25;
         }
+        .calendar-selected-meta {
+            color: rgba(255, 255, 255, 0.74);
+            font-size: 10px;
+        }
+        .calendar-selected-weekday { color: #ffffff; font-size: 12px; font-weight: 600; }
+        .calendar-clock { align-items: flex-end; }
         .calendar-time {
             color: #ffffff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            line-height: 1.3;
             font-variant-numeric: tabular-nums;
         }
+        .calendar-clock span:last-child { color: rgba(255, 255, 255, 0.58); font-size: 9px; }
         .checkin-btn {
             width: 100%;
+            margin-top: 10px;
             padding: 8px 12px;
             border: 1px solid rgba(255, 255, 255, 0.82);
             border-radius: 8px;
             background: #ffffff;
             color: #5365bd;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             transition: transform 0.15s ease, background 0.15s ease;
         }
@@ -131,6 +222,7 @@
             background: #f3f5ff;
             transform: translateY(-1px);
         }
+        .checkin-btn:disabled,
         .checkin-btn.done {
             border-color: rgba(255, 255, 255, 0.24);
             background: rgba(255, 255, 255, 0.14);
@@ -138,35 +230,35 @@
             cursor: default;
         }
         .checkin-time {
-            min-height: 18px;
-            margin-top: 7px;
+            min-height: 17px;
+            margin-top: 6px;
             color: rgba(255, 255, 255, 0.87);
-            font-size: 11px;
+            font-size: 10px;
             text-align: center;
         }
         .checkin-history-toggle {
             display: block;
-            margin: 7px auto 0;
+            margin: 5px auto 0;
             padding: 2px 5px;
             border: 0;
             background: transparent;
             color: rgba(255, 255, 255, 0.76);
             cursor: pointer;
-            font-size: 11px;
+            font-size: 10px;
             text-decoration: underline;
             text-underline-offset: 3px;
         }
         .checkin-history-toggle:hover { color: #ffffff; }
         .checkin-history {
-            margin-top: 9px;
-            padding-top: 9px;
+            margin-top: 7px;
+            padding-top: 7px;
             border-top: 1px solid rgba(255, 255, 255, 0.18);
         }
         .checkin-history[hidden] { display: none; }
         .checkin-record-list {
             display: grid;
-            gap: 6px;
-            max-height: 132px;
+            gap: 5px;
+            max-height: 126px;
             margin: 0;
             padding: 0 3px 0 0;
             overflow-y: auto;
@@ -177,25 +269,120 @@
             align-items: center;
             justify-content: space-between;
             gap: 8px;
-            padding: 6px 8px;
+            padding: 5px 7px;
             border-radius: 6px;
             background: rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.92);
-            font-size: 11px;
+            font-size: 10px;
         }
-        .checkin-record-date { font-weight: 600; }
+        .checkin-record-date { display: flex; align-items: center; gap: 5px; font-weight: 600; }
         .checkin-record-time { font-variant-numeric: tabular-nums; }
+        .checkin-record-badge {
+            padding: 0 4px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 8px;
+            font-weight: 400;
+        }
         .checkin-history-empty {
             color: rgba(255, 255, 255, 0.68);
-            font-size: 11px;
-            text-align: center;
-        }
-        .checkin-note {
-            margin-top: 7px;
-            color: rgba(255, 255, 255, 0.56);
             font-size: 10px;
             text-align: center;
         }
+        .github-sync {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .github-status {
+            min-width: 0;
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 9px;
+            line-height: 1.4;
+        }
+        .github-status.success { color: #dcffd2; }
+        .github-status.error { color: #ffe0df; }
+        .github-sync-btn {
+            flex: 0 0 auto;
+            padding: 4px 7px;
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 9px;
+        }
+        .github-sync-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .checkin-note {
+            margin-top: 6px;
+            color: rgba(255, 255, 255, 0.48);
+            font-size: 9px;
+            text-align: center;
+        }
+        .github-dialog {
+            width: min(440px, calc(100vw - 28px));
+            padding: 0;
+            border: 0;
+            border-radius: 14px;
+            color: #303133;
+            box-shadow: 0 24px 70px rgba(27, 22, 61, 0.35);
+        }
+        .github-dialog::backdrop { background: rgba(24, 20, 47, 0.62); backdrop-filter: blur(3px); }
+        .github-dialog-body { position: relative; padding: 24px; }
+        .github-dialog h2 { margin-bottom: 8px; color: #303133; font-size: 20px; }
+        .github-dialog p { color: #6b7280; font-size: 13px; }
+        .github-dialog-close {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            width: 30px;
+            height: 30px;
+            border: 0;
+            border-radius: 50%;
+            background: #f2f3f7;
+            color: #606266;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .github-auth-help {
+            margin: 14px 0;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f5f7ff;
+        }
+        .github-auth-help a { color: #5365bd; font-weight: 700; }
+        .github-field-label { display: block; margin: 12px 0 6px; color: #4b5563; font-size: 12px; font-weight: 600; }
+        .github-token-input {
+            width: 100%;
+            padding: 9px 11px;
+            border: 1px solid #d7dbe7;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .github-token-input:focus { outline: 2px solid rgba(102, 126, 234, 0.25); border-color: #667eea; }
+        .github-primary-btn,
+        .github-secondary-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 9px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .github-primary-btn { border: 0; background: #667eea; color: #ffffff; }
+        .github-primary-btn:disabled { cursor: wait; opacity: 0.65; }
+        .github-secondary-btn { border: 1px solid #d7dbe7; background: #ffffff; color: #4b5563; }
+        .github-dialog-error { min-height: 18px; margin-top: 8px; color: #c45656; font-size: 12px; }
+        .github-privacy-note { margin-top: 10px; font-size: 11px !important; }
+        .github-connected-user { margin: 14px 0; padding: 12px; border-radius: 8px; background: #f7f8fa; color: #303133; }
+        .github-connected-user strong { color: #5365bd; }
+        .github-gist-link { display: inline-block; margin-top: 6px; color: #5365bd; font-size: 12px; font-weight: 600; }
         .tabs {
             display: flex;
             gap: 4px;
@@ -590,6 +777,16 @@
             font-size: 14px;
         }
         .quiz-empty .practice-btn { margin-top: 10px; }
+        @media (max-width: 820px) {
+            .header {
+                display: block;
+                padding: 20px;
+            }
+            .checkin-calendar {
+                width: 100%;
+                margin-top: 18px;
+            }
+        }
         @media (max-width: 640px) {
             body { padding: 12px; }
             .panel { padding: 16px; }
@@ -606,16 +803,10 @@
             .practice-actions .practice-btn { flex: 1 1 auto; }
             .quiz-group-heading { display: block; }
             .quiz-group-heading span { display: block; margin-top: 2px; }
-            .header {
-                display: block;
-                padding: 20px;
-            }
             .header h1 { font-size: 20px; }
-            .checkin-calendar {
-                width: 100%;
-                margin-top: 18px;
-            }
-            .calendar-date-row { justify-content: flex-start; }
+            .checkin-calendar { padding: 12px; }
+            .calendar-day-btn { min-height: 31px; }
+            .github-dialog-body { padding: 20px; }
         }
     </style>
 </head>
@@ -629,18 +820,29 @@
         </div>
         <section class="checkin-calendar" aria-label="实际打卡日历">
             <div class="calendar-heading">
-                <span class="calendar-month" id="actualMonth">本月</span>
-                <span class="calendar-weekday" id="actualWeekday">星期</span>
+                <button class="calendar-month-nav" type="button" aria-label="上个月" onclick="changeCheckinMonth(-1)">‹</button>
+                <div class="calendar-month-title" id="actualMonth">本月</div>
+                <button class="calendar-today-btn" type="button" onclick="selectTodayForCheckin()">回到今天</button>
+                <button class="calendar-month-nav" type="button" aria-label="下个月" onclick="changeCheckinMonth(1)">›</button>
             </div>
-            <div class="calendar-date-row">
-                <div class="calendar-day" id="actualDay">--</div>
-                <div class="calendar-meta">
-                    <span id="actualYear">----</span>
+            <div class="calendar-weekdays" aria-hidden="true">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            </div>
+            <div class="calendar-grid" id="checkinCalendarGrid" role="grid" aria-label="打卡日期选择"></div>
+            <div class="calendar-selection">
+                <div class="calendar-selected-date">
+                    <div class="calendar-day" id="actualDay">--</div>
+                    <div class="calendar-selected-meta">
+                        <span class="calendar-selected-weekday" id="actualWeekday">星期</span>
+                        <span id="actualYear">----</span>
+                    </div>
+                </div>
+                <div class="calendar-clock">
                     <span class="calendar-time" id="actualTime">--:--:--</span>
-                    <span>本机实际时间</span>
+                    <span>本机当前时间</span>
                 </div>
             </div>
-            <button class="checkin-btn" type="button" id="checkinButton" onclick="checkInToday()">今日打卡</button>
+            <button class="checkin-btn" type="button" id="checkinButton" onclick="checkInSelectedDate()">今日打卡</button>
             <div class="checkin-time" id="actualCheckin">尚未打卡</div>
             <button class="checkin-history-toggle" type="button" id="checkinHistoryToggle" aria-expanded="false" onclick="toggleCheckinHistory()">
                 <span id="checkinHistoryToggleText">查看打卡记录</span> · <span id="checkinCount">0</span>
@@ -648,10 +850,39 @@
             <div class="checkin-history" id="checkinHistory" hidden>
                 <ol class="checkin-record-list" id="checkinRecordList"></ol>
             </div>
-            <div class="checkin-note">打卡时间仅保存在此浏览器的本地记录中</div>
+            <div class="github-sync">
+                <span class="github-status" id="githubSyncStatus">记录仅保存在本地</span>
+                <button class="github-sync-btn" type="button" id="githubConnectButton" onclick="openGithubDialog()">连接 GitHub</button>
+            </div>
+            <div class="checkin-note">每台设备本地优先；连接 GitHub 后按账号保存到个人 Gist</div>
         </section>
     </div>
 
+    <dialog class="github-dialog" id="githubDialog" aria-labelledby="githubDialogTitle">
+        <div class="github-dialog-body">
+            <button class="github-dialog-close" type="button" aria-label="关闭" onclick="closeGithubDialog()">×</button>
+            <h2 id="githubDialogTitle">保存到 GitHub</h2>
+            <div id="githubAuthView">
+                <p>连接你的 GitHub 账号后，打卡记录会保存到该账号名下的私人 Gist；不同账号的数据彼此独立。</p>
+                <div class="github-auth-help">
+                    <p>需要创建一个仅勾选 <strong>gist</strong> 权限的 Classic Token：</p>
+                    <a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=AI%20Engineer%20Plan%20Check-ins" target="_blank" rel="noopener noreferrer">前往 GitHub 创建 Token</a>
+                </div>
+                <label class="github-field-label" for="githubTokenInput">GitHub Token</label>
+                <input class="github-token-input" id="githubTokenInput" type="password" autocomplete="off" placeholder="ghp_... 或 github_pat_...">
+                <div class="github-dialog-error" id="githubDialogError"></div>
+                <button class="github-primary-btn" id="githubConnectSubmit" type="button" onclick="connectGithubAccount()">连接并同步</button>
+                <p class="github-privacy-note">Token 只保存在当前标签页的会话存储中，关闭标签页后自动清除，不会写入网页或仓库。</p>
+            </div>
+            <div id="githubConnectedView" hidden>
+                <div class="github-connected-user">已连接 <strong id="githubUserLabel">@GitHub</strong><br><span id="githubGistSummary">正在读取 Gist 信息...</span></div>
+                <a class="github-gist-link" id="githubGistLink" href="#" target="_blank" rel="noopener noreferrer" hidden>打开我的打卡 Gist ↗</a>
+                <button class="github-primary-btn" type="button" onclick="syncCheckinsWithGithub(false)">立即同步</button>
+                <button class="github-secondary-btn" type="button" onclick="disconnectGithubAccount()">断开连接</button>
+                <p class="github-privacy-note">断开只清除当前会话授权，不会删除已经保存到 GitHub 的记录。</p>
+            </div>
+        </div>
+    </dialog>
     <div class="date-nav">
         <button onclick="prevDay()">← 上一天</button>
         <span id="dayLabel">第 1 天</span>
@@ -695,8 +926,17 @@
         // 配置：学习开始日期与实际打卡记录
         var START_DATE = new Date('2026-10-24');
         var currentDayOffset = 0;
-        var CHECKIN_STORAGE_KEY = 'study_plan_checkin_records_v1';
+        var CHECKIN_STORAGE_KEY = 'study_plan_checkin_records_v2';
+        var LEGACY_CHECKIN_STORAGE_KEY = 'study_plan_checkin_records_v1';
+        var GITHUB_TOKEN_SESSION_KEY = 'study_plan_github_token_v1';
+        var GITHUB_PROFILE_STORAGE_KEY = 'study_plan_github_profile_v1';
+        var GITHUB_GIST_FILENAME = 'ai-engineer-plan-checkins.json';
         var lastCheckinRenderDate = '';
+        var calendarViewYear = 0;
+        var calendarViewMonth = 0;
+        var selectedCheckinDate = '';
+        var githubProfile = null;
+        var githubSyncing = false;
 
         // 完整学习计划数据
         var planData = [
@@ -2609,8 +2849,15 @@ pytest
             renderQuiz();
             renderWeeklyQuiz();
             loadProgress();
+            var initialCheckinDate = new Date();
+            calendarViewYear = initialCheckinDate.getFullYear();
+            calendarViewMonth = initialCheckinDate.getMonth();
+            selectedCheckinDate = getLocalDateKey(initialCheckinDate);
+            githubProfile = loadGithubProfile();
             updateActualClock();
             renderCheckinPanel();
+            renderGithubControls();
+            restoreGithubSession();
             setInterval(updateActualClock, 1000);
         }
 
@@ -2636,7 +2883,7 @@ pytest
             document.getElementById('dayLabel').textContent = '第 ' + (dayIndex + 1) + ' 天';
         }
 
-        // 实际日期与打卡记录
+        // 实际日期、日历选择与打卡记录
         function padNumber(value) {
             return String(value).padStart(2, '0');
         }
@@ -2649,127 +2896,333 @@ pytest
             return padNumber(date.getHours()) + ':' + padNumber(date.getMinutes()) + ':' + padNumber(date.getSeconds());
         }
 
-        function loadCheckinRecords() {
+        function parseLocalDateKey(dateKey) {
+            var parts = String(dateKey || '').split('-');
+            if (parts.length !== 3) return null;
+            var parsed = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            return isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function normalizeCheckinRecord(item) {
+            if (!item) return null;
+            var checkinDate = item.checkinDate || item.localDate || item.date || '';
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(checkinDate)) return null;
+
+            var checkedInAt = item.checkedInAt || item.actualTimestamp || '';
+            var checkedInDate = checkedInAt ? new Date(checkedInAt) : null;
+            var checkedInLocalDate = item.checkedInLocalDate || '';
+            var checkedInLocalTime = item.checkedInLocalTime || item.localTime || item.time || '';
+
+            if ((!checkedInLocalDate || !checkedInLocalTime) && checkedInDate && !isNaN(checkedInDate.getTime())) {
+                checkedInLocalDate = checkedInLocalDate || getLocalDateKey(checkedInDate);
+                checkedInLocalTime = checkedInLocalTime || formatLocalClock(checkedInDate);
+            }
+            if (!checkedInAt) {
+                checkedInDate = new Date();
+                checkedInAt = checkedInDate.toISOString();
+                checkedInLocalDate = checkedInLocalDate || getLocalDateKey(checkedInDate);
+                checkedInLocalTime = checkedInLocalTime || formatLocalClock(checkedInDate);
+            }
+
+            return {
+                id: item.id || 'checkin_' + checkinDate + '_' + String(checkedInAt).replace(/[^0-9]/g, ''),
+                checkinDate: checkinDate,
+                checkedInAt: checkedInAt,
+                checkedInLocalDate: checkedInLocalDate,
+                checkedInLocalTime: checkedInLocalTime,
+                timeZone: item.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local'
+            };
+        }
+
+        function dedupeCheckinRecords(records) {
+            var byDate = {};
+            (records || []).forEach(function(item) {
+                var record = normalizeCheckinRecord(item);
+                if (!record) return;
+                var existing = byDate[record.checkinDate];
+                if (!existing || String(record.checkedInAt) < String(existing.checkedInAt)) {
+                    byDate[record.checkinDate] = record;
+                }
+            });
+            return Object.keys(byDate).map(function(dateKey) {
+                return byDate[dateKey];
+            }).sort(function(a, b) {
+                return b.checkinDate.localeCompare(a.checkinDate);
+            });
+        }
+
+        function normalizeCheckinStorageOwner(owner) {
+            return String(owner || '').trim().toLowerCase() || 'local';
+        }
+
+        function getCheckinStorageOwner() {
+            return normalizeCheckinStorageOwner(githubProfile && githubProfile.login);
+        }
+
+        function getScopedCheckinStorageKey(owner) {
+            var storageOwner = owner === undefined ? getCheckinStorageOwner() : normalizeCheckinStorageOwner(owner);
+            return CHECKIN_STORAGE_KEY + ':owner:' + encodeURIComponent(storageOwner);
+        }
+
+        function loadCheckinRecordsForOwner(owner) {
+            var storageOwner = normalizeCheckinStorageOwner(owner);
             try {
-                var parsed = JSON.parse(localStorage.getItem(CHECKIN_STORAGE_KEY) || '[]');
+                var scopedKey = getScopedCheckinStorageKey(storageOwner);
+                var stored = localStorage.getItem(scopedKey);
+                var needsMigration = false;
+                if (!stored && storageOwner === 'local') {
+                    stored = localStorage.getItem(CHECKIN_STORAGE_KEY) || localStorage.getItem(LEGACY_CHECKIN_STORAGE_KEY);
+                    needsMigration = Boolean(stored);
+                }
+                var parsed = JSON.parse(stored || '[]');
                 if (!Array.isArray(parsed)) return [];
-                return parsed.filter(function(item) {
-                    return item && (item.localDate || item.date) && (item.localTime || item.time);
-                });
+                var normalized = dedupeCheckinRecords(parsed);
+                if (needsMigration) saveCheckinRecordsForOwner(normalized, 'local');
+                return normalized;
             } catch (error) {
                 return [];
             }
         }
 
-        function saveCheckinRecords(records) {
+        function saveCheckinRecordsForOwner(records, owner) {
+            var storageOwner = normalizeCheckinStorageOwner(owner);
             try {
-                localStorage.setItem(CHECKIN_STORAGE_KEY, JSON.stringify(records));
+                localStorage.setItem(getScopedCheckinStorageKey(storageOwner), JSON.stringify(dedupeCheckinRecords(records)));
+                if (storageOwner === 'local') {
+                    localStorage.removeItem(CHECKIN_STORAGE_KEY);
+                    localStorage.removeItem(LEGACY_CHECKIN_STORAGE_KEY);
+                }
                 return true;
             } catch (error) {
                 return false;
             }
         }
 
-        function renderCheckinPanel() {
+        function loadCheckinRecords() {
+            return loadCheckinRecordsForOwner(getCheckinStorageOwner());
+        }
+
+        function saveCheckinRecords(records) {
+            return saveCheckinRecordsForOwner(records, getCheckinStorageOwner());
+        }
+
+        function clearLocalCheckinRecords() {
+            try {
+                localStorage.removeItem(getScopedCheckinStorageKey('local'));
+                localStorage.removeItem(CHECKIN_STORAGE_KEY);
+                localStorage.removeItem(LEGACY_CHECKIN_STORAGE_KEY);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function getCheckinRecordForDate(records, dateKey) {
+            for (var i = 0; i < records.length; i++) {
+                if (records[i].checkinDate === dateKey) return records[i];
+            }
+            return null;
+        }
+
+        function renderCheckinCalendar() {
+            var grid = document.getElementById('checkinCalendarGrid');
+            var monthTitle = document.getElementById('actualMonth');
+            if (!grid || !monthTitle) return;
+
             var now = new Date();
             var todayKey = getLocalDateKey(now);
-            var records = loadCheckinRecords().sort(function(a, b) {
-                return String(b.actualTimestamp || b.localDate || '').localeCompare(String(a.actualTimestamp || a.localDate || ''));
-            });
-            var todayRecord = null;
+            var records = dedupeCheckinRecords(loadCheckinRecords());
+            var checkedDates = {};
+            records.forEach(function(record) { checkedDates[record.checkinDate] = true; });
 
-            for (var i = 0; i < records.length; i++) {
-                var recordDate = records[i].localDate || records[i].date;
-                if (recordDate === todayKey) {
-                    todayRecord = records[i];
-                    break;
+            monthTitle.textContent = calendarViewYear + '年' + (calendarViewMonth + 1) + '月';
+            var firstWeekday = new Date(calendarViewYear, calendarViewMonth, 1).getDay();
+            var daysInMonth = new Date(calendarViewYear, calendarViewMonth + 1, 0).getDate();
+            var html = '';
+
+            for (var cell = 0; cell < 42; cell++) {
+                var dayNumber = cell - firstWeekday + 1;
+                if (dayNumber < 1 || dayNumber > daysInMonth) {
+                    html += '<span class="calendar-day-empty" aria-hidden="true"></span>';
+                    continue;
+                }
+
+                var dateKey = calendarViewYear + '-' + padNumber(calendarViewMonth + 1) + '-' + padNumber(dayNumber);
+                var classes = ['calendar-day-btn'];
+                if (dateKey === todayKey) classes.push('is-today');
+                if (dateKey === selectedCheckinDate) classes.push('is-selected');
+                if (checkedDates[dateKey]) classes.push('has-checkin');
+                var statusText = checkedDates[dateKey] ? '，已打卡' : '';
+                html += '<button class="' + classes.join(' ') + '" type="button" data-date="' + dateKey + '" ' +
+                    'aria-label="' + dateKey + statusText + '" aria-selected="' + (dateKey === selectedCheckinDate ? 'true' : 'false') + '">' +
+                    '<span class="calendar-day-number">' + dayNumber + '</span>' +
+                    '<span class="calendar-day-check" aria-hidden="true">✓</span>' +
+                    '</button>';
+            }
+
+            grid.innerHTML = html;
+            var buttons = grid.querySelectorAll('.calendar-day-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', function() {
+                    selectCheckinDate(this.getAttribute('data-date'));
+                });
+            }
+        }
+
+        function renderSelectedCheckinState() {
+            var records = loadCheckinRecords();
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            var todayKey = getLocalDateKey(today);
+            var selected = parseLocalDateKey(selectedCheckinDate) || new Date();
+            selected.setHours(0, 0, 0, 0);
+            var selectedKey = getLocalDateKey(selected);
+            var record = getCheckinRecordForDate(records, selectedKey);
+            var isFuture = selected.getTime() > today.getTime();
+            var isToday = selectedKey === todayKey;
+
+            document.getElementById('actualDay').textContent = padNumber(selected.getDate());
+            document.getElementById('actualWeekday').textContent = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][selected.getDay()];
+            document.getElementById('actualYear').textContent = selected.getFullYear();
+
+            var button = document.getElementById('checkinButton');
+            if (button) {
+                button.disabled = Boolean(record) || isFuture;
+                button.classList.toggle('done', Boolean(record));
+                if (isFuture) {
+                    button.textContent = '未来日期不可打卡';
+                } else if (record) {
+                    button.textContent = isToday ? '今日已打卡' : '该日已打卡';
+                } else {
+                    button.textContent = isToday ? '今日打卡' : '补打卡 · ' + (selected.getMonth() + 1) + '月' + selected.getDate() + '日';
                 }
             }
 
-            var button = document.getElementById('checkinButton');
             var actualCheckin = document.getElementById('actualCheckin');
+            if (actualCheckin) {
+                if (record) {
+                    var isBackfill = record.checkedInLocalDate && record.checkedInLocalDate !== record.checkinDate;
+                    actualCheckin.textContent = '实际打卡：' + record.checkedInLocalDate + ' ' + record.checkedInLocalTime + (isBackfill ? '（补记）' : '');
+                    actualCheckin.title = '所选日期：' + record.checkinDate + '；实际记录时间：' + record.checkedInLocalDate + ' ' + record.checkedInLocalTime;
+                } else {
+                    actualCheckin.textContent = isFuture ? '请选择今天或更早的日期' : (isToday ? '今日尚未打卡' : '该日期尚未打卡');
+                    actualCheckin.removeAttribute('title');
+                }
+            }
+
             var summary = document.getElementById('checkinSummary');
+            var todayRecord = getCheckinRecordForDate(records, todayKey);
+            if (summary) {
+                summary.classList.toggle('success', Boolean(todayRecord));
+                summary.textContent = todayRecord
+                    ? '今日已打卡 ' + todayRecord.checkedInLocalTime + ' · 其它日期可在日历中补记'
+                    : '本机时间 · 今日尚未打卡，可在日历中选择日期';
+            }
+        }
+
+        function renderCheckinHistory() {
+            var records = dedupeCheckinRecords(loadCheckinRecords());
             var count = document.getElementById('checkinCount');
             var recordList = document.getElementById('checkinRecordList');
             var toggleText = document.getElementById('checkinHistoryToggleText');
             var historyPanel = document.getElementById('checkinHistory');
+            var historyToggle = document.getElementById('checkinHistoryToggle');
 
-            lastCheckinRenderDate = todayKey;
-            if (button) {
-                button.disabled = Boolean(todayRecord);
-                button.classList.toggle('done', Boolean(todayRecord));
-                button.textContent = todayRecord ? '今日已打卡' : '今日打卡';
-            }
-            if (actualCheckin) {
-                actualCheckin.textContent = todayRecord
-                    ? '实际打卡时间：' + (todayRecord.localTime || todayRecord.time)
-                    : '尚未打卡';
-            }
-            if (summary) {
-                summary.classList.toggle('success', Boolean(todayRecord));
-                summary.textContent = todayRecord
-                    ? '今日实际打卡于 ' + (todayRecord.localTime || todayRecord.time) + ' · 本机时间'
-                    : '本机时间 · 今日尚未打卡';
-            }
             if (count) count.textContent = String(records.length);
             if (toggleText && historyPanel) {
                 toggleText.textContent = historyPanel.hidden ? '查看打卡记录' : '收起打卡记录';
             }
-
-            if (recordList) {
-                if (records.length === 0) {
-                    recordList.innerHTML = '<li class="checkin-history-empty">还没有打卡记录</li>';
-                } else {
-                    var historyHtml = '';
-                    for (var j = 0; j < records.length; j++) {
-                        var item = records[j];
-                        var itemDate = item.localDate || item.date;
-                        var itemTime = item.localTime || item.time;
-                        historyHtml += '<li class="checkin-record">' +
-                            '<span class="checkin-record-date">' + escapeHtml(itemDate) + '</span>' +
-                            '<span class="checkin-record-time">' + escapeHtml(itemTime) + '</span>' +
-                            '</li>';
-                    }
-                    recordList.innerHTML = historyHtml;
-                }
+            if (historyToggle && historyPanel) {
+                historyToggle.setAttribute('aria-expanded', String(!historyPanel.hidden));
             }
+            if (!recordList) return;
+
+            if (records.length === 0) {
+                recordList.innerHTML = '<li class="checkin-history-empty">还没有打卡记录</li>';
+                return;
+            }
+
+            var historyHtml = '';
+            records.forEach(function(item) {
+                var isBackfill = item.checkedInLocalDate && item.checkedInLocalDate !== item.checkinDate;
+                historyHtml += '<li class="checkin-record" title="实际打卡：' + escapeHtml(item.checkedInLocalDate + ' ' + item.checkedInLocalTime) + '">' +
+                    '<span class="checkin-record-date">' + escapeHtml(item.checkinDate) +
+                    (isBackfill ? '<span class="checkin-record-badge">补</span>' : '') + '</span>' +
+                    '<span class="checkin-record-time">' + escapeHtml(item.checkedInLocalTime) + '</span>' +
+                    '</li>';
+            });
+            recordList.innerHTML = historyHtml;
+        }
+
+        function renderCheckinPanel() {
+            lastCheckinRenderDate = getLocalDateKey(new Date());
+            renderCheckinCalendar();
+            renderSelectedCheckinState();
+            renderCheckinHistory();
         }
 
         function updateActualClock() {
             var now = new Date();
-            var monthEl = document.getElementById('actualMonth');
-            if (!monthEl) return;
-
-            monthEl.textContent = now.getFullYear() + '年' + (now.getMonth() + 1) + '月';
-            document.getElementById('actualWeekday').textContent = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][now.getDay()];
-            document.getElementById('actualDay').textContent = padNumber(now.getDate());
-            document.getElementById('actualYear').textContent = now.getFullYear();
-            document.getElementById('actualTime').textContent = formatLocalClock(now);
+            var timeEl = document.getElementById('actualTime');
+            if (!timeEl) return;
+            timeEl.textContent = formatLocalClock(now);
 
             var todayKey = getLocalDateKey(now);
             if (todayKey !== lastCheckinRenderDate) {
+                var previousToday = lastCheckinRenderDate;
+                lastCheckinRenderDate = todayKey;
+                if (!selectedCheckinDate || selectedCheckinDate === previousToday) {
+                    selectedCheckinDate = todayKey;
+                }
+                calendarViewYear = now.getFullYear();
+                calendarViewMonth = now.getMonth();
                 renderCheckinPanel();
             }
         }
 
-        function checkInToday() {
-            var now = new Date();
-            var todayKey = getLocalDateKey(now);
-            var records = loadCheckinRecords();
-            var alreadyCheckedIn = records.some(function(item) {
-                return (item.localDate || item.date) === todayKey;
-            });
+        function changeCheckinMonth(offset) {
+            var nextMonth = new Date(calendarViewYear, calendarViewMonth + offset, 1);
+            calendarViewYear = nextMonth.getFullYear();
+            calendarViewMonth = nextMonth.getMonth();
+            renderCheckinCalendar();
+        }
 
-            if (alreadyCheckedIn) {
+        function selectTodayForCheckin() {
+            var today = new Date();
+            calendarViewYear = today.getFullYear();
+            calendarViewMonth = today.getMonth();
+            selectedCheckinDate = getLocalDateKey(today);
+            renderCheckinPanel();
+        }
+
+        function selectCheckinDate(dateKey) {
+            var selected = parseLocalDateKey(dateKey);
+            if (!selected) return;
+            selectedCheckinDate = dateKey;
+            calendarViewYear = selected.getFullYear();
+            calendarViewMonth = selected.getMonth();
+            renderCheckinPanel();
+        }
+
+        function checkInSelectedDate() {
+            var selected = parseLocalDateKey(selectedCheckinDate);
+            if (!selected) return;
+            var now = new Date();
+            var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            if (selected.getTime() > today.getTime()) return;
+
+            var records = loadCheckinRecords();
+            if (getCheckinRecordForDate(records, selectedCheckinDate)) {
                 renderCheckinPanel();
                 return;
             }
 
             records.unshift({
                 id: 'checkin_' + now.getTime(),
-                localDate: todayKey,
-                localTime: formatLocalClock(now),
-                actualTimestamp: now.toISOString(),
+                checkinDate: selectedCheckinDate,
+                checkedInAt: now.toISOString(),
+                checkedInLocalDate: getLocalDateKey(now),
+                checkedInLocalTime: formatLocalClock(now),
                 timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local'
             });
 
@@ -2778,19 +3231,358 @@ pytest
                 return;
             }
             renderCheckinPanel();
+            if (getGithubToken() && githubProfile) syncCheckinsWithGithub(true);
         }
 
         function toggleCheckinHistory() {
             var panel = document.getElementById('checkinHistory');
             var button = document.getElementById('checkinHistoryToggle');
-            var toggleText = document.getElementById('checkinHistoryToggleText');
             if (!panel || !button) return;
-
             panel.hidden = !panel.hidden;
-            button.setAttribute('aria-expanded', String(!panel.hidden));
-            if (toggleText) {
-                toggleText.textContent = panel.hidden ? '查看打卡记录' : '收起打卡记录';
+            renderCheckinHistory();
+        }
+
+        // GitHub 账号隔离的 Gist 同步
+        function loadGithubProfile() {
+            try {
+                var parsed = JSON.parse(localStorage.getItem(GITHUB_PROFILE_STORAGE_KEY) || 'null');
+                return parsed && parsed.login ? parsed : null;
+            } catch (error) {
+                return null;
             }
+        }
+
+        function saveGithubProfile(profile) {
+            try {
+                if (profile) {
+                    localStorage.setItem(GITHUB_PROFILE_STORAGE_KEY, JSON.stringify(profile));
+                } else {
+                    localStorage.removeItem(GITHUB_PROFILE_STORAGE_KEY);
+                }
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function getGithubToken() {
+            try {
+                return sessionStorage.getItem(GITHUB_TOKEN_SESSION_KEY) || '';
+            } catch (error) {
+                return '';
+            }
+        }
+
+        function setGithubToken(token) {
+            try {
+                if (token) {
+                    sessionStorage.setItem(GITHUB_TOKEN_SESSION_KEY, token);
+                } else {
+                    sessionStorage.removeItem(GITHUB_TOKEN_SESSION_KEY);
+                }
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function setGithubStatus(message, tone) {
+            var status = document.getElementById('githubSyncStatus');
+            if (!status) return;
+            status.textContent = message;
+            status.className = 'github-status' + (tone ? ' ' + tone : '');
+        }
+
+        function renderGithubControls() {
+            var button = document.getElementById('githubConnectButton');
+            var hasSession = Boolean(getGithubToken());
+            if (hasSession && githubProfile) {
+                setGithubStatus('GitHub 已连接 · @' + githubProfile.login, 'success');
+                if (button) button.textContent = '管理同步';
+            } else if (githubProfile) {
+                setGithubStatus('上次账号 @' + githubProfile.login + ' · 等待授权', '');
+                if (button) button.textContent = '重新连接';
+            } else {
+                setGithubStatus('记录仅保存在本地', '');
+                if (button) button.textContent = '连接 GitHub';
+            }
+        }
+
+        function renderGithubDialog() {
+            var authView = document.getElementById('githubAuthView');
+            var connectedView = document.getElementById('githubConnectedView');
+            var userLabel = document.getElementById('githubUserLabel');
+            var gistSummary = document.getElementById('githubGistSummary');
+            var gistLink = document.getElementById('githubGistLink');
+            var connected = Boolean(getGithubToken() && githubProfile);
+
+            if (authView) authView.hidden = connected;
+            if (connectedView) connectedView.hidden = !connected;
+            if (connected && githubProfile) {
+                if (userLabel) userLabel.textContent = '@' + githubProfile.login;
+                if (gistSummary) {
+                    gistSummary.textContent = githubProfile.gistId
+                        ? '打卡记录按日期保存在该账号的私人 Gist 中'
+                        : '在下一次同步时会自动创建私人 Gist';
+                }
+                if (gistLink) {
+                    gistLink.hidden = !githubProfile.gistUrl;
+                    if (githubProfile.gistUrl) gistLink.href = githubProfile.gistUrl;
+                }
+            }
+        }
+
+        function openGithubDialog() {
+            var dialog = document.getElementById('githubDialog');
+            if (!dialog) return;
+            renderGithubDialog();
+            setGithubDialogError('');
+            if (!dialog.open) dialog.showModal();
+        }
+
+        function closeGithubDialog() {
+            var dialog = document.getElementById('githubDialog');
+            if (dialog && dialog.open) dialog.close();
+        }
+
+        function setGithubDialogError(message) {
+            var error = document.getElementById('githubDialogError');
+            if (error) error.textContent = message || '';
+        }
+
+        function setGithubDialogBusy(isBusy) {
+            var input = document.getElementById('githubTokenInput');
+            var button = document.getElementById('githubConnectSubmit');
+            if (input) input.disabled = isBusy;
+            if (button) {
+                button.disabled = isBusy;
+                button.textContent = isBusy ? '正在连接并同步...' : '连接并同步';
+            }
+        }
+
+        async function githubRequest(path, options, tokenOverride) {
+            var token = tokenOverride || getGithubToken();
+            var headers = {
+                'Accept': 'application/vnd.github+json',
+                'X-GitHub-Api-Version': '2022-11-28'
+            };
+            if (token) headers.Authorization = 'Bearer ' + token;
+            var requestOptions = Object.assign({}, options || {});
+            requestOptions.headers = Object.assign(headers, requestOptions.headers || {});
+
+            var response = await fetch('https://api.github.com' + path, requestOptions);
+            var responseText = await response.text();
+            var data = null;
+            try { data = responseText ? JSON.parse(responseText) : null; } catch (error) { data = null; }
+            if (!response.ok) {
+                var requestError = new Error((data && data.message) || ('GitHub API 请求失败（' + response.status + '）'));
+                requestError.status = response.status;
+                throw requestError;
+            }
+            return data;
+        }
+
+        async function findGithubGist(profile, token) {
+            if (profile && profile.gistId) {
+                try {
+                    return await githubRequest('/gists/' + encodeURIComponent(profile.gistId), {}, token);
+                } catch (error) {
+                    if (error.status !== 404) throw error;
+                }
+            }
+            var gists = await githubRequest('/gists?per_page=100', {}, token);
+            if (!Array.isArray(gists)) return null;
+            for (var i = 0; i < gists.length; i++) {
+                if (gists[i].files && gists[i].files[GITHUB_GIST_FILENAME]) return gists[i];
+            }
+            return null;
+        }
+
+        async function readGithubGistRecords(gist) {
+            if (!gist || !gist.files || !gist.files[GITHUB_GIST_FILENAME]) return [];
+            var gistFile = gist.files[GITHUB_GIST_FILENAME];
+            var content = gistFile.content || '';
+            if (gistFile.truncated && gistFile.raw_url) {
+                var rawResponse = await fetch(gistFile.raw_url);
+                if (!rawResponse.ok) throw new Error('无法读取 GitHub Gist 内容');
+                content = await rawResponse.text();
+            }
+            try {
+                var parsed = JSON.parse(content || '{}');
+                return Array.isArray(parsed) ? parsed : (Array.isArray(parsed.records) ? parsed.records : []);
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function applyGistToProfile(profile, gist) {
+            if (!gist) return profile;
+            profile.gistId = gist.id || profile.gistId || '';
+            profile.gistUrl = gist.html_url || profile.gistUrl || '';
+            profile.gistUpdatedAt = gist.updated_at || '';
+            return profile;
+        }
+
+        async function writeGithubGist(profile, records, token) {
+            var payload = {
+                schemaVersion: 1,
+                owner: profile.login,
+                updatedAt: new Date().toISOString(),
+                records: dedupeCheckinRecords(records)
+            };
+            var files = {};
+            files[GITHUB_GIST_FILENAME] = { content: JSON.stringify(payload, null, 2) };
+            var body = JSON.stringify({
+                description: 'AI Engineer Plan check-ins for @' + profile.login,
+                files: files
+            });
+            var gist;
+            if (profile.gistId) {
+                try {
+                    gist = await githubRequest('/gists/' + encodeURIComponent(profile.gistId), {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: body
+                    }, token);
+                } catch (error) {
+                    if (error.status !== 404) throw error;
+                    profile.gistId = '';
+                }
+            }
+            if (!profile.gistId) {
+                gist = await githubRequest('/gists', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        description: 'AI Engineer Plan check-ins for @' + profile.login,
+                        public: false,
+                        files: files
+                    })
+                }, token);
+            }
+            return applyGistToProfile(profile, gist);
+        }
+
+        async function connectGithubAccount() {
+            var input = document.getElementById('githubTokenInput');
+            var token = input ? input.value.trim() : '';
+            setGithubDialogError('');
+            if (!token) {
+                setGithubDialogError('请先填写 GitHub Token。');
+                return;
+            }
+
+            setGithubDialogBusy(true);
+            try {
+                var user = await githubRequest('/user', {}, token);
+                if (!user || !user.login) throw new Error('无法识别 GitHub 账号');
+
+                var previousProfile = loadGithubProfile();
+                var nextOwner = normalizeCheckinStorageOwner(user.login);
+                var sameAccount = Boolean(previousProfile && normalizeCheckinStorageOwner(previousProfile.login) === nextOwner);
+                var profile = {
+                    login: user.login,
+                    avatarUrl: user.avatar_url || '',
+                    gistId: sameAccount ? (previousProfile.gistId || '') : ''
+                };
+                var gist = await findGithubGist(profile, token);
+                var remoteRecords = gist ? await readGithubGistRecords(gist) : [];
+                var localRecords = loadCheckinRecordsForOwner('local');
+                var accountRecords = sameAccount ? loadCheckinRecordsForOwner(nextOwner) : [];
+                var mergedRecords = dedupeCheckinRecords(localRecords.concat(accountRecords, remoteRecords));
+
+                applyGistToProfile(profile, gist);
+                profile = await writeGithubGist(profile, mergedRecords, token);
+                if (!saveCheckinRecordsForOwner(mergedRecords, nextOwner)) {
+                    throw new Error('浏览器本地存储不可用，记录已写入 GitHub 但未能保存到当前设备');
+                }
+                if (!setGithubToken(token)) throw new Error('浏览器会话存储不可用，无法安全保存授权');
+
+                githubProfile = profile;
+                saveGithubProfile(profile);
+                clearLocalCheckinRecords();
+                if (input) input.value = '';
+                renderCheckinPanel();
+                renderGithubControls();
+                renderGithubDialog();
+                setGithubStatus('已同步 ' + mergedRecords.length + ' 条记录 · @' + profile.login, 'success');
+                closeGithubDialog();
+            } catch (error) {
+                var message = error && error.message ? error.message : 'GitHub 连接失败';
+                if (error && (error.status === 401 || error.status === 403)) {
+                    message = 'Token 无效或权限不足，请确认 Classic Token 已勾选 gist 权限。';
+                }
+                setGithubDialogError(message);
+            } finally {
+                setGithubDialogBusy(false);
+            }
+        }
+
+        async function syncCheckinsWithGithub(automatic) {
+            if (githubSyncing) return false;
+            var token = getGithubToken();
+            if (!token || !githubProfile) {
+                if (!automatic) openGithubDialog();
+                return false;
+            }
+
+            githubSyncing = true;
+            setGithubStatus('正在同步到 GitHub...', '');
+            try {
+                var profile = githubProfile;
+                var storageOwner = normalizeCheckinStorageOwner(profile.login);
+                var gist = await findGithubGist(profile, token);
+                var remoteRecords = gist ? await readGithubGistRecords(gist) : [];
+                var localRecords = loadCheckinRecordsForOwner('local');
+                var accountRecords = loadCheckinRecordsForOwner(storageOwner);
+                var mergedRecords = dedupeCheckinRecords(localRecords.concat(accountRecords, remoteRecords));
+                applyGistToProfile(profile, gist);
+                profile = await writeGithubGist(profile, mergedRecords, token);
+                if (!saveCheckinRecordsForOwner(mergedRecords, storageOwner)) {
+                    throw new Error('浏览器本地存储不可用，记录已写入 GitHub 但未能保存到当前设备');
+                }
+                githubProfile = profile;
+                saveGithubProfile(profile);
+                clearLocalCheckinRecords();
+                renderCheckinPanel();
+                renderGithubControls();
+                renderGithubDialog();
+                setGithubStatus('已同步 ' + mergedRecords.length + ' 条记录 · @' + profile.login, 'success');
+                return true;
+            } catch (error) {
+                var message = error && error.message ? error.message : 'GitHub 同步失败';
+                if (error && (error.status === 401 || error.status === 403)) {
+                    message = 'GitHub 授权失效或 Token 缺少 gist 权限';
+                }
+                setGithubStatus('本地已保存 · ' + message, 'error');
+                if (!automatic) setGithubDialogError(message);
+                return false;
+            } finally {
+                githubSyncing = false;
+            }
+        }
+
+        function restoreGithubSession() {
+            var token = getGithubToken();
+            if (!token) return;
+            if (!githubProfile) {
+                setGithubToken('');
+                renderGithubControls();
+                return;
+            }
+            syncCheckinsWithGithub(true);
+        }
+
+        function disconnectGithubAccount() {
+            setGithubToken('');
+            githubProfile = null;
+            saveGithubProfile(null);
+            var input = document.getElementById('githubTokenInput');
+            if (input) input.value = '';
+            renderCheckinPanel();
+            renderGithubControls();
+            renderGithubDialog();
+            closeGithubDialog();
         }
 
         // 切换上一天/下一天
