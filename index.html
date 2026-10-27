@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23667eea'/%3E%3Cpath d='M28 50l14 14 30-32' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     <title>AI应用工程师 · 30天筑基学习计划</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,14 +17,185 @@
             margin: 0 auto;
         }
         .header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            overflow: hidden;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 24px;
             border-radius: 12px;
             margin-bottom: 20px;
         }
+        .header::after {
+            content: "";
+            position: absolute;
+            top: -80px;
+            right: 210px;
+            width: 210px;
+            height: 210px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+        .header-main {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            min-width: 0;
+        }
+        .header-eyebrow {
+            margin-bottom: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            opacity: 0.7;
+        }
         .header h1 { font-size: 22px; margin-bottom: 8px; }
         .header .date-info { font-size: 14px; opacity: 0.9; }
+        .checkin-summary {
+            margin-top: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+        }
+        .checkin-summary.success { color: #dcffd2; }
+        .checkin-calendar {
+            position: relative;
+            z-index: 1;
+            flex: 0 0 280px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.14);
+            box-shadow: 0 10px 28px rgba(36, 28, 80, 0.16);
+            backdrop-filter: blur(10px);
+        }
+        .calendar-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        .calendar-month { font-weight: 700; letter-spacing: 0.03em; }
+        .calendar-weekday {
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            color: rgba(255, 255, 255, 0.88);
+        }
+        .calendar-date-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+        .calendar-day {
+            color: #ffffff;
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            font-variant-numeric: tabular-nums;
+        }
+        .calendar-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            color: rgba(255, 255, 255, 0.74);
+            font-size: 11px;
+        }
+        .calendar-time {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.3;
+            font-variant-numeric: tabular-nums;
+        }
+        .checkin-btn {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #5365bd;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+        .checkin-btn:hover:not(:disabled) {
+            background: #f3f5ff;
+            transform: translateY(-1px);
+        }
+        .checkin-btn.done {
+            border-color: rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            cursor: default;
+        }
+        .checkin-time {
+            min-height: 18px;
+            margin-top: 7px;
+            color: rgba(255, 255, 255, 0.87);
+            font-size: 11px;
+            text-align: center;
+        }
+        .checkin-history-toggle {
+            display: block;
+            margin: 7px auto 0;
+            padding: 2px 5px;
+            border: 0;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.76);
+            cursor: pointer;
+            font-size: 11px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .checkin-history-toggle:hover { color: #ffffff; }
+        .checkin-history {
+            margin-top: 9px;
+            padding-top: 9px;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .checkin-history[hidden] { display: none; }
+        .checkin-record-list {
+            display: grid;
+            gap: 6px;
+            max-height: 132px;
+            margin: 0;
+            padding: 0 3px 0 0;
+            overflow-y: auto;
+            list-style: none;
+        }
+        .checkin-record {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 11px;
+        }
+        .checkin-record-date { font-weight: 600; }
+        .checkin-record-time { font-variant-numeric: tabular-nums; }
+        .checkin-history-empty {
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 11px;
+            text-align: center;
+        }
+        .checkin-note {
+            margin-top: 7px;
+            color: rgba(255, 255, 255, 0.56);
+            font-size: 10px;
+            text-align: center;
+        }
         .tabs {
             display: flex;
             gap: 4px;
@@ -434,13 +606,50 @@
             .practice-actions .practice-btn { flex: 1 1 auto; }
             .quiz-group-heading { display: block; }
             .quiz-group-heading span { display: block; margin-top: 2px; }
+            .header {
+                display: block;
+                padding: 20px;
+            }
+            .header h1 { font-size: 20px; }
+            .checkin-calendar {
+                width: 100%;
+                margin-top: 18px;
+            }
+            .calendar-date-row { justify-content: flex-start; }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>AI应用工程师 · 30天筑基计划</h1>
-        <div class="date-info" id="dateInfo"></div>
+        <div class="header-main">
+            <div class="header-eyebrow">AI ENGINEER LEARNING TRACKER</div>
+            <h1>AI应用工程师 · 30天筑基计划</h1>
+            <div class="date-info" id="dateInfo"></div>
+            <div class="checkin-summary" id="checkinSummary">本机时间 · 今日尚未打卡</div>
+        </div>
+        <section class="checkin-calendar" aria-label="实际打卡日历">
+            <div class="calendar-heading">
+                <span class="calendar-month" id="actualMonth">本月</span>
+                <span class="calendar-weekday" id="actualWeekday">星期</span>
+            </div>
+            <div class="calendar-date-row">
+                <div class="calendar-day" id="actualDay">--</div>
+                <div class="calendar-meta">
+                    <span id="actualYear">----</span>
+                    <span class="calendar-time" id="actualTime">--:--:--</span>
+                    <span>本机实际时间</span>
+                </div>
+            </div>
+            <button class="checkin-btn" type="button" id="checkinButton" onclick="checkInToday()">今日打卡</button>
+            <div class="checkin-time" id="actualCheckin">尚未打卡</div>
+            <button class="checkin-history-toggle" type="button" id="checkinHistoryToggle" aria-expanded="false" onclick="toggleCheckinHistory()">
+                <span id="checkinHistoryToggleText">查看打卡记录</span> · <span id="checkinCount">0</span>
+            </button>
+            <div class="checkin-history" id="checkinHistory" hidden>
+                <ol class="checkin-record-list" id="checkinRecordList"></ol>
+            </div>
+            <div class="checkin-note">打卡时间仅保存在此浏览器的本地记录中</div>
+        </section>
     </div>
 
     <div class="date-nav">
@@ -483,9 +692,11 @@
     </div>
 
     <script>
-        // 配置：学习开始日期
+        // 配置：学习开始日期与实际打卡记录
         var START_DATE = new Date('2026-10-24');
         var currentDayOffset = 0;
+        var CHECKIN_STORAGE_KEY = 'study_plan_checkin_records_v1';
+        var lastCheckinRenderDate = '';
 
         // 完整学习计划数据
         var planData = [
@@ -2398,6 +2609,9 @@ pytest
             renderQuiz();
             renderWeeklyQuiz();
             loadProgress();
+            updateActualClock();
+            renderCheckinPanel();
+            setInterval(updateActualClock, 1000);
         }
 
         // 计算当前学习日
@@ -2420,6 +2634,163 @@ pytest
             document.getElementById('dateInfo').innerHTML = 
                 date.toLocaleDateString('zh-CN') + ' · ' + dayData.title;
             document.getElementById('dayLabel').textContent = '第 ' + (dayIndex + 1) + ' 天';
+        }
+
+        // 实际日期与打卡记录
+        function padNumber(value) {
+            return String(value).padStart(2, '0');
+        }
+
+        function getLocalDateKey(date) {
+            return date.getFullYear() + '-' + padNumber(date.getMonth() + 1) + '-' + padNumber(date.getDate());
+        }
+
+        function formatLocalClock(date) {
+            return padNumber(date.getHours()) + ':' + padNumber(date.getMinutes()) + ':' + padNumber(date.getSeconds());
+        }
+
+        function loadCheckinRecords() {
+            try {
+                var parsed = JSON.parse(localStorage.getItem(CHECKIN_STORAGE_KEY) || '[]');
+                if (!Array.isArray(parsed)) return [];
+                return parsed.filter(function(item) {
+                    return item && (item.localDate || item.date) && (item.localTime || item.time);
+                });
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveCheckinRecords(records) {
+            try {
+                localStorage.setItem(CHECKIN_STORAGE_KEY, JSON.stringify(records));
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function renderCheckinPanel() {
+            var now = new Date();
+            var todayKey = getLocalDateKey(now);
+            var records = loadCheckinRecords().sort(function(a, b) {
+                return String(b.actualTimestamp || b.localDate || '').localeCompare(String(a.actualTimestamp || a.localDate || ''));
+            });
+            var todayRecord = null;
+
+            for (var i = 0; i < records.length; i++) {
+                var recordDate = records[i].localDate || records[i].date;
+                if (recordDate === todayKey) {
+                    todayRecord = records[i];
+                    break;
+                }
+            }
+
+            var button = document.getElementById('checkinButton');
+            var actualCheckin = document.getElementById('actualCheckin');
+            var summary = document.getElementById('checkinSummary');
+            var count = document.getElementById('checkinCount');
+            var recordList = document.getElementById('checkinRecordList');
+            var toggleText = document.getElementById('checkinHistoryToggleText');
+            var historyPanel = document.getElementById('checkinHistory');
+
+            lastCheckinRenderDate = todayKey;
+            if (button) {
+                button.disabled = Boolean(todayRecord);
+                button.classList.toggle('done', Boolean(todayRecord));
+                button.textContent = todayRecord ? '今日已打卡' : '今日打卡';
+            }
+            if (actualCheckin) {
+                actualCheckin.textContent = todayRecord
+                    ? '实际打卡时间：' + (todayRecord.localTime || todayRecord.time)
+                    : '尚未打卡';
+            }
+            if (summary) {
+                summary.classList.toggle('success', Boolean(todayRecord));
+                summary.textContent = todayRecord
+                    ? '今日实际打卡于 ' + (todayRecord.localTime || todayRecord.time) + ' · 本机时间'
+                    : '本机时间 · 今日尚未打卡';
+            }
+            if (count) count.textContent = String(records.length);
+            if (toggleText && historyPanel) {
+                toggleText.textContent = historyPanel.hidden ? '查看打卡记录' : '收起打卡记录';
+            }
+
+            if (recordList) {
+                if (records.length === 0) {
+                    recordList.innerHTML = '<li class="checkin-history-empty">还没有打卡记录</li>';
+                } else {
+                    var historyHtml = '';
+                    for (var j = 0; j < records.length; j++) {
+                        var item = records[j];
+                        var itemDate = item.localDate || item.date;
+                        var itemTime = item.localTime || item.time;
+                        historyHtml += '<li class="checkin-record">' +
+                            '<span class="checkin-record-date">' + escapeHtml(itemDate) + '</span>' +
+                            '<span class="checkin-record-time">' + escapeHtml(itemTime) + '</span>' +
+                            '</li>';
+                    }
+                    recordList.innerHTML = historyHtml;
+                }
+            }
+        }
+
+        function updateActualClock() {
+            var now = new Date();
+            var monthEl = document.getElementById('actualMonth');
+            if (!monthEl) return;
+
+            monthEl.textContent = now.getFullYear() + '年' + (now.getMonth() + 1) + '月';
+            document.getElementById('actualWeekday').textContent = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][now.getDay()];
+            document.getElementById('actualDay').textContent = padNumber(now.getDate());
+            document.getElementById('actualYear').textContent = now.getFullYear();
+            document.getElementById('actualTime').textContent = formatLocalClock(now);
+
+            var todayKey = getLocalDateKey(now);
+            if (todayKey !== lastCheckinRenderDate) {
+                renderCheckinPanel();
+            }
+        }
+
+        function checkInToday() {
+            var now = new Date();
+            var todayKey = getLocalDateKey(now);
+            var records = loadCheckinRecords();
+            var alreadyCheckedIn = records.some(function(item) {
+                return (item.localDate || item.date) === todayKey;
+            });
+
+            if (alreadyCheckedIn) {
+                renderCheckinPanel();
+                return;
+            }
+
+            records.unshift({
+                id: 'checkin_' + now.getTime(),
+                localDate: todayKey,
+                localTime: formatLocalClock(now),
+                actualTimestamp: now.toISOString(),
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local'
+            });
+
+            if (!saveCheckinRecords(records)) {
+                document.getElementById('checkinSummary').textContent = '打卡失败：浏览器本地存储不可用';
+                return;
+            }
+            renderCheckinPanel();
+        }
+
+        function toggleCheckinHistory() {
+            var panel = document.getElementById('checkinHistory');
+            var button = document.getElementById('checkinHistoryToggle');
+            var toggleText = document.getElementById('checkinHistoryToggleText');
+            if (!panel || !button) return;
+
+            panel.hidden = !panel.hidden;
+            button.setAttribute('aria-expanded', String(!panel.hidden));
+            if (toggleText) {
+                toggleText.textContent = panel.hidden ? '查看打卡记录' : '收起打卡记录';
+            }
         }
 
         // 切换上一天/下一天
