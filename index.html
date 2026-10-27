@@ -3087,25 +3087,28 @@ pytest
 
             var button = document.getElementById('checkinButton');
             if (button) {
-                button.disabled = Boolean(record) || isFuture;
+                button.disabled = Boolean(record);
                 button.classList.toggle('done', Boolean(record));
-                if (isFuture) {
-                    button.textContent = '未来日期不可打卡';
-                } else if (record) {
-                    button.textContent = isToday ? '今日已打卡' : '该日已打卡';
+                if (record) {
+                    button.textContent = isFuture ? '该日已提前打卡' : (isToday ? '今日已打卡' : '该日已打卡');
+                } else if (isToday) {
+                    button.textContent = '今日打卡';
+                } else if (isFuture) {
+                    button.textContent = '提前打卡 · ' + (selected.getMonth() + 1) + '月' + selected.getDate() + '日';
                 } else {
-                    button.textContent = isToday ? '今日打卡' : '补打卡 · ' + (selected.getMonth() + 1) + '月' + selected.getDate() + '日';
+                    button.textContent = '补打卡 · ' + (selected.getMonth() + 1) + '月' + selected.getDate() + '日';
                 }
             }
 
             var actualCheckin = document.getElementById('actualCheckin');
             if (actualCheckin) {
                 if (record) {
-                    var isBackfill = record.checkedInLocalDate && record.checkedInLocalDate !== record.checkinDate;
-                    actualCheckin.textContent = '实际打卡：' + record.checkedInLocalDate + ' ' + record.checkedInLocalTime + (isBackfill ? '（补记）' : '');
+                    var actualDateKey = record.checkedInLocalDate || '';
+                    var checkinKind = actualDateKey && actualDateKey > record.checkinDate ? '（补记）' : (actualDateKey && actualDateKey < record.checkinDate ? '（提前打卡）' : '');
+                    actualCheckin.textContent = '实际打卡：' + record.checkedInLocalDate + ' ' + record.checkedInLocalTime + checkinKind;
                     actualCheckin.title = '所选日期：' + record.checkinDate + '；实际记录时间：' + record.checkedInLocalDate + ' ' + record.checkedInLocalTime;
                 } else {
-                    actualCheckin.textContent = isFuture ? '请选择今天或更早的日期' : (isToday ? '今日尚未打卡' : '该日期尚未打卡');
+                    actualCheckin.textContent = isFuture ? '该日期尚未打卡，可提前打卡' : (isToday ? '今日尚未打卡' : '该日期尚未打卡');
                     actualCheckin.removeAttribute('title');
                 }
             }
@@ -3115,8 +3118,8 @@ pytest
             if (summary) {
                 summary.classList.toggle('success', Boolean(todayRecord));
                 summary.textContent = todayRecord
-                    ? '今日已打卡 ' + todayRecord.checkedInLocalTime + ' · 其它日期可在日历中补记'
-                    : '本机时间 · 今日尚未打卡，可在日历中选择日期';
+                    ? '今日已打卡 ' + todayRecord.checkedInLocalTime + ' · 过去可补记，未来可提前打卡'
+                    : '本机时间 · 今日尚未打卡，过去可补记，未来可提前打卡';
             }
         }
 
@@ -3144,10 +3147,11 @@ pytest
 
             var historyHtml = '';
             records.forEach(function(item) {
-                var isBackfill = item.checkedInLocalDate && item.checkedInLocalDate !== item.checkinDate;
+                var actualDateKey = item.checkedInLocalDate || '';
+                var recordBadge = actualDateKey > item.checkinDate ? '补' : (actualDateKey < item.checkinDate ? '提' : '');
                 historyHtml += '<li class="checkin-record" title="实际打卡：' + escapeHtml(item.checkedInLocalDate + ' ' + item.checkedInLocalTime) + '">' +
                     '<span class="checkin-record-date">' + escapeHtml(item.checkinDate) +
-                    (isBackfill ? '<span class="checkin-record-badge">补</span>' : '') + '</span>' +
+                    (recordBadge ? '<span class="checkin-record-badge">' + recordBadge + '</span>' : '') + '</span>' +
                     '<span class="checkin-record-time">' + escapeHtml(item.checkedInLocalTime) + '</span>' +
                     '</li>';
             });
@@ -3208,9 +3212,6 @@ pytest
             var selected = parseLocalDateKey(selectedCheckinDate);
             if (!selected) return;
             var now = new Date();
-            var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            if (selected.getTime() > today.getTime()) return;
-
             var records = loadCheckinRecords();
             if (getCheckinRecordForDate(records, selectedCheckinDate)) {
                 renderCheckinPanel();
@@ -3730,6 +3731,7 @@ pytest
                     '</div>';
             }
             list.innerHTML = html;
+            restoreDailyQuizCache(dayIndex, planIndex, dayData);
         }
 
         // 转义展示用文本
@@ -3753,6 +3755,10 @@ pytest
             return 'study_plan_practice_done_' + planIndex;
         }
 
+        function getPracticeCacheKey(planIndex) {
+            return 'study_plan_practice_cache_v2_' + planIndex;
+        }
+
         function loadPracticeDraft(planIndex) {
             try {
                 return localStorage.getItem(getPracticeDraftKey(planIndex));
@@ -3761,34 +3767,111 @@ pytest
             }
         }
 
-        function updatePracticeStatus(planIndex, passed) {
+        function loadPracticeCache(planIndex) {
+            var cached = readLocalJson(getPracticeCacheKey(planIndex));
+            if (cached && typeof cached.code === 'string') return cached;
+
+            var legacyDraft = loadPracticeDraft(planIndex);
+            var legacyDone = false;
             try {
-                if (passed) {
+                legacyDone = localStorage.getItem(getPracticeDoneKey(planIndex)) === '1';
+            } catch (error) {
+                legacyDone = false;
+            }
+            if (legacyDraft !== null || legacyDone) {
+                return {
+                    version: 1,
+                    code: legacyDraft === null ? '' : legacyDraft,
+                    passed: legacyDone,
+                    result: null,
+                    updatedAt: null
+                };
+            }
+            return null;
+        }
+
+        function savePracticeCache(planIndex, patch) {
+            var next = Object.assign({}, loadPracticeCache(planIndex) || {}, patch || {});
+            next.version = 1;
+            next.updatedAt = new Date().toISOString();
+            writeLocalJson(getPracticeCacheKey(planIndex), next);
+
+            try {
+                if (typeof next.code === 'string') {
+                    localStorage.setItem(getPracticeDraftKey(planIndex), next.code);
+                }
+                if (next.passed) {
                     localStorage.setItem(getPracticeDoneKey(planIndex), '1');
                 } else {
                     localStorage.removeItem(getPracticeDoneKey(planIndex));
                 }
             } catch (error) {
-                // 浏览器禁用本地存储时，练习仍可正常检查和查看。
+                // 新缓存写入失败时仍可使用旧版草稿键。
             }
+            return next;
+        }
 
+        function formatPracticeCacheTime(isoValue) {
+            if (!isoValue) return '';
+            var value = new Date(isoValue);
+            if (isNaN(value.getTime())) return '';
+            return value.toLocaleString('zh-CN', {
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+        }
+
+        function updatePracticeStatus(planIndex, passed) {
             var status = document.getElementById('practiceStatus_' + planIndex);
             if (status) {
                 status.classList.toggle('visible', Boolean(passed));
             }
         }
 
-        function savePracticeDraft(planIndex, value) {
-            try {
-                localStorage.setItem(getPracticeDraftKey(planIndex), value);
-            } catch (error) {
-                // 不阻塞编辑；仅无法跨刷新保存。
+        function renderPracticeResult(planIndex, result) {
+            var resultsEl = document.getElementById('practiceResults_' + planIndex);
+            if (!resultsEl || !result) return;
+
+            var rulesHtml = '';
+            var rules = Array.isArray(result.rules) ? result.rules : [];
+            for (var i = 0; i < rules.length; i++) {
+                rulesHtml += '<li class="practice-rule ' + (rules[i].passed ? 'pass' : 'fail') + '">' +
+                    '<span aria-hidden="true">' + (rules[i].passed ? '✅' : '❌') + '</span>' +
+                    '<span>' + escapeHtml(rules[i].label) + '</span></li>';
             }
+
+            var summary = result.summary || (result.allPassed ? '已通过检查' : '检查尚未全部通过');
+            var summaryClass = result.allPassed ? 'success' : 'warning';
+            var checkedAt = formatPracticeCacheTime(result.checkedAt);
+            resultsEl.hidden = false;
+            resultsEl.innerHTML = '<div class="practice-check-summary ' + summaryClass + '">' +
+                (result.allPassed ? '🎉 ' : '🔎 ') + escapeHtml(summary) + '</div>' +
+                (rulesHtml ? '<ul class="practice-rule-list">' + rulesHtml + '</ul>' : '') +
+                '<p class="practice-note">' +
+                (checkedAt ? '上次检查：' + escapeHtml(checkedAt) + ' · ' : '') +
+                '检查结果已缓存于本机，刷新或切换日期后可恢复；继续编辑后请重新检查。</p>';
+        }
+
+        function savePracticeDraft(planIndex, value) {
+            savePracticeCache(planIndex, {
+                code: value,
+                passed: false,
+                result: null,
+                checkedAt: null
+            });
             updatePracticeStatus(planIndex, false);
 
+            var resultsEl = document.getElementById('practiceResults_' + planIndex);
+            if (resultsEl) {
+                resultsEl.hidden = true;
+                resultsEl.innerHTML = '';
+            }
             var status = document.getElementById('practiceDraftStatus_' + planIndex);
             if (status) {
-                status.textContent = '已自动保存';
+                status.textContent = '已自动缓存 · 修改后请重新检查';
             }
         }
 
@@ -3807,12 +3890,8 @@ pytest
                 requirementsHtml += '<li>' + escapeHtml(practice.requirements[i]) + '</li>';
             }
 
-            var isDone = false;
-            try {
-                isDone = localStorage.getItem(getPracticeDoneKey(planIndex)) === '1';
-            } catch (error) {
-                isDone = false;
-            }
+            var cache = loadPracticeCache(planIndex);
+            var isDone = Boolean(cache && cache.passed);
 
             container.innerHTML = '<section class="practice-card" id="practiceCard_' + planIndex + '">' +
                 '<div class="practice-card-header">' +
@@ -3824,7 +3903,8 @@ pytest
                 '<p class="practice-prompt">' + escapeHtml(practice.prompt) + '</p>' +
                 '<div class="practice-requirements"><strong>验收要求</strong><ul>' + requirementsHtml + '</ul></div>' +
                 '<div class="practice-editor-label"><label for="practiceCode_' + planIndex + '">代码编辑器</label>' +
-                    '<span class="practice-draft-status" id="practiceDraftStatus_' + planIndex + '">草稿自动保存在本机</span></div>' +
+                    '<span class="practice-draft-status" id="practiceDraftStatus_' + planIndex + '">' +
+                    (cache ? '已恢复本机缓存 · 继续编辑会自动保存' : '草稿与检查结果自动缓存') + '</span></div>' +
                 '<textarea class="practice-editor" id="practiceCode_' + planIndex + '" spellcheck="false" aria-label="练习代码编辑器"></textarea>' +
                 '<div class="practice-actions">' +
                     '<button class="practice-btn primary" type="button" id="practiceCheck_' + planIndex + '">检查代码</button>' +
@@ -3840,8 +3920,7 @@ pytest
                 '</section>';
 
             var editor = document.getElementById('practiceCode_' + planIndex);
-            var draft = loadPracticeDraft(planIndex);
-            editor.value = draft === null ? practice.starter : draft;
+            editor.value = cache ? cache.code : practice.starter;
             editor.addEventListener('input', function() {
                 savePracticeDraft(planIndex, editor.value);
             });
@@ -3865,6 +3944,17 @@ pytest
             document.getElementById('practiceSolutionBtn_' + planIndex).addEventListener('click', function() {
                 togglePracticeSolution(planIndex);
             });
+
+            if (cache && cache.result) {
+                renderPracticeResult(planIndex, cache.result);
+            } else if (cache && cache.passed) {
+                renderPracticeResult(planIndex, {
+                    allPassed: true,
+                    summary: '该项目之前已通过检查，编辑后会重新校验。',
+                    rules: [],
+                    checkedAt: cache.checkedAt
+                });
+            }
         }
 
         // 在浏览器本地检查关键要求
@@ -3883,7 +3973,7 @@ pytest
             }
 
             var passedCount = 0;
-            var rulesHtml = '';
+            var ruleResults = [];
             for (var i = 0; i < practice.rules.length; i++) {
                 var currentRule = practice.rules[i];
                 var passed = false;
@@ -3893,23 +3983,30 @@ pytest
                     passed = false;
                 }
                 if (passed) passedCount++;
-                rulesHtml += '<li class="practice-rule ' + (passed ? 'pass' : 'fail') + '">' +
-                    '<span aria-hidden="true">' + (passed ? '✅' : '❌') + '</span>' +
-                    '<span>' + escapeHtml(currentRule.label) + '</span></li>';
+                ruleResults.push({ label: currentRule.label, passed: passed });
             }
 
             var allPassed = passedCount === practice.rules.length;
             var summary = allPassed
                 ? '通过全部 ' + practice.rules.length + ' 项关键检查，做得不错！'
                 : '通过 ' + passedCount + ' / ' + practice.rules.length + ' 项，请根据未通过项继续完善。';
-            var summaryClass = allPassed ? 'success' : 'warning';
+            var checkedAt = new Date().toISOString();
+            var result = {
+                allPassed: allPassed,
+                passedCount: passedCount,
+                total: practice.rules.length,
+                summary: summary,
+                rules: ruleResults,
+                checkedAt: checkedAt
+            };
 
-            resultsEl.hidden = false;
-            resultsEl.innerHTML = '<div class="practice-check-summary ' + summaryClass + '">' +
-                (allPassed ? '🎉 ' : '🔎 ') + escapeHtml(summary) + '</div>' +
-                '<ul class="practice-rule-list">' + rulesHtml + '</ul>' +
-                '<p class="practice-note">这是基于关键代码结构的本地检查，帮助你定位缺口，不替代运行测试和人工代码审查。</p>';
-
+            renderPracticeResult(planIndex, result);
+            savePracticeCache(planIndex, {
+                code: code,
+                passed: allPassed,
+                result: result,
+                checkedAt: checkedAt
+            });
             updatePracticeStatus(planIndex, allPassed);
         }
 
@@ -3957,40 +4054,228 @@ pytest
                     '</div>';
             }
             list.innerHTML = html;
-            document.getElementById('weeklyScore').style.display = 'none';
+            restoreWeeklyQuizCache(weekIndex, weeklyData);
+        }
+
+        // 本地缓存通用读写
+        function readLocalJson(key) {
+            try {
+                var parsed = JSON.parse(localStorage.getItem(key) || 'null');
+                return parsed && typeof parsed === 'object' ? parsed : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function writeLocalJson(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // 每日选择题缓存
+        function getDailyQuizCacheKey(planIndex) {
+            return 'study_plan_daily_quiz_cache_v2_' + planIndex;
+        }
+
+        function collectDailyQuizAnswers(dayIndex, answerCount) {
+            var answers = {};
+            for (var i = 0; i < answerCount; i++) {
+                var selected = document.querySelector('input[name="daily_' + dayIndex + '_' + i + '"]:checked');
+                if (selected) answers[i] = parseInt(selected.value);
+            }
+            return answers;
+        }
+
+        function clearDailyQuizResults(dayIndex, answerCount) {
+            for (var i = 0; i < answerCount; i++) {
+                var resultEl = document.getElementById('daily_result_' + dayIndex + '_' + i);
+                if (resultEl) {
+                    resultEl.className = 'quiz-result';
+                    resultEl.textContent = '';
+                }
+            }
+        }
+
+        function gradeDailyQuiz(dayIndex, dayData, answers) {
+            var correct = 0;
+            for (var i = 0; i < dayData.quiz.length; i++) {
+                var question = dayData.quiz[i];
+                var resultEl = document.getElementById('daily_result_' + dayIndex + '_' + i);
+                var selectedValue = answers && answers[i] !== undefined ? parseInt(answers[i]) : NaN;
+
+                if (isNaN(selectedValue)) {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '未作答；正确答案：' + question.options[question.answer] + '。解析：' + question.desc;
+                } else if (selectedValue === question.answer) {
+                    correct++;
+                    resultEl.className = 'quiz-result correct';
+                    resultEl.textContent = '✅ 回答正确！' + question.desc;
+                } else {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '❌ 回答错误。正确答案：' + question.options[question.answer] + '。解析：' + question.desc;
+                }
+            }
+
+            var scoreEl = document.getElementById('dailyScore');
+            if (scoreEl) {
+                scoreEl.style.display = 'block';
+                scoreEl.textContent = '本次得分：' + correct + ' / ' + dayData.quiz.length + ' · 已缓存';
+            }
+            return correct;
+        }
+
+        function restoreDailyQuizCache(dayIndex, planIndex, dayData) {
+            var answerCount = dayData.quiz.length;
+            var cache = readLocalJson(getDailyQuizCacheKey(planIndex));
+            if (cache && cache.answers) {
+                for (var i = 0; i < answerCount; i++) {
+                    if (cache.answers[i] === undefined) continue;
+                    var input = document.querySelector('input[name="daily_' + dayIndex + '_' + i + '"][value="' + cache.answers[i] + '"]');
+                    if (input) input.checked = true;
+                }
+            }
+
+            var inputs = document.querySelectorAll('input[name^="daily_' + dayIndex + '_"]');
+            for (var k = 0; k < inputs.length; k++) {
+                inputs[k].addEventListener('change', function() {
+                    var answers = collectDailyQuizAnswers(dayIndex, answerCount);
+                    var previousCache = readLocalJson(getDailyQuizCacheKey(planIndex));
+                    writeLocalJson(getDailyQuizCacheKey(planIndex), {
+                        version: 1,
+                        answers: answers,
+                        submitted: false,
+                        updatedAt: new Date().toISOString()
+                    });
+                    clearDailyQuizResults(dayIndex, answerCount);
+                    var scoreEl = document.getElementById('dailyScore');
+                    if (previousCache && previousCache.submitted) {
+                        scoreEl.style.display = 'block';
+                        scoreEl.textContent = '答案已更新，请重新提交';
+                    } else {
+                        scoreEl.style.display = 'none';
+                    }
+                });
+            }
+
+            if (cache && cache.submitted && cache.answers) {
+                gradeDailyQuiz(dayIndex, dayData, cache.answers);
+            }
+        }
+
+        // 每周大测缓存
+        function getWeeklyQuizCacheKey(weekIndex) {
+            return 'study_plan_weekly_quiz_cache_v2_' + weekIndex;
+        }
+
+        function collectWeeklyQuizAnswers(weekIndex, answerCount) {
+            var answers = {};
+            for (var i = 0; i < answerCount; i++) {
+                var selected = document.querySelector('input[name="weekly_' + weekIndex + '_' + i + '"]:checked');
+                if (selected) answers[i] = parseInt(selected.value);
+            }
+            return answers;
+        }
+
+        function clearWeeklyQuizResults(weekIndex, answerCount) {
+            for (var i = 0; i < answerCount; i++) {
+                var resultEl = document.getElementById('weekly_result_' + weekIndex + '_' + i);
+                if (resultEl) {
+                    resultEl.className = 'quiz-result';
+                    resultEl.textContent = '';
+                }
+            }
+        }
+
+        function gradeWeeklyQuiz(weekIndex, weeklyData, answers) {
+            var correct = 0;
+            for (var i = 0; i < weeklyData.weeklyQuiz.length; i++) {
+                var question = weeklyData.weeklyQuiz[i];
+                var resultEl = document.getElementById('weekly_result_' + weekIndex + '_' + i);
+                var selectedValue = answers && answers[i] !== undefined ? parseInt(answers[i]) : NaN;
+
+                if (isNaN(selectedValue)) {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '未作答；正确答案：' + question.options[question.answer] + '。';
+                } else if (selectedValue === question.answer) {
+                    correct++;
+                    resultEl.className = 'quiz-result correct';
+                    resultEl.textContent = '✅ 正确';
+                } else {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '❌ 错误，正确答案：' + question.options[question.answer];
+                }
+            }
+
+            var scoreEl = document.getElementById('weeklyScore');
+            if (scoreEl) {
+                scoreEl.style.display = 'block';
+                scoreEl.textContent = '周测得分：' + correct + ' / ' + weeklyData.weeklyQuiz.length + ' · 已缓存';
+            }
+            return correct;
+        }
+
+        function restoreWeeklyQuizCache(weekIndex, weeklyData) {
+            var answerCount = weeklyData.weeklyQuiz.length;
+            var cache = readLocalJson(getWeeklyQuizCacheKey(weekIndex));
+            if (cache && cache.answers) {
+                for (var i = 0; i < answerCount; i++) {
+                    if (cache.answers[i] === undefined) continue;
+                    var input = document.querySelector('input[name="weekly_' + weekIndex + '_' + i + '"][value="' + cache.answers[i] + '"]');
+                    if (input) input.checked = true;
+                }
+            }
+
+            var inputs = document.querySelectorAll('input[name^="weekly_' + weekIndex + '_"]');
+            for (var k = 0; k < inputs.length; k++) {
+                inputs[k].addEventListener('change', function() {
+                    var answers = collectWeeklyQuizAnswers(weekIndex, answerCount);
+                    var previousCache = readLocalJson(getWeeklyQuizCacheKey(weekIndex));
+                    writeLocalJson(getWeeklyQuizCacheKey(weekIndex), {
+                        version: 1,
+                        answers: answers,
+                        submitted: false,
+                        updatedAt: new Date().toISOString()
+                    });
+                    clearWeeklyQuizResults(weekIndex, answerCount);
+                    var scoreEl = document.getElementById('weeklyScore');
+                    if (previousCache && previousCache.submitted) {
+                        scoreEl.style.display = 'block';
+                        scoreEl.textContent = '答案已更新，请重新提交';
+                    } else {
+                        scoreEl.style.display = 'none';
+                    }
+                });
+            }
+
+            if (cache && cache.submitted && cache.answers) {
+                gradeWeeklyQuiz(weekIndex, weeklyData, cache.answers);
+            } else {
+                var scoreEl = document.getElementById('weeklyScore');
+                if (scoreEl) scoreEl.style.display = 'none';
+            }
         }
 
         // 提交每日小测
         function submitDailyQuiz() {
             var dayIndex = getCurrentDayIndex();
-            var dayData = planData[dayIndex % planData.length];
-            var correct = 0;
-
+            var planIndex = dayIndex % planData.length;
+            var dayData = planData[planIndex];
             if (!dayData.quiz || dayData.quiz.length === 0) return;
 
-            for (var i = 0; i < dayData.quiz.length; i++) {
-                var selected = document.querySelector('input[name="daily_' + dayIndex + '_' + i + '"]:checked');
-                var resultEl = document.getElementById('daily_result_' + dayIndex + '_' + i);
-                
-                if (!selected) {
-                    resultEl.className = 'quiz-result wrong';
-                    resultEl.textContent = '未作答；正确答案：' + dayData.quiz[i].options[dayData.quiz[i].answer] + '。解析：' + dayData.quiz[i].desc;
-                    continue;
-                }
-
-                if (parseInt(selected.value) === dayData.quiz[i].answer) {
-                    correct++;
-                    resultEl.className = 'quiz-result correct';
-                    resultEl.textContent = '✅ 回答正确！' + dayData.quiz[i].desc;
-                } else {
-                    resultEl.className = 'quiz-result wrong';
-                    resultEl.textContent = '❌ 回答错误。正确答案：' + dayData.quiz[i].options[dayData.quiz[i].answer] + '。解析：' + dayData.quiz[i].desc;
-                }
-            }
-
-            var scoreEl = document.getElementById('dailyScore');
-            scoreEl.style.display = 'block';
-            scoreEl.textContent = '本次得分：' + correct + ' / ' + dayData.quiz.length;
+            var answers = collectDailyQuizAnswers(dayIndex, dayData.quiz.length);
+            var correct = gradeDailyQuiz(dayIndex, dayData, answers);
+            writeLocalJson(getDailyQuizCacheKey(planIndex), {
+                version: 1,
+                answers: answers,
+                submitted: true,
+                correct: correct,
+                total: dayData.quiz.length,
+                updatedAt: new Date().toISOString()
+            });
         }
 
         // 提交每周大测
@@ -3998,31 +4283,18 @@ pytest
             var weekIndex = Math.floor(getCurrentDayIndex() / 7);
             var weeklyIndex = weekIndex * 7 + 5;
             var weeklyData = planData[weeklyIndex];
-            var correct = 0;
+            if (!weeklyData || !weeklyData.weeklyQuiz) return;
 
-            for (var i = 0; i < weeklyData.weeklyQuiz.length; i++) {
-                var selected = document.querySelector('input[name="weekly_' + weekIndex + '_' + i + '"]:checked');
-                var resultEl = document.getElementById('weekly_result_' + weekIndex + '_' + i);
-                
-                if (!selected) {
-                    resultEl.className = 'quiz-result wrong';
-                    resultEl.textContent = '未作答；正确答案：' + weeklyData.weeklyQuiz[i].options[weeklyData.weeklyQuiz[i].answer] + '。';
-                    continue;
-                }
-
-                if (parseInt(selected.value) === weeklyData.weeklyQuiz[i].answer) {
-                    correct++;
-                    resultEl.className = 'quiz-result correct';
-                    resultEl.textContent = '✅ 正确';
-                } else {
-                    resultEl.className = 'quiz-result wrong';
-                    resultEl.textContent = '❌ 错误，正确答案：' + weeklyData.weeklyQuiz[i].options[weeklyData.weeklyQuiz[i].answer];
-                }
-            }
-
-            var scoreEl = document.getElementById('weeklyScore');
-            scoreEl.style.display = 'block';
-            scoreEl.textContent = '周测得分：' + correct + ' / ' + weeklyData.weeklyQuiz.length;
+            var answers = collectWeeklyQuizAnswers(weekIndex, weeklyData.weeklyQuiz.length);
+            var correct = gradeWeeklyQuiz(weekIndex, weeklyData, answers);
+            writeLocalJson(getWeeklyQuizCacheKey(weekIndex), {
+                version: 1,
+                answers: answers,
+                submitted: true,
+                correct: correct,
+                total: weeklyData.weeklyQuiz.length,
+                updatedAt: new Date().toISOString()
+            });
         }
 
         // 本地存储进度
