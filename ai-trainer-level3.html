@@ -1,0 +1,3460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23667eea'/%3E%3Cpath d='M28 50l14 14 30-32' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <title>人工智能训练师三级/高级工 · 8周打卡计划</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.7;
+            padding: 20px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .header::after {
+            content: "";
+            position: absolute;
+            top: -80px;
+            right: 210px;
+            width: 210px;
+            height: 210px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+        .header-main {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            min-width: 0;
+        }
+        .header-eyebrow {
+            margin-bottom: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.13em;
+            opacity: 0.7;
+        }
+        .header h1 { font-size: 22px; margin-bottom: 8px; }
+        .header .date-info { font-size: 14px; opacity: 0.9; }
+        .header-track-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 7px 11px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+        .header-track-link:hover {
+            border-color: rgba(255, 255, 255, 0.42);
+            background: rgba(255, 255, 255, 0.18);
+        }
+        .checkin-summary {
+            margin-top: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+        }
+        .checkin-summary.success { color: #dcffd2; }
+        .checkin-calendar {
+            position: relative;
+            z-index: 1;
+            flex: 0 0 330px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.14);
+            box-shadow: 0 10px 28px rgba(36, 28, 80, 0.16);
+            backdrop-filter: blur(10px);
+        }
+        .calendar-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .calendar-month-title {
+            flex: 1;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-align: center;
+        }
+        .calendar-month-nav,
+        .calendar-today-btn {
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .calendar-month-nav {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-size: 18px;
+            line-height: 1;
+        }
+        .calendar-today-btn {
+            padding: 3px 7px;
+            border-radius: 999px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+        .calendar-month-nav:hover,
+        .calendar-today-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .calendar-weekdays,
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+        }
+        .calendar-weekdays {
+            gap: 3px;
+            margin-bottom: 4px;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 9px;
+            text-align: center;
+        }
+        .calendar-grid {
+            gap: 3px;
+            min-height: 180px;
+        }
+        .calendar-day-empty { min-height: 28px; }
+        .calendar-day-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            min-height: 28px;
+            border: 1px solid transparent;
+            border-radius: 7px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.88);
+            cursor: pointer;
+            font: inherit;
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+            transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+        }
+        .calendar-day-btn:hover { background: rgba(255, 255, 255, 0.14); }
+        .calendar-day-btn.is-today { border-color: rgba(255, 255, 255, 0.7); }
+        .calendar-day-btn.is-selected {
+            border-color: #ffffff;
+            background: #ffffff;
+            color: #5365bd;
+            font-weight: 700;
+        }
+        .calendar-day-check {
+            position: absolute;
+            right: 2px;
+            bottom: 0;
+            color: #d8ffcb;
+            font-size: 8px;
+            font-weight: 700;
+            opacity: 0;
+        }
+        .calendar-day-btn.has-checkin .calendar-day-check { opacity: 1; }
+        .calendar-day-btn.is-selected .calendar-day-check { color: #5ca647; }
+        .calendar-selection {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .calendar-selected-date {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+        }
+        .calendar-day {
+            color: #ffffff;
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            font-variant-numeric: tabular-nums;
+        }
+        .calendar-selected-meta,
+        .calendar-clock {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.25;
+        }
+        .calendar-selected-meta {
+            color: rgba(255, 255, 255, 0.74);
+            font-size: 10px;
+        }
+        .calendar-selected-weekday { color: #ffffff; font-size: 12px; font-weight: 600; }
+        .calendar-clock { align-items: flex-end; }
+        .calendar-time {
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        .calendar-clock span:last-child { color: rgba(255, 255, 255, 0.58); font-size: 9px; }
+        .checkin-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #5365bd;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+        .checkin-btn:hover:not(:disabled) {
+            background: #f3f5ff;
+            transform: translateY(-1px);
+        }
+        .checkin-btn:disabled,
+        .checkin-btn.done {
+            border-color: rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            cursor: default;
+        }
+        .checkin-time {
+            min-height: 17px;
+            margin-top: 6px;
+            color: rgba(255, 255, 255, 0.87);
+            font-size: 10px;
+            text-align: center;
+        }
+        .checkin-history-toggle {
+            display: block;
+            margin: 5px auto 0;
+            padding: 2px 5px;
+            border: 0;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.76);
+            cursor: pointer;
+            font-size: 10px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .checkin-history-toggle:hover { color: #ffffff; }
+        .checkin-history {
+            margin-top: 7px;
+            padding-top: 7px;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .checkin-history[hidden] { display: none; }
+        .checkin-record-list {
+            display: grid;
+            gap: 5px;
+            max-height: 126px;
+            margin: 0;
+            padding: 0 3px 0 0;
+            overflow-y: auto;
+            list-style: none;
+        }
+        .checkin-record {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 5px 7px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 10px;
+        }
+        .checkin-record-date { display: flex; align-items: center; gap: 5px; font-weight: 600; }
+        .checkin-record-time { font-variant-numeric: tabular-nums; }
+        .checkin-record-badge {
+            padding: 0 4px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 8px;
+            font-weight: 400;
+        }
+        .checkin-history-empty {
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 10px;
+            text-align: center;
+        }
+        .github-sync {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .github-status {
+            min-width: 0;
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 9px;
+            line-height: 1.4;
+        }
+        .github-status.success { color: #dcffd2; }
+        .github-status.error { color: #ffe0df; }
+        .github-sync-btn {
+            flex: 0 0 auto;
+            padding: 4px 7px;
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 9px;
+        }
+        .github-sync-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .checkin-note {
+            margin-top: 6px;
+            color: rgba(255, 255, 255, 0.48);
+            font-size: 9px;
+            text-align: center;
+        }
+        .github-dialog {
+            width: min(440px, calc(100vw - 28px));
+            padding: 0;
+            border: 0;
+            border-radius: 14px;
+            color: #303133;
+            box-shadow: 0 24px 70px rgba(27, 22, 61, 0.35);
+        }
+        .github-dialog::backdrop { background: rgba(24, 20, 47, 0.62); backdrop-filter: blur(3px); }
+        .github-dialog-body { position: relative; padding: 24px; }
+        .github-dialog h2 { margin-bottom: 8px; color: #303133; font-size: 20px; }
+        .github-dialog p { color: #6b7280; font-size: 13px; }
+        .github-dialog-close {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            width: 30px;
+            height: 30px;
+            border: 0;
+            border-radius: 50%;
+            background: #f2f3f7;
+            color: #606266;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .github-auth-help {
+            margin: 14px 0;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f5f7ff;
+        }
+        .github-auth-help a { color: #5365bd; font-weight: 700; }
+        .github-field-label { display: block; margin: 12px 0 6px; color: #4b5563; font-size: 12px; font-weight: 600; }
+        .github-token-input {
+            width: 100%;
+            padding: 9px 11px;
+            border: 1px solid #d7dbe7;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .github-token-input:focus { outline: 2px solid rgba(102, 126, 234, 0.25); border-color: #667eea; }
+        .github-primary-btn,
+        .github-secondary-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 9px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .github-primary-btn { border: 0; background: #667eea; color: #ffffff; }
+        .github-primary-btn:disabled { cursor: wait; opacity: 0.65; }
+        .github-secondary-btn { border: 1px solid #d7dbe7; background: #ffffff; color: #4b5563; }
+        .github-dialog-error { min-height: 18px; margin-top: 8px; color: #c45656; font-size: 12px; }
+        .github-privacy-note { margin-top: 10px; font-size: 11px !important; }
+        .github-connected-user { margin: 14px 0; padding: 12px; border-radius: 8px; background: #f7f8fa; color: #303133; }
+        .github-connected-user strong { color: #5365bd; }
+        .github-gist-link { display: inline-block; margin-top: 6px; color: #5365bd; font-size: 12px; font-weight: 600; }
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+            background: #e4e7ed;
+            padding: 4px;
+            border-radius: 8px;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .tab.active {
+            background: white;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: none;
+        }
+        .panel.active { display: block; }
+        .panel h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #303133;
+            border-left: 4px solid #667eea;
+            padding-left: 10px;
+        }
+        .panel h3 {
+            font-size: 15px;
+            margin: 16px 0 8px;
+            color: #606266;
+        }
+        .panel p { margin-bottom: 10px; font-size: 14px; }
+        .panel ul, .panel ol { margin: 8px 0 12px 24px; font-size: 14px; }
+        .panel li { margin-bottom: 6px; }
+        .code-inline {
+            background: #f0f2f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #667eea;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 10px 0 16px;
+            white-space: pre;
+        }
+        .highlight-box {
+            background: #f0f9eb;
+            border-left: 4px solid #67c23a;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        .practice-box {
+            background: #ecf5ff;
+            border-left: 4px solid #409eff;
+            padding: 12px 14px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+        .practice-box strong { color: #409eff; }
+        .todo-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .todo-item input[type="checkbox"] {
+            margin-top: 5px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .todo-item.done label {
+            text-decoration: line-through;
+            color: #909399;
+        }
+        .quiz-item {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .quiz-options label {
+            display: block;
+            padding: 6px 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .quiz-options input { margin-right: 8px; }
+        .quiz-result {
+            margin-top: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+        .quiz-result.correct { background: #f0f9eb; color: #67c23a; display: block; }
+        .quiz-result.wrong { background: #fef0f0; color: #f56c6c; display: block; }
+        .submit-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .submit-btn:hover { opacity: 0.9; }
+        .score-box {
+            text-align: center;
+            padding: 16px;
+            background: #f5f7fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            display: none;
+        }
+        .date-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .date-nav button {
+            background: #e4e7ed;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .date-nav button:hover { background: #dcdfe6; }
+        .rest-tip {
+            text-align: center;
+            padding: 40px;
+            color: #909399;
+            font-size: 16px;
+        }
+
+        /* 每日代码练习 */
+        .quiz-guide {
+            color: #606266;
+            margin-bottom: 16px;
+        }
+        .practice-card {
+            margin-bottom: 24px;
+            padding: 20px;
+            border: 1px solid #d9e4ff;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.08);
+        }
+        .practice-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .practice-eyebrow {
+            display: inline-block;
+            margin-bottom: 5px;
+            color: #667eea;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+        .practice-title {
+            margin: 0 !important;
+            color: #303133 !important;
+            font-size: 18px !important;
+            line-height: 1.45;
+        }
+        .practice-language-tag,
+        .practice-status {
+            flex: 0 0 auto;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .practice-language-tag {
+            color: #3a6fd8;
+            background: #e8f0ff;
+            border: 1px solid #c9d9ff;
+        }
+        .practice-status {
+            display: none;
+            color: #4f9b35;
+            background: #f0f9eb;
+            border: 1px solid #d5edc8;
+        }
+        .practice-status.visible { display: inline-block; }
+        .practice-prompt {
+            color: #4f5665;
+            margin-bottom: 14px !important;
+        }
+        .practice-requirements {
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            background: #f4f7ff;
+        }
+        .practice-requirements strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #3f4f70;
+        }
+        .practice-requirements ul {
+            margin: 0 0 0 20px;
+        }
+        .practice-requirements li {
+            margin-bottom: 3px;
+            color: #606266;
+        }
+        .practice-editor-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 7px;
+            color: #3f4f70;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .practice-draft-status {
+            color: #909399;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .practice-editor {
+            display: block;
+            width: 100%;
+            min-height: 280px;
+            padding: 15px 16px;
+            resize: vertical;
+            border: 1px solid #3b4252;
+            border-radius: 9px;
+            outline: none;
+            background: #1f2430;
+            color: #e6e9ef;
+            caret-color: #93b4ff;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            tab-size: 4;
+            white-space: pre;
+        }
+        .practice-editor:focus {
+            border-color: #7c9cff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.18);
+        }
+        .practice-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .practice-btn {
+            padding: 8px 14px;
+            border: 1px solid #c7d4ed;
+            border-radius: 7px;
+            background: #fff;
+            color: #53627d;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.15s ease;
+        }
+        .practice-btn:hover {
+            border-color: #9eb3db;
+            background: #f5f8ff;
+        }
+        .practice-btn.primary {
+            border-color: #667eea;
+            background: #667eea;
+            color: #fff;
+            font-weight: 600;
+        }
+        .practice-btn.primary:hover {
+            border-color: #5268d1;
+            background: #5268d1;
+        }
+        .practice-panel {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-left: 4px solid #e6a23c;
+            border-radius: 7px;
+            background: #fdf6ec;
+            color: #735c2b;
+            font-size: 13px;
+        }
+        .practice-panel.solution {
+            border-left-color: #67c23a;
+            background: #f4faf0;
+            color: #365d27;
+        }
+        .practice-solution-code {
+            margin: 8px 0 0;
+            padding: 12px;
+            overflow-x: auto;
+            border-radius: 6px;
+            background: #282c34;
+            color: #d9e2f0;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 12px;
+            line-height: 1.55;
+            white-space: pre;
+        }
+        .practice-results {
+            margin-top: 14px;
+            padding: 13px 14px;
+            border-radius: 8px;
+            background: #fafbfc;
+            border: 1px solid #ebeef5;
+        }
+        .practice-results[hidden] { display: none; }
+        .practice-check-summary {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .practice-check-summary.success { color: #529b3e; }
+        .practice-check-summary.warning { color: #b47b1b; }
+        .practice-check-summary.neutral { color: #606266; }
+        .practice-rule-list {
+            display: grid;
+            gap: 5px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .practice-rule {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 13px;
+        }
+        .practice-rule.pass { color: #4f8f39; }
+        .practice-rule.fail { color: #c45656; }
+        .practice-note {
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+            color: #909399;
+            font-size: 12px !important;
+        }
+        .quiz-group-heading {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+            padding-top: 2px;
+        }
+        .quiz-group-heading h3 { margin: 0; color: #303133; font-size: 16px; }
+        .quiz-group-heading span { color: #909399; font-size: 12px; }
+        .quiz-empty,
+        .practice-empty {
+            padding: 18px;
+            border-radius: 8px;
+            background: #f7f8fa;
+            color: #7a8291;
+            text-align: center;
+            font-size: 14px;
+        }
+        .quiz-empty .practice-btn { margin-top: 10px; }
+        @media (max-width: 820px) {
+            .header {
+                display: block;
+                padding: 20px;
+            }
+            .checkin-calendar {
+                width: 100%;
+                margin-top: 18px;
+            }
+        }
+        @media (max-width: 640px) {
+            body { padding: 12px; }
+            .panel { padding: 16px; }
+            .practice-card { padding: 15px; }
+            .practice-card-header { display: block; }
+            .practice-language-tag, .practice-status {
+                display: inline-block;
+                margin-top: 8px;
+                margin-right: 4px;
+            }
+            .practice-status { display: none; }
+            .practice-status.visible { display: inline-block; }
+            .practice-editor { min-height: 230px; font-size: 12px; }
+            .practice-actions .practice-btn { flex: 1 1 auto; }
+            .quiz-group-heading { display: block; }
+            .quiz-group-heading span { display: block; margin-top: 2px; }
+            .header h1 { font-size: 20px; }
+            .checkin-calendar { padding: 12px; }
+            .calendar-day-btn { min-height: 31px; }
+            .github-dialog-body { padding: 20px; }
+        }
+
+        /* 三级范围校准与内容分层 */
+        .audit-brief {
+            margin-bottom: 20px;
+            padding: 22px;
+            border: 1px solid #dfe5f4;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .audit-kicker {
+            margin-bottom: 5px;
+            color: #667eea;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+        }
+        .audit-brief h2 {
+            margin-bottom: 10px;
+            color: #303133;
+            font-size: 19px;
+        }
+        .audit-brief > p { color: #606266; font-size: 14px; }
+        .audit-brief ul, .audit-brief ol { margin: 8px 0 12px 22px; font-size: 13px; color: #555d6b; }
+        .audit-brief li { margin-bottom: 5px; }
+        .source-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin: 14px 0;
+        }
+        .source-card {
+            padding: 13px;
+            border: 1px solid #edf0f7;
+            border-radius: 9px;
+            background: #f8f9fc;
+        }
+        .source-card strong { display: block; margin-bottom: 3px; color: #3f4b67; font-size: 13px; }
+        .source-card span { display: block; color: #7a8291; font-size: 11px; line-height: 1.55; }
+        .weight-table {
+            width: 100%;
+            margin: 12px 0;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        .weight-table th, .weight-table td {
+            padding: 8px 10px;
+            border: 1px solid #e7eaf1;
+            text-align: left;
+        }
+        .weight-table th { background: #f3f5fa; color: #515b70; }
+        .weight-table td:last-child, .weight-table th:last-child { text-align: center; }
+        .audit-brief details {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #edf0f7;
+        }
+        .audit-brief summary { color: #5968b7; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .lesson-scope {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin-bottom: 14px;
+            padding: 9px 12px;
+            border-radius: 8px;
+            background: #f6f7fb;
+            color: #60697b;
+            font-size: 12px;
+            line-height: 1.55;
+        }
+        .scope-badge {
+            flex: 0 0 auto;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+        .scope-official .scope-badge { background: #eaf1ff; color: #3568c7; }
+        .scope-practice .scope-badge { background: #eaf8ef; color: #398354; }
+        .scope-review .scope-badge { background: #fff4e5; color: #a76615; }
+        .scope-extension .scope-badge { background: #f5eafe; color: #8b46b7; }
+        .scope-weekly .scope-badge { background: #fff0f0; color: #b74b4b; }
+        .scope-rest .scope-badge { background: #eef0f3; color: #6c7583; }
+        .page-footer {
+            margin-top: 20px;
+            padding: 18px 20px;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #7a8291;
+            font-size: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+        .page-footer p + p { margin-top: 6px; }
+        .official-note {
+            margin-top: 14px;
+            padding: 13px 15px;
+            border: 1px solid #dbe5f7;
+            border-radius: 9px;
+            background: #f7faff;
+            color: #4f5e73;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+        .official-note strong { color: #274d86; }
+        @media (max-width: 640px) {
+            .audit-brief { padding: 16px; }
+            .source-grid { grid-template-columns: 1fr; }
+            .weight-table { font-size: 11px; }
+            .weight-table th, .weight-table td { padding: 6px; }
+            .lesson-scope { display: block; }
+            .scope-badge { display: inline-block; margin-bottom: 4px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-main">
+            <div class="header-eyebrow">AI TRAINER LEVEL 3 · CHECK-IN TRACKER</div>
+            <h1>人工智能训练师三级/高级工 · 8周打卡计划</h1>
+            <div class="date-info" id="dateInfo"></div>
+            <a class="header-track-link" href="index.html">返回 AI 应用工程师 30 天计划 <span>→</span></a>
+            <div class="checkin-summary" id="checkinSummary">本机时间 · 今日尚未打卡</div>
+        </div>
+        <section class="checkin-calendar" aria-label="实际打卡日历">
+            <div class="calendar-heading">
+                <button class="calendar-month-nav" type="button" aria-label="上个月" onclick="changeCheckinMonth(-1)">‹</button>
+                <div class="calendar-month-title" id="actualMonth">本月</div>
+                <button class="calendar-today-btn" type="button" onclick="selectTodayForCheckin()">回到今天</button>
+                <button class="calendar-month-nav" type="button" aria-label="下个月" onclick="changeCheckinMonth(1)">›</button>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            </div>
+            <div class="calendar-grid" id="checkinCalendarGrid" role="grid" aria-label="打卡日期选择"></div>
+            <div class="calendar-selection">
+                <div class="calendar-selected-date">
+                    <div class="calendar-day" id="actualDay">--</div>
+                    <div class="calendar-selected-meta">
+                        <span class="calendar-selected-weekday" id="actualWeekday">星期</span>
+                        <span id="actualYear">----</span>
+                    </div>
+                </div>
+                <div class="calendar-clock">
+                    <span class="calendar-time" id="actualTime">--:--:--</span>
+                    <span>本机当前时间</span>
+                </div>
+            </div>
+            <button class="checkin-btn" type="button" id="checkinButton" onclick="checkInSelectedDate()">今日打卡</button>
+            <div class="checkin-time" id="actualCheckin">尚未打卡</div>
+            <button class="checkin-history-toggle" type="button" id="checkinHistoryToggle" aria-expanded="false" onclick="toggleCheckinHistory()">
+                <span id="checkinHistoryToggleText">查看打卡记录</span> · <span id="checkinCount">0</span>
+            </button>
+            <div class="checkin-history" id="checkinHistory" hidden>
+                <ol class="checkin-record-list" id="checkinRecordList"></ol>
+            </div>
+            <div class="github-sync">
+                <span class="github-status" id="githubSyncStatus">记录仅保存在本地</span>
+                <button class="github-sync-btn" type="button" id="githubConnectButton" onclick="openGithubDialog()">连接 GitHub</button>
+            </div>
+            <div class="checkin-note">点击日期查看当天学习内容 · 连接 GitHub 后按账号保存到个人 Gist</div>
+        </section>
+    </div>
+
+    <dialog class="github-dialog" id="githubDialog" aria-labelledby="githubDialogTitle">
+        <div class="github-dialog-body">
+            <button class="github-dialog-close" type="button" aria-label="关闭" onclick="closeGithubDialog()">×</button>
+            <h2 id="githubDialogTitle">保存到 GitHub</h2>
+            <div id="githubAuthView">
+                <p>连接你的 GitHub 账号后，打卡记录会保存到该账号名下的私人 Gist；不同账号的数据彼此独立。</p>
+                <div class="github-auth-help">
+                    <p>需要创建一个仅勾选 <strong>gist</strong> 权限的 Classic Token：</p>
+                    <a href="https://github.com/settings/tokens/new?scopes=gist&amp;description=AI%20Trainer%20Level%203%20Check-ins" target="_blank" rel="noopener noreferrer">前往 GitHub 创建 Token</a>
+                </div>
+                <label class="github-field-label" for="githubTokenInput">GitHub Token</label>
+                <input class="github-token-input" id="githubTokenInput" type="password" autocomplete="off" placeholder="ghp_... 或 github_pat_...">
+                <div class="github-dialog-error" id="githubDialogError"></div>
+                <button class="github-primary-btn" id="githubConnectSubmit" type="button" onclick="connectGithubAccount()">连接并同步</button>
+                <p class="github-privacy-note">Token 只保存在当前标签页的会话存储中，关闭标签页后自动清除，不会写入网页或仓库。</p>
+            </div>
+            <div id="githubConnectedView" hidden>
+                <div class="github-connected-user">已连接 <strong id="githubUserLabel">@GitHub</strong><br><span id="githubGistSummary">正在读取 Gist 信息...</span></div>
+                <a class="github-gist-link" id="githubGistLink" href="#" target="_blank" rel="noopener noreferrer" hidden>打开我的打卡 Gist ↗</a>
+                <button class="github-primary-btn" type="button" onclick="syncCheckinsWithGithub(false)">立即同步</button>
+                <button class="github-secondary-btn" type="button" onclick="disconnectGithubAccount()">断开连接</button>
+                <p class="github-privacy-note">断开只清除当前会话授权，不会删除已经保存到 GitHub 的记录。</p>
+            </div>
+        </div>
+    </dialog>
+    <section class="audit-brief" aria-labelledby="scopeAuditTitle">
+        <div class="audit-kicker">2021 STANDARD · SCOPE AUDIT · 2026-10-29</div>
+        <h2 id="scopeAuditTitle">先校准：三级官方核心，不等于现代 AI 应用大全</h2>
+        <p>本页已按《人工智能训练师国家职业技能标准（2021 年版）》、广东省级特色职业培训包与嘉兴竞赛资料重新核对。原教程把 LLM、RAG 等应用工程内容放得过重，且对申报条件、地方学时和竞赛资料边界说明不足；新版把内容拆成“三级官方核心”“官方主题实操”“阶段复盘”“AI 应用工程师扩展”，不再混为同一考试范围。</p>
+        <div class="source-grid">
+            <div class="source-card"><strong>国家职业技能标准 · 2021</strong><span>三级/高级工、五个等级、四个职业功能、理论知识/技能考核与一般合格规则。</span></div>
+            <div class="source-card"><strong>广东省级特色职业培训包</strong><span>三级总学时 140，其中职业基本素质 16、职业技能 64、其他 60；考核规范按业务分析、智能训练、系统设计、培训指导展开。</span></div>
+            <div class="source-card"><strong>嘉兴南湖区竞赛技术文件</strong><span>仅作实操题型参考。文件明确以五级/初级工为主并适当增加四级内容，不能当作三级考试范围或题库。</span></div>
+        </div>
+        <table class="weight-table" aria-label="三级理论知识与技能考核权重">
+            <thead><tr><th>职业功能</th><th>理论知识</th><th>技能要求</th></tr></thead>
+            <tbody>
+                <tr><td>职业道德</td><td>5%</td><td>—</td></tr>
+                <tr><td>基础知识</td><td>10%</td><td>—</td></tr>
+                <tr><td>业务分析</td><td>20%</td><td>25%</td></tr>
+                <tr><td>智能训练</td><td>30%</td><td>35%</td></tr>
+                <tr><td>智能系统设计</td><td>30%</td><td>35%</td></tr>
+                <tr><td>培训与指导</td><td>5%</td><td>5%</td></tr>
+            </tbody>
+        </table>
+        <div class="official-note">
+            <strong>“相关专业/相关职业”不要自行推定。</strong>
+            国家标准脚注举例：相关职业包括人工智能工程技术人员、呼叫中心服务员、电子商务师等；相关专业包括电工电子类、信息类等。脚注是范围示例，不等于自动认定。计算机硕士通常可提供“信息类”专业依据，但 Android 开发岗位名称不在脚注示例中；最终仍须由当地备案评价机构结合毕业证、工作内容和社保/工作证明确认，最好保留书面答复。
+        </div>
+        <details>
+            <summary>查看广东培训包的三级技能考核蓝图（地方参考，不是当期试卷）</summary>
+            <p>该培训包把三级操作技能拆成 7 项必考任务，参考总时长 150 分钟。它可用于安排实操训练，但不代表其他省份或当期考试一定采用同一题量和时长。</p>
+            <table class="weight-table" aria-label="广东培训包三级技能考核参考结构">
+                <thead><tr><th>任务</th><th>权重</th><th>参考时间</th></tr></thead>
+                <tbody>
+                    <tr><td>业务数据流程设计（采集、处理、审核）</td><td>15%</td><td>20 分钟</td></tr>
+                    <tr><td>单一业务模块问题识别与优化</td><td>10%</td><td>15 分钟</td></tr>
+                    <tr><td>数据清洗与标注规范制定</td><td>20%</td><td>25 分钟</td></tr>
+                    <tr><td>数据集维护、模型训练与算法测试</td><td>15%</td><td>20 分钟</td></tr>
+                    <tr><td>单一智能产品数据分析与优化方案</td><td>20%</td><td>30 分钟</td></tr>
+                    <tr><td>人工与智能交互流程设计</td><td>15%</td><td>30 分钟</td></tr>
+                    <tr><td>初级培训讲义编制</td><td>5%</td><td>10 分钟</td></tr>
+                </tbody>
+            </table>
+            <p>本计划的 8 个实操按这张能力蓝图组织，并加入文档结构和作品集验收；请以当地当期考核公告、设备和软件环境为准。</p>
+        </details>
+        <details>
+            <summary>查看本次修订、学时口径与报考边界</summary>
+            <ul>
+                <li><strong>学时：</strong>国家标准给出三级参考培训学时 40 标准学时；广东培训包总学时 140，其中职业技能课堂学时 64。本页的 8 周、24 个核心单元、8 个实操、8 个复盘和 8 个阶段测是自学编排，不是官方培训天数或考试时长。</li>
+                <li><strong>申报：</strong>三级路径之一是大专及以上本专业或相关专业毕业，并累计从事本职业或相关职业 3 年以上。计算机硕士和 Android 开发是否满足“相关专业/相关职业”，必须由当地备案评价机构确认，不能直接断言。</li>
+                <li><strong>考试：</strong>国家标准一般规则为理论考试＋技能考核、百分制、60 分合格、理论不少于 90 分钟、技能不少于 120 分钟；各地题型、考点与安排以当地公告为准。</li>
+                <li><strong>内容：</strong>三级正式重点包括职业道德、计算机与法律基础、业务流程、视觉/文本/语音数据、清洗与标注规范、数据集维护、模型训练、功能/性能/安全测试、测试报告、错误分析、算法选型、产品数据分析、优化方案、人机交互和培训指导。RAG/Agent 只在第 7 周作为转岗扩展。</li>
+                <li><strong>资料性质：</strong>本页不是官方教材或官方题库，不提供“包过”承诺，也不替代当地备案评价机构的公告。</li>
+            </ul>
+        </details>
+    </section>
+
+    <div class="date-nav">
+        <button onclick="prevDay()">← 上一天</button>
+        <span id="dayLabel">第 1 天</span>
+        <button onclick="nextDay()">下一天 →</button>
+    </div>
+
+    <div class="tabs" id="learningContentStart">
+        <div class="tab active" data-tab="lesson">今日学习</div>
+        <div class="tab" data-tab="todo">每日待办</div>
+        <div class="tab" data-tab="quiz">每日小测</div>
+        <div class="tab" data-tab="weekly">每周阶段测</div>
+    </div>
+
+    <div id="lessonPanel" class="panel active">
+        <h2 id="lessonTitle">今日知识点</h2>
+        <div id="lessonContent"></div>
+    </div>
+
+    <div id="todoPanel" class="panel">
+        <h2>今日学习任务</h2>
+        <div id="todoList"></div>
+    </div>
+
+    <div id="quizPanel" class="panel">
+        <h2>每日小测</h2>
+        <p class="quiz-guide" id="quizGuide">先完成实操或代码练习，再提交选择题，检查今天是否真正掌握。</p>
+        <div id="practiceSection"></div>
+        <div class="score-box" id="dailyScore"></div>
+        <div id="quizList"></div>
+        <button class="submit-btn" id="dailyQuizSubmit" onclick="submitDailyQuiz()">提交选择题答案</button>
+    </div>
+
+    <div id="weeklyPanel" class="panel">
+        <h2>每周阶段测</h2>
+        <div class="score-box" id="weeklyScore"></div>
+        <div id="weeklyQuizList"></div>
+        <button class="submit-btn" onclick="submitWeeklyQuiz()">提交答案</button>
+    </div>
+
+    <footer class="page-footer">
+        <p><strong>说明：</strong>本页是学习资料，不是官方教材、官方题库或报考承诺。政策、等级认定、考试安排和补贴以当地人社部门及备案评价机构公告为准。</p>
+        <p>三级/高级工不等于高级工程师，也不等于 AI 应用工程师岗位认证。对转岗最重要的证据仍是可运行项目、评测结果、工程文档和作品集。</p>
+    </footer>
+
+    <script>
+        // 配置：学习开始日期与实际打卡记录
+        var START_DATE = new Date('2026-10-29');
+        var currentDayOffset = 0;
+        var CHECKIN_STORAGE_KEY = 'ai_trainer_level3_checkin_records_v1';
+        var LEGACY_CHECKIN_STORAGE_KEY = 'ai_trainer_level3_checkin_records_legacy_v1';
+        var GITHUB_TOKEN_SESSION_KEY = 'ai_trainer_level3_github_token_v1';
+        var GITHUB_PROFILE_STORAGE_KEY = 'ai_trainer_level3_github_profile_v1';
+        var GITHUB_GIST_FILENAME = 'ai-trainer-level3-checkins.json';
+        var lastCheckinRenderDate = '';
+        var calendarViewYear = 0;
+        var calendarViewMonth = 0;
+        var selectedCheckinDate = '';
+        var githubProfile = null;
+        var githubSyncing = false;
+
+        // 内容分层：official = 国家/广东三级核心；practice = 官方主题实操；review = 复盘；
+        // extension = 面向 AI 应用工程师的扩展，不计入三级考试范围。
+        var curriculum = [
+            {
+                n: 1,
+                theme: '定位、申报边界与业务分析',
+                units: [
+                    {
+                        title: '先校准：三级/高级工到底考什么',
+                        scope: 'official',
+                        scopeNote: '国家职业技能标准（2021 年版）',
+                        lesson: `<h3>先把三个概念分开</h3><ul><li><strong>职业技能等级：</strong>五级/初级工、四级/中级工、三级/高级工、二级/技师、一级/高级技师。三级是高级工，不是高级工程师。</li><li><strong>证书性质：</strong>职业技能等级证书，不是准入类资格，也不是职称；用途取决于当地政策、单位和岗位要求。</li><li><strong>考试结构：</strong>国家标准写明三级考理论知识考试和技能考核，两科百分制、60 分合格；理论不少于 90 分钟，技能不少于 120 分钟。具体安排以当地备案评价机构为准。</li></ul><h3>三级四个正式职业功能</h3><p>业务分析、智能训练、智能系统设计、培训与指导。三级理论权重约为 5% 职业道德、10% 基础知识、20% 业务分析、30% 智能训练、30% 智能系统设计、5% 培训与指导；技能考核更偏业务分析、智能训练和系统设计。</p><h3>职业道德不只是“价值观”</h3><ul><li><strong>诚实公正、严谨求是：</strong>不伪造数据、标注、测试结果或指标；如实报告失败案例和适用限制。</li><li><strong>遵章守法、恪尽职守：</strong>按授权采集数据，保护个人信息和商业秘密；发现越权、泄密、偏见或高风险误判时停止并上报。</li><li><strong>留痕与复核：</strong>数据来源、处理版本、审核人、模型配置和发布决策可追溯；不把模型输出当成最终事实。</li></ul><h3>基础知识抓住考试和工作共用的四项</h3><ul><li><strong>计算机与办公工具：</strong>文件、数据库、表格、压缩与文本处理，至少能复现一套数据处理流程。</li><li><strong>法律边界：</strong>国家标准列出劳动法、劳动合同法、网络安全法、知识产权法；实务中还要重点关注个人信息保护、数据安全和授权范围。</li><li><strong>AI 基本概念：</strong>训练/验证/测试、特征与标签、过拟合、基线、混淆矩阵、精确率/召回率等，能用业务语言解释。</li><li><strong>安全与隐私：</strong>最小权限、脱敏、加密、日志审计、留存期限、删除与事件上报。</li></ul><div class="practice-box"><strong>背诵不是重点：</strong>理论题会用这些概念做判断，案例题则看你能不能把它们落实到方案、测试报告和培训材料里。</div><h3>申报条件不能想当然</h3><p>国家标准给出的路径之一是：具有大专及以上本专业或相关专业毕业证书，累计从事本职业或相关职业工作 3 年以上。计算机科学硕士不等于自动满足“相关职业”认定，也不代表可直接报三级。报名之前必须让当地备案评价机构书面确认。</p><div class="highlight-box">你的目标是 AI 应用工程师，证书是辅助证明。最值得投入的是可运行项目、评测报告、工程能力和作品集；证书只在明确有帮助时再考。</div>`,
+                        todos: [
+                            '写下“报考核对表”：备案机构、申报条件、考试科目、合格线、费用、证书查询与补贴政策',
+                            '确认当地是否把 Android 开发认定为“相关职业”，保留书面或截图依据',
+                            '列出三级四个职业功能及理论权重，不看资料复述一遍',
+                            '写出项目必须遵守的 3 条伦理与隐私红线',
+                            '整理职业道德、劳动/合同/网络安全/知识产权的最小知识卡',
+                            '判断自己现阶段是“先学能力”还是“立即报考”，写出理由'
+                        ],
+                        quiz: [
+                            {
+                                q: '人工智能训练师三级对应哪个职业技能等级？',
+                                options: ['五级/初级工', '四级/中级工', '三级/高级工', '二级/技师'],
+                                answer: 2,
+                                desc: '三级对应高级工，但“高级工”不是“高级工程师”。'
+                            },
+                            {
+                                q: '关于三级考试与证书，哪项说法最准确？',
+                                options: ['三级就是高级工程师职称', '两科百分制、通常 60 分合格，但当地安排仍需核实', '只考理论，不考技能', '拿到证书就保证能转 AI 工程师'],
+                                answer: 1,
+                                desc: '国家标准给出一般规则，地方评价机构负责具体组织；证书不等于岗位能力认证。'
+                            },
+                            {
+                                q: '清洗数据时发现真实姓名、手机号和未公开合同，最合适的做法是？',
+                                options: ['继续使用并上传公开网盘', '先停止扩散，核对授权并按规范脱敏、限权和留痕', '只删除姓名，其他保留', '把数据发给所有标注员方便比对'],
+                                answer: 1,
+                                desc: '疑似超范围或敏感数据要先控制扩散，再核对授权，并同时处理脱敏、访问控制和审计。'
+                            },
+                            {
+                                q: '国家标准“基础知识”中的法律法规部分明确列出哪组？',
+                                options: ['劳动法、劳动合同法、网络安全法、知识产权法', '只列消费者权益保护法', '只列交通法规', '只列公司章程'],
+                                answer: 0,
+                                desc: '这是 2021 版标准列出的基础法律法规范围；实际工作还应结合个人信息保护、数据安全等现行要求。'
+                            }
+                        ]
+                    },
+                    {
+                        title: '业务分析：从业务流程里找可 AI 化的环节',
+                        scope: 'official',
+                        scopeNote: '三级·业务分析',
+                        lesson: `<h3>官方要求怎么落地</h3><p>业务分析不是先选模型，而是先看清业务目标、角色、输入、处理、输出、异常和人工兜底。三级要求能识别单一业务模块的问题，并设计优化方案。</p><h3>五步拆解法</h3><ol><li><strong>目标：</strong>要降低什么成本、缩短什么时间、减少什么错误？写成可量化目标。</li><li><strong>流程：</strong>用泳道图列出用户、业务人员、系统各自做什么。</li><li><strong>AI 候选点：</strong>重复、规则明确、数据可得、错误可承受的环节优先。</li><li><strong>约束：</strong>隐私、时效、解释性、成本、合规和人工容量。</li><li><strong>验收：</strong>不是“上线模型”，而是业务指标和风险指标一起达标。</li></ol><h3>Android 经验可以迁移</h3><p>你熟悉的埋点、漏斗、崩溃率、版本灰度、用户反馈，都可以迁移到智能产品分析。区别是还要补上数据标注、模型评测、置信度与人工兜底。</p><div class="practice-box"><strong>练习：</strong>选一个客服工单分类场景，画出现状流程，圈出最值得 AI 化的一个模块，并写出“不建议 AI 化”的一个环节及原因。</div>`,
+                        todos: [
+                            '选择一个真实业务场景，画出用户、业务人员、系统三条泳道',
+                            '为现状流程标注目标、输入、输出、异常和人工处理点',
+                            '选出 AI 化候选环节，写出收益、数据可得性、风险和验收指标',
+                            '主动写出一个不应由 AI 接管的环节，并解释原因'
+                        ],
+                        quiz: [
+                            {
+                                q: '业务分析阶段最先应该明确什么？',
+                                options: ['用哪个大模型', '业务目标、流程与约束', '界面的颜色', '服务器品牌'],
+                                answer: 1,
+                                desc: '先定义业务问题与约束，再判断 AI 是否适用，最后才选技术和模型。'
+                            },
+                            {
+                                q: '哪类环节通常更适合优先尝试 AI？',
+                                options: ['数据完全不可得且错误代价极高', '高频、重复、规则较明确、错误可兜底', '必须百分之百解释且没有人工容量', '只发生一次且无历史数据'],
+                                answer: 1,
+                                desc: '高频重复、数据可得、错误可控制是较好的切入点。'
+                            }
+                        ]
+                    },
+                    {
+                        title: '设计业务数据的采集、处理与审核流程',
+                        scope: 'official',
+                        scopeNote: '三级·业务分析 / 数据处理',
+                        lesson: `<h3>官方关注的是“流程”</h3><p>三级不只是填一张采集表，而是能设计从数据源到可用数据的全流程：谁采、采什么、何时采、如何存、怎么处理、谁审核、异常如何退回、最终交付什么。</p><h3>一条完整数据链</h3><ol><li><strong>需求：</strong>任务、标签体系、数据规模、分布和验收标准。</li><li><strong>采集：</strong>来源、工具、字段、格式、采样策略、授权与隐私告知。</li><li><strong>处理：</strong>脱敏、格式转换、去重、清洗、初步质检。</li><li><strong>审核：</strong>准确性、完整性、一致性、规范性，抽样比例与退回机制。</li><li><strong>交付：</strong>版本号、数据字典、变更记录、责任人、存放位置。</li></ol><h3>流程设计必须写异常</h3><p>至少覆盖空文件、编码错误、重复提交、标签冲突、敏感信息、设备不兼容和审核不通过。没有异常路径的流程图，放到实操里通常是残缺的。</p><div class="highlight-box">一条好流程不是“理想情况下能跑”，而是“出问题时知道谁处理、多久处理、如何留痕”。</div>`,
+                        todos: [
+                            '为选定场景写数据字典：字段名、类型、是否必填、取值范围、示例',
+                            '画出采集→处理→审核→交付流程，补上退回与异常分支',
+                            '设置抽检比例、合格阈值、责任人和留痕字段',
+                            '写一份 200 字以内的数据流程说明，交给别人复述检验'
+                        ],
+                        quiz: [
+                            {
+                                q: '业务数据流程设计中最容易被遗漏、但考试和实操都很重要的是？',
+                                options: ['界面动画', '异常退回与责任留痕', '模型参数量', '品牌宣传'],
+                                answer: 1,
+                                desc: '流程必须覆盖异常、退回、责任人与审计留痕。'
+                            },
+                            {
+                                q: '数据审核的核心维度通常不包括？',
+                                options: ['准确性', '一致性', '完整性', '模型是不是最新热点'],
+                                answer: 3,
+                                desc: '审核关注数据质量与规范，不是追逐技术热点。'
+                            }
+                        ]
+                    }
+                ],
+                lab: {
+                    title: '实操：客服工单数据流程与异常清单',
+                    scope: 'practice',
+                    scopeNote: '官方主题实操 · 业务分析',
+                    lesson: `<h3>任务</h3><p>设计“客服工单智能分类”的数据采集、处理、审核流程。不是写宣传方案，而是交付可以执行的流程。</p><h3>必须包含</h3><ul><li>工单来源、字段、采样范围、隐私脱敏和授权说明。</li><li>采集→清洗→标注→审核→训练/测试集交付的完整链路。</li><li>至少 5 个异常分支：重复工单、空文本、敏感信息、标签冲突、审核退回。</li><li>抽检比例、验收阈值、版本号和责任人。</li></ul><h3>交付格式</h3><p>一页流程图说明＋一页数据字典＋一张异常处理表。可以在“每日小测”的实操区写 Markdown 版本。</p>`,
+                    todos: ['完成一页流程图说明', '完成数据字典（至少 8 个字段）', '完成异常处理表（至少 5 项）', '请另一位开发者按文档复述流程并记录歧义']
+                },
+                recap: {
+                    title: '复盘：把业务问题写成可验收方案',
+                    scope: 'review',
+                    scopeNote: '阶段复盘',
+                    lesson: `<h3>统一答案骨架</h3><p>业务背景 → 现状流程 → 问题与目标 → AI 候选点 → 数据方案 → 风险与兜底 → 指标 → 验收标准。这个骨架能同时用于三级案例题和应用工程需求文档。</p><h3>自查四个坑</h3><ul><li>只讲技术，不讲业务指标。</li><li>只说正常流程，不写异常与退出机制。</li><li>把“准确率 95%”当唯一目标，却没有业务成本和风险阈值。</li><li>把用户隐私、授权、数据保留期限留到最后才想。</li></ul>`,
+                    todos: ['把本周案例压缩成 8 句答案骨架', '为每个环节补一个可验证的交付物', '找出方案中一个技术不可行或成本过高的点', '记录下周需要补的数据类型与规范']
+                },
+                weekly: [
+                    { q: '三级/高级工在五级体系中位于哪一级？', options: ['二级', '三级', '四级', '五级'], answer: 1 },
+                    { q: '三级理论权重最高的两个模块通常是？', options: ['职业道德与基础知识', '业务分析与培训指导', '智能训练与智能系统设计', '外语与办公软件'], answer: 2 },
+                    { q: '关于三级考试结构，哪项最准确？', options: ['只写论文', '理论考试＋技能考核，具体以当地机构为准', '只做选择题', '只交工作证明'], answer: 1 },
+                    { q: '数据流程设计必须包含哪一项？', options: ['模型排行榜', '异常处理与退回机制', '海报设计', '公司股价'], answer: 1 },
+                    { q: '计算机硕士想报三级，最稳妥的做法是？', options: ['认为学历高一定免考', '直接报名不看公告', '向当地备案评价机构确认专业和相关工作年限', '买“官方题库”'], answer: 2 }
+                ]
+            },
+            {
+                n: 2,
+                theme: '视觉、文本与语音数据',
+                units: [
+                    {
+                        title: '视觉数据：采集、预处理与标注',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 数据规范',
+                        lesson: `<h3>采集与格式</h3><p>视觉数据可来自相机、手机、扫描仪、视频抽帧或已有图库。常见格式有 JPG、PNG、BMP，视频常见 MP4、AVI；还要记录分辨率、光照、拍摄角度、设备、时间与授权。采集方案要说明场景覆盖、类别分布和负样本。</p><h3>预处理</h3><ul><li>尺寸缩放、裁剪、旋转、去噪、亮度/对比度调整。</li><li>模糊、遮挡、过曝、重复图片检查。</li><li>脱敏：人脸、车牌、证件、屏幕敏感信息。</li></ul><h3>标注类型</h3><p>分类、检测框、分割掩码、关键点。规范必须写清标签定义、边界样例、遮挡处理、最小框尺寸、是否允许重叠和质检抽样。</p><div class="practice-box"><strong>Android 迁移点：</strong>相机预览、拍照方向、EXIF、图片压缩和存储权限都是你已有的工程经验，可以直接用于采集端设计。</div>`,
+                        todos: ['列出视觉任务的数据来源、设备、格式与授权要求', '为 3 个易混标签各写一个正例和一个边界反例', '设计分辨率、模糊、遮挡的质检规则', '写一段人脸/证件信息脱敏流程']
+                    },
+                    {
+                        title: '文本数据：采集、预处理与质检',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 数据规范',
+                        lesson: `<h3>采集</h3><p>文本可来自表单、工单、聊天记录、网页、日志或已有语料。先确认使用授权、敏感信息、保留期限和是否允许进入训练集。采样要覆盖业务类型、用户群体、时间和长尾表达。</p><h3>预处理</h3><ul><li>编码统一为 UTF-8，清理乱码、HTML、重复文本和无关模板。</li><li>按业务需要分词、去停用词、标准化同义词、脱敏编号。</li><li>保留原始文本与清洗版本，避免不可逆处理。</li></ul><h3>标注与审核</h3><p>分类、实体抽取、意图、情感、问答或内容安全。规范要写标签定义、优先级、冲突规则、边界样例和双人复核。审核重点是准确性、完整性、一致性、规范性。</p><div class="highlight-box">文本数据最容易犯的错误是把“清洗”和“标注”混为一谈：清洗改变可用性，标注给出监督信号，两者都要版本化。</div>`,
+                        todos: ['为工单文本写字段与授权说明', '设计编码、去重、脱敏、模板去除规则', '写出 3 类意图标签及冲突优先级', '做 20 条样本的试标，记录最容易分歧的 3 条']
+                    },
+                    {
+                        title: '语音数据：采集、预处理与转写',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 语音数据',
+                        lesson: `<h3>采集</h3><p>语音数据通常来自麦克风、电话、会议或已有录音。需记录采样率、位深、声道、格式、设备、环境噪声、说话人、方言和场景。WAV 适合保留高质量原始音频，MP3/AAC 常见于压缩传输。</p><h3>预处理</h3><ul><li>转码、降噪、去静音、音量归一化、切片。</li><li>去除或遮盖姓名、电话、地址等个人信息。</li><li>语音转文本后要标注时间戳、说话人、置信度或无法识别片段。</li></ul><h3>标注</h3><p>转写、说话人分离、情绪、关键词、意图或缺陷标签。规范必须约定标点、数字、口音、重叠说话、噪声段和听不清内容的标记方式。</p><div class="highlight-box">语音数据的核心质量指标不只是“字准不准”，还包括说话人覆盖、噪声覆盖、时长分布和转写一致性。</div>`,
+                        todos: ['定义录音设备、采样率、格式、环境和说话人覆盖要求', '写降噪、切片、音量归一化和隐私脱敏步骤', '制定转写规范：标点、数字、重叠说话、听不清片段', '抽 10 段语音试转写，统计主要错误类型']
+                    }
+                ],
+                lab: {
+                    title: '实操：设计一个多模态现场采集方案',
+                    scope: 'practice',
+                    scopeNote: '官方主题实操 · 视觉/文本/语音',
+                    lesson: `<h3>场景</h3><p>为 Android 现场巡检 App 设计图、文、语音三类数据采集方案。巡检员拍摄设备照片、填写缺陷文本并口述现场情况。</p><h3>交付要求</h3><ul><li>三类数据的来源、字段、格式、设备与授权。</li><li>照片去人脸/证件，语音去个人信息，文本去手机号/地址。</li><li>视觉标签、文本意图、语音转写各自的质量规则。</li><li>数据配对关系：同一次巡检的照片、文本、语音如何绑定。</li></ul><p>重点体现 Android 工程优势：离线缓存、弱网重试、EXIF 方向、文件完整性和版本兼容。</p>`,
+                    todos: ['写三类数据类型与格式表', '设计数据绑定主键与离线重试策略', '写隐私脱敏规则', '列出每类数据的抽检比例与不合格处理']
+                },
+                recap: {
+                    title: '复盘：不同数据类型的共同质量底座',
+                    scope: 'review',
+                    scopeNote: '阶段复盘',
+                    lesson: `<h3>共同四问</h3><ol><li>数据从哪里来，是否有权使用？</li><li>格式、字段、场景和人群是否覆盖目标业务？</li><li>清洗、标注和审核是否有可执行规范？</li><li>版本、责任人、抽检和退回是否留痕？</li></ol><p>视觉、文本、语音的差异在工具和标注形式，共性是“来源可追溯、质量可测量、处理可重复、版本可回滚”。</p><div class="practice-box"><strong>自查：</strong>如果你的数据规范换一个同事执行会得到完全不同的结果，那它还不算规范。</div>`,
+                    todos: ['制作三类数据质量指标对照表', '检查每个流程是否有责任人与抽检规则', '找出一个可能导致训练集与测试集分布不一致的风险', '补一条数据保留与删除规则']
+                },
+                weekly: [
+                    { q: '视觉标注中“检测框”和“分类”的主要区别是？', options: ['检测框需要定位对象位置', '分类一定比检测贵', '检测框不需要标签', '两者完全相同'], answer: 0 },
+                    { q: '文本清洗与文本标注的关系是？', options: ['完全一样', '清洗改善数据可用性，标注提供监督信号', '清洗就是训练模型', '标注不需要规范'], answer: 1 },
+                    { q: '语音转写规范应明确哪项？', options: ['重叠说话、噪声和听不清片段如何标记', '模型参数量', '电脑品牌', '海报字体'], answer: 0 },
+                    { q: '多模态数据绑定最关键的是？', options: ['使用同一张背景图', '建立稳定的样本关联主键', '全部压成一个文件', '只保存界面截图'], answer: 1 },
+                    { q: '数据审核通常不包括下列哪项？', options: ['准确性', '一致性', '完整性', '页面动画是否炫酷'], answer: 3 }
+                ]
+            },
+            {
+                n: 3,
+                theme: '数据清洗、标注规范与数据集维护',
+                units: [
+                    {
+                        title: '数据清洗规范：从“看一眼”变成可执行规则',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 清洗规范',
+                        lesson: `<h3>清洗处理什么</h3><ul><li><strong>缺失：</strong>删除、补全、标记为未知，或单独建类。选择必须写理由。</li><li><strong>重复：</strong>完全重复、近重复、同一实体多记录；跨集合重复会造成泄漏。</li><li><strong>异常：</strong>数值越界、格式错误、图片损坏、音频截断、文本乱码。</li><li><strong>标签：</strong>无效标签、冲突标签、标签泄漏、历史标签映射。</li><li><strong>隐私：</strong>脱敏、加密、访问控制和保留期限。</li></ul><h3>规范必须可执行</h3><p>每条规则要写触发条件、处理方式、记录字段、责任人和复核方式。例如“重复工单按 ticket_id 保留最新非空记录，旧记录标记为 duplicate_of，不直接删除”。</p><div class="highlight-box">可逆清洗优于不可逆删除。至少保留原始数据、清洗日志和映射关系。</div>`,
+                        todos: ['为缺失、重复、异常、标签、隐私各写一条清洗规则', '规则中写触发条件、处理方式、责任人和留痕字段', '设计清洗前后样本数与变化原因统计', '找出一条可能导致数据泄漏的清洗错误']
+                    },
+                    {
+                        title: '标注规范：标签定义、边界样例与一致性',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 标注规范',
+                        lesson: `<h3>标注规范的七块内容</h3><ol><li>任务目标和适用范围。</li><li>标签定义与互斥/优先级。</li><li>正例、反例、边界样例。</li><li>遮挡、模糊、缺失、噪声的处理。</li><li>多人标注、仲裁和退回机制。</li><li>验收指标，如准确率、一致率和冲突率。</li><li>版本号、变更记录和培训要求。</li></ol><h3>一致性怎么衡量</h3><p>分类任务可用 Cohen's Kappa 或一致率；实体抽取要分别看边界与类型是否一致。规范不清晰时，先做小批试标和校准会，再大规模标注。</p><div class="practice-box"><strong>实操提示：</strong>每个容易混淆的标签至少配一个“看起来像但不应标”的反例。</div>`,
+                        todos: ['为 3 至 5 个标签写定义与优先级', '每类写 1 个正例、1 个反例、1 个边界例', '设计试标、校准会、仲裁和退回流程', '定义一致率、冲突率与合格阈值']
+                    },
+                    {
+                        title: '数据集维护：切分、版本、血缘与泄漏',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 数据集维护',
+                        lesson: `<h3>维护训练集与测试集</h3><p>训练集用于学习参数，验证集用于模型选择与调参，测试集用于最终评估。不能反复用测试集挑模型，否则测试集会“失效”。</p><h3>切分原则</h3><ul><li>按时间切分模拟未来数据；按用户/设备/工单分组切分避免同实体泄漏。</li><li>保持类别与关键场景覆盖，避免某一类只出现在测试集。</li><li>记录数据版本、切分种子、标签版本、清洗版本和代码提交。</li></ul><h3>数据集卡片</h3><p>至少写来源、用途、规模、字段、标签、分布、隐私处理、已知偏差、禁止用途、维护人和更新日期。</p><div class="highlight-box">测试集泄漏是三级实操和 AI 应用工程都高频出现的错误：重复或近重复样本跨集合，会让指标虚高。</div>`,
+                        todos: ['为当前案例写训练/验证/测试切分方案', '选择按时间或按实体分组，并解释原因', '制作数据集卡片', '检查重复、近重复与标签泄漏']
+                    }
+                ],
+                lab: {
+                    title: '实操：审核脏数据并写清洗与标注规范',
+                    scope: 'practice',
+                    scopeNote: '官方主题实操 · 数据治理',
+                    lesson: `<h3>任务</h3><p>拿到一份“工单分类”数据：有缺失文本、重复工单、多个历史标签、少量敏感手机号、训练集与测试集重复样本。你要输出可执行治理方案。</p><h3>必须交付</h3><ul><li>问题盘点表：问题、数量、影响、处理方式、责任人。</li><li>清洗规范：缺失、重复、异常、敏感信息与标签映射。</li><li>标注规范：标签定义、边界例、冲突优先级、抽检与仲裁。</li><li>数据集卡片：版本、分布、用途、偏差、禁止用途。</li></ul>`,
+                    todos: ['完成问题盘点表', '完成可执行清洗规范', '完成标注规范与边界样例', '制作数据集卡片并做泄漏检查']
+                },
+                recap: {
+                    title: '复盘：数据规范如何通过“换人执行”测试',
+                    scope: 'review',
+                    scopeNote: '阶段复盘',
+                    lesson: `<h3>换人执行测试</h3><p>把清洗与标注规范交给另一位同学，在不口头补充的情况下处理 20 条样本。如果结果差异很大，问题通常在定义、边界例、优先级或验收规则，而不是对方“不会做”。</p><h3>复盘清单</h3><ul><li>每条规则是否可判定，而不是“尽量”“适当”“明显”？</li><li>异常是否有明确去向和责任人？</li><li>是否保留原始数据与处理日志？</li><li>测试集是否被污染？</li><li>版本和变更能否复现？</li></ul>`,
+                    todos: ['用 20 条样本做一次换人执行测试', '统计不一致样本并归类原因', '修订至少 3 条模糊规则', '记录下一版规范需要的验收指标']
+                },
+                weekly: [
+                    { q: '可逆清洗通常优先于直接删除，原因是？', options: ['文件更大', '便于追溯、复核和回滚', '模型一定更准', '不需要隐私处理'], answer: 1 },
+                    { q: '标注规范中的“边界样例”主要解决什么？', options: ['增加页面数量', '减少相似标签的判定分歧', '替代模型训练', '提升网速'], answer: 1 },
+                    { q: '避免同一用户样本跨训练集与测试集，常采用？', options: ['随机打乱全部样本', '按实体或用户分组切分', '只保留训练集', '把测试集也用来训练'], answer: 1 },
+                    { q: '数据集卡片通常不需要写？', options: ['来源与用途', '已知偏差和禁止用途', '版本与维护人', '开发者喜欢的咖啡品牌'], answer: 3 },
+                    { q: '测试集泄漏最直接的后果是？', options: ['评估结果虚高', '电脑死机', '标签自动消失', '模型一定更大'], answer: 0 }
+                ]
+            },
+            {
+                n: 4,
+                theme: '模型训练、指标与算法选型',
+                units: [
+                    {
+                        title: '模型训练流程：从任务定义到可复现实验',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 模型训练',
+                        lesson: `<h3>训练前先写实验卡</h3><p>任务类型、输入输出、数据版本、切分方式、基线、评价指标、目标阈值、训练环境、随机种子和负责人。没有基线的训练很容易变成“指标看起来还行，但不知道有没有价值”。</p><h3>基本步骤</h3><ol><li>建立简单基线：规则、传统模型或已有服务。</li><li>在训练集训练，在验证集选模型/调参。</li><li>记录损失、指标、耗时、资源与失败样本。</li><li>冻结配置后只在测试集做最终评估。</li></ol><h3>模型调整要讲证据</h3><p>数据量不足先补数据；类别不平衡先调采样与指标；欠拟合考虑模型容量和特征；过拟合考虑正则、早停和更多数据。不要只说“换个更大的模型”。</p>`,
+                        todos: ['写一张实验卡：任务、数据、切分、基线、指标、阈值', '建立一个简单基线并记录结果', '训练/调参只使用训练集与验证集', '把配置、种子、指标和失败样本写入实验记录']
+                    },
+                    {
+                        title: '模型评估指标：准确率之外的业务语言',
+                        scope: 'official',
+                        scopeNote: '三级·模型训练 / 指标',
+                        lesson: `<h3>分类核心指标</h3><ul><li><strong>Precision：</strong>判为正的样本中真正为正的比例，关注“报出来的准不准”。</li><li><strong>Recall：</strong>真实正例中被找出的比例，关注“该找的漏没漏”。</li><li><strong>F1：</strong>Precision 与 Recall 的调和平均，适合两者都重要时。</li><li><strong>Accuracy：</strong>所有样本中预测正确的比例；类别不平衡时会误导。</li></ul><h3>其他任务</h3><p>视觉检测可看 mAP、IoU；语音转写可看 WER/CER；排序可看 NDCG；生成任务要同时看正确性、完整性、引用依据、拒答与人工评分。聚类可用轮廓系数，但不能替代业务解释。</p><div class="highlight-box">指标必须绑定业务代价。漏检医疗风险与漏掉普通推荐内容，不能使用同一阈值。</div>`,
+                        todos: ['从混淆矩阵计算 Precision、Recall 和 F1', '解释一个类别不平衡场景为什么不能只看 Accuracy', '为业务选择主指标、护栏指标和人工抽检指标', '为不同错误设定可接受成本与阈值']
+                    },
+                    {
+                        title: '错误类型识别与算法选型',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 算法选型',
+                        lesson: `<h3>先分错，再选算法</h3><p>错误至少分为：数据缺失、标签错误、标注不一致、分布偏移、特征不足、模型容量不匹配、阈值不合适、后处理错误和业务规则冲突。错误类型不是“模型不行”一句话。</p><h3>算法选型维度</h3><ul><li>数据规模与类型：表格、图像、文本、语音。</li><li>任务目标：分类、检测、聚类、生成、检索、排序。</li><li>工程约束：延迟、吞吐、内存、离线/在线、成本。</li><li>可解释性与风险：是否需要审计、拒答、人工复核。</li><li>维护成本：训练频率、标注成本、版本升级和依赖。</li></ul><p>选型输出应包含基线、候选方案、比较实验、失败边界和回退策略，而不是只写模型名称。</p>`,
+                        todos: ['为当前案例建立错误类型 taxonomy', '按数据、标签、模型、阈值、后处理归类 10 个错误样本', '列出 2 个候选算法及取舍', '写清回退策略与不可使用边界']
+                    }
+                ],
+                lab: {
+                    title: '实操：模型评估与错误分析报告',
+                    scope: 'practice',
+                    scopeNote: '官方主题实操 · 训练与评估',
+                    lesson: `<h3>任务</h3><p>给定一个三分类工单模型，输出指标、错误分析和下一步方案。你不需要追求模型最强，而要证明判断有证据。</p><h3>报告结构</h3><ol><li>任务、数据版本、切分方式和基线。</li><li>混淆矩阵、每类 Precision/Recall/F1、宏平均指标。</li><li>至少 10 个错误样本的类型与根因。</li><li>数据、标注、模型、阈值、后处理五类改进项。</li><li>下一轮实验假设、成功标准和回退条件。</li></ol>`,
+                    todos: ['计算并解释分类指标', '整理至少 10 个错误样本', '按根因分类错误', '写下一轮实验假设与成功标准']
+                },
+                recap: {
+                    title: '复盘：模型好坏必须回到业务代价',
+                    scope: 'review',
+                    scopeNote: '阶段复盘',
+                    lesson: `<h3>三问模型结果</h3><ol><li>错误发生在哪些人群、类别和场景？平均值是否掩盖了长尾问题？</li><li>误报与漏报的业务代价是否相同？阈值应该服务谁？</li><li>提升 2 个点指标，是否值得新增标注成本和推理成本？</li></ol><p>如果回答不了这三个问题，指标再漂亮也无法支持上线决策。</p>`,
+                    todos: ['为误报和漏报分别估算业务代价', '找出平均值掩盖的最差类别', '计算一次改进的收益/成本假设', '写出上线、观察、回退三个决策条件']
+                },
+                weekly: [
+                    { q: '验证集最主要用于？', options: ['学习模型参数', '模型选择与调参', '最终对外报告', '替代训练集'], answer: 1 },
+                    { q: 'Precision 的分母是？', options: ['真实正例数', '所有样本数', 'TP＋FP', 'TN＋FN'], answer: 2 },
+                    { q: '类别严重不平衡时，比 Accuracy 更合适的是？', options: ['只看训练损失', '每类 Recall、宏平均 F1 等', '参数数量', '训练时长'], answer: 1 },
+                    { q: '错误分析最不该采用的做法是？', options: ['按数据、标签、模型、阈值分类', '查看具体错误样本', '只写“模型不行”', '统计错误分布'], answer: 2 },
+                    { q: '算法选型应同时考虑？', options: ['只考虑参数量', '只考虑流行度', '任务、数据、延迟、成本、风险和可维护性', '只看排行榜'], answer: 2 }
+                ]
+            },
+            {
+                n: 5,
+                theme: '功能、性能与安全性测试',
+                units: [
+                    {
+                        title: '功能测试：需求、用例与边界',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 功能测试',
+                        lesson: `<h3>功能测试不是只测“正常输入”</h3><p>从需求拆出可观察行为：输入合法/非法、缺失字段、超长文本、格式错误、空图片、损坏音频、重复请求、权限不足、服务超时和人工兜底。每条用例写前置条件、步骤、测试数据、预期结果和实际结果。</p><h3>AI 功能特有检查</h3><ul><li>同一输入多次调用是否稳定在可接受范围。</li><li>无依据时是否拒答，而不是编造。</li><li>低置信度、超时、限流和服务异常是否进入人工流程。</li><li>模型版本切换是否保持接口与业务规则兼容。</li></ul><div class="practice-box"><strong>用例设计法：</strong>等价类、边界值、决策表、状态迁移和错误猜测一起用；生成式 AI 还要维护一组固定回归评测集。</div>`,
+                        todos: ['把需求拆成可验证行为', '编写正常、边界、异常和权限用例', '为生成式功能加入拒答、引用和回归集检查', '记录实际结果与缺陷编号']
+                    },
+                    {
+                        title: '性能测试：延迟、吞吐、资源与成本',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 性能测试',
+                        lesson: `<h3>性能指标</h3><ul><li><strong>延迟：</strong>P50、P95、P99，而不是只看平均响应时间。</li><li><strong>吞吐：</strong>QPS、并发请求数、批量任务处理速度。</li><li><strong>资源：</strong>CPU、内存、显存、磁盘、网络和模型加载时间。</li><li><strong>成本：</strong>每千次调用、每百万 token、每张图片或每分钟语音的成本。</li></ul><h3>测试方法</h3><p>先定义业务负载与通过标准，再做阶梯加压、峰值、长时间稳定性和降级测试。记录环境、数据规模、并发模型和瓶颈位置，避免把本地单次测试当生产结论。</p><div class="highlight-box">性能测试不是只追求更快，而是确认在目标负载和预算下仍能满足业务时效。</div>`,
+                        todos: ['定义目标负载、P95/P99 延迟和成本上限', '设计阶梯加压、峰值与稳定性测试', '记录资源使用和瓶颈', '验证超时、限流和降级策略']
+                    },
+                    {
+                        title: '安全性测试：数据、模型与使用边界',
+                        scope: 'official',
+                        scopeNote: '三级·智能训练 / 安全性测试',
+                        lesson: `<h3>安全测试范围</h3><ul><li>隐私与数据：越权访问、敏感信息泄漏、日志残留、训练数据删除。</li><li>输入攻击：恶意文件、超长输入、提示注入、对抗样本、异常编码。</li><li>输出风险：有害内容、个人信息、错误建议、无依据陈述。</li><li>系统安全：密钥泄露、接口鉴权、限流、依赖漏洞与供应链。</li></ul><h3>三级要能设计测试，不是做安全专家</h3><p>重点是识别风险、写测试用例、记录严重程度、提出控制和复测方案。高风险场景必须有人工复核、明确拒答和审计日志。</p><div class="highlight-box">AI 安全没有“测一次就结束”。模型、提示词、知识库、依赖和攻击面变化后都要回归。</div>`,
+                        todos: ['列出隐私、输入、输出、系统四类风险', '每类至少写 2 个测试用例', '设置严重程度、复现步骤与证据要求', '为高风险场景设计人工复核和拒答机制']
+                    }
+                ],
+                lab: {
+                    title: '实操：OCR 票据识别测试方案与报告',
+                    scope: 'practice',
+                    scopeNote: '官方主题实操 · 测试报告',
+                    lesson: `<h3>场景</h3><p>一个 OCR 票据识别功能，需识别金额、日期、发票号并写入业务系统。请设计功能、性能、安全性测试并写测试报告。</p><h3>交付要求</h3><ul><li>测试范围、环境、数据、角色和通过标准。</li><li>功能用例覆盖清晰/模糊/旋转/遮挡/缺字段/重复/非票据。</li><li>性能指标含 P95 延迟、峰值并发和错误率。</li><li>安全覆盖敏感信息、越权、恶意文件和日志。</li><li>缺陷分级、证据、复测结果和发布建议。</li></ul>`,
+                    todos: ['写测试范围与通过标准', '设计不少于 12 条功能用例', '设计性能与安全测试', '输出含缺陷和发布建议的测试报告']
+                },
+                recap: {
+                    title: '复盘：测试报告要能支持发布决策',
+                    scope: 'review',
+                    scopeNote: '阶段复盘',
+                    lesson: `<h3>报告结论不是“测试完成”</h3><p>应写：测了什么、没测什么、在什么环境、发现多少问题、严重程度如何、剩余风险是什么、建议发布/灰度/阻断，以及回退条件。</p><h3>缺陷质量检查</h3><ul><li>标题能否一眼看出问题？</li><li>是否给出复现步骤、测试数据、预期与实际？</li><li>严重程度是否有业务影响依据？</li><li>修复后是否执行回归与相邻模块检查？</li></ul>`,
+                    todos: ['检查每条缺陷是否可复现', '按业务影响重排严重程度', '补充未测范围与剩余风险', '写出发布、灰度和回退建议']
+                },
+                weekly: [
+                    { q: '功能测试中最容易被遗漏的是？', options: ['正常路径', '边界、异常、权限和降级路径', '按钮颜色', '软件图标'], answer: 1 },
+                    { q: '性能测试更应报告哪组指标？', options: ['平均值一项', 'P50/P95/P99、吞吐、资源与成本', '代码行数', '用户评分'], answer: 1 },
+                    { q: '提示注入属于哪类风险？', options: ['输入攻击', '显示器故障', '数据库备份', '字体版权'], answer: 0 },
+                    { q: '测试报告必须明确？', options: ['只写通过数量', '测试范围、环境、缺陷、剩余风险和发布建议', '团队合照', '模型论文'], answer: 1 },
+                    { q: '缺陷严重程度应主要依据？', options: ['发现时间', '业务影响与风险', '文件名', '发现人职位'], answer: 1 }
+                ]
+            },
+            {
+                n: 6,
+                theme: '产品数据、优化方案与人机交互',
+                units: [
+                    {
+                        title: '单一智能产品使用数据分析',
+                        scope: 'official',
+                        scopeNote: '三级·智能系统设计 / 数据分析',
+                        lesson: `<h3>从问题到指标</h3><p>先写产品目标，再选指标。常见维度包括使用量、活跃、任务完成率、采纳率、人工接管率、平均处理时长、失败率、重复提问、满意度、成本和留存。</p><h3>分析方法</h3><ul><li>漏斗：入口、触发、结果、人工接管、完成。</li><li>分群：新/老用户、设备、场景、地区、风险等级。</li><li>时间趋势：版本前后、节假日、模型发布前后。</li><li>关联与因果：先观察，再通过 A/B 或准实验确认。</li></ul><div class="practice-box"><strong>报告结构：</strong>业务问题 → 数据口径 → 趋势/分群 → 异常 → 根因假设 → 优化需求 → 验收指标。</div>`,
+                        todos: ['定义产品北极星指标和 3 个护栏指标', '设计从使用到人工接管的漏斗', '做至少 3 个分群的对比', '写异常、根因假设和下一步验证']
+                    },
+                    {
+                        title: '产品优化需求与解决方案',
+                        scope: 'official',
+                        scopeNote: '三级·智能系统设计 / 优化',
+                        lesson: `<h3>需求不是“加一个模型”</h3><p>优化需求应包括用户/业务问题、证据、目标、范围、方案、风险、成本、优先级和验收。方案可以同时包含数据、规则、交互、模型、人工流程和监控。</p><h3>优先级</h3><p>用影响 × 置信度 ÷ 成本做初筛，再考虑风险与依赖。对高严重度低频问题，不能只用频次排序。发布前定义成功指标与失败阈值。</p><h3>验证</h3><p>能 A/B 就 A/B；不能随机分组时，使用前后对比、灰度、分组回归或准实验，并说明混杂因素。上线后监控数据漂移、失败率和人工接管率。</p>`,
+                        todos: ['把一个用户痛点写成可验收优化需求', '提出数据、规则、模型、交互、人工五类候选措施', '计算影响、置信度、成本和风险优先级', '设计 A/B、灰度或前后对比的验证方案']
+                    },
+                    {
+                        title: '设计人工与智能交互的最优流程',
+                        scope: 'official',
+                        scopeNote: '三级·智能系统设计 / 人机交互',
+                        lesson: `<h3>不是所有请求都交给模型</h3><p>按风险、置信度、可解释性和时效设计分流：自动处理、建议后由人确认、直接转人工、拒绝并给出替代路径。每个分支都要说明触发条件、界面提示和审计记录。</p><h3>好的交互特征</h3><ul><li>告诉用户系统能做什么、不能做什么。</li><li>展示依据、置信度或不确定性，不用虚假确定语气。</li><li>提供纠错、撤销、转人工和反馈入口。</li><li>失败时给出下一步，而不是只显示“出错了”。</li></ul><div class="highlight-box">在 Android 产品里，你已经处理过权限、网络、离线与异常状态；人机交互设计要把这些状态与 AI 的不确定性结合起来。</div>`,
+                        todos: ['按风险与置信度画出四象限分流', '设计自动、人审、转人工、拒答四条路径', '为每条路径写界面提示与审计字段', '做一次失败场景走查，补回退入口']
+                    }
+                ],
+                lab: {
+                    title: '实操：客服助手使用数据分析与优化方案',
+                    scope: 'practice',
+                    scopeNote: '官方主题实操 · 产品优化',
+                    lesson: `<h3>任务</h3><p>某客服助手任务完成率 62%，人工接管率 31%，P95 延迟 8 秒，用户投诉“答非所问”。请写数据分析报告与优化方案。</p><h3>交付要求</h3><ul><li>定义指标口径，列出至少 3 个分群对比。</li><li>提出不少于 5 个根因假设及验证数据。</li><li>给出数据、检索、模型、交互、人工五类措施。</li><li>设计 A/B 或灰度方案、成功指标与风险护栏。</li></ul>`,
+                    todos: ['定义指标口径和分群维度', '写根因假设与验证方法', '给出跨数据/模型/交互/人工的方案', '设计实验与上线验收标准']
+                },
+                recap: {
+                    title: '复盘：从“数据异常”走到“可上线方案”',
+                    scope: 'review',
+                    scopeNote: '阶段复盘',
+                    lesson: `<h3>证据链</h3><p>异常现象 → 指标变化 → 分群定位 → 错误样本 → 根因假设 → 验证结果 → 方案 → 实验 → 验收。任何一步缺失，都容易变成拍脑袋优化。</p><h3>上线护栏</h3><ul><li>任务完成率提升是否以更多错误或更高人工成本为代价？</li><li>平均延迟改善是否掩盖 P99 长尾？</li><li>高风险请求是否仍能被人工接管？</li></ul>`,
+                    todos: ['把本案例整理成一条完整证据链', '检查每个假设是否有数据验证', '为收益与风险同时设置指标', '写上线后第一周的监控与回退计划']
+                },
+                weekly: [
+                    { q: '智能产品分析中，人工接管率通常反映？', options: ['模型一定更强', '自动流程覆盖不足或风险控制需求', '页面颜色', '服务器品牌'], answer: 1 },
+                    { q: '产品优化需求应包含？', options: ['只写模型名称', '问题、证据、目标、范围、风险、成本和验收', '只写上线日期', '只写竞品截图'], answer: 1 },
+                    { q: '验证优化效果最可靠的方法之一是？', options: ['只看直觉', 'A/B 测试或合理灰度对比', '删掉监控', '只问开发者'], answer: 1 },
+                    { q: '人机交互分流应重点考虑？', options: ['风险与置信度', '按钮圆角', '模型论文数量', '办公室面积'], answer: 0 },
+                    { q: '低置信度请求更合理的处理是？', options: ['伪装成高置信度', '提示不确定性并转人工或要求确认', '直接永久禁用产品', '删除日志'], answer: 1 }
+                ]
+            },
+            {
+                n: 7,
+                theme: '培训指导与 AI 应用工程扩展',
+                units: [
+                    {
+                        title: '编写初级培训讲义与培训大纲',
+                        scope: 'official',
+                        scopeNote: '三级·培训与指导',
+                        lesson: `<h3>培训对象与目标</h3><p>面向五级/四级人员讲数据采集、处理、标注。目标是让学员能按规范完成操作，而不是听一堆术语。培训目标要可观察：能说出字段、能完成标注、能发现质量问题、能按流程退回。</p><h3>大纲结构</h3><ol><li>培训对象、先修知识和总时长。</li><li>目标、模块、每模块时长与教学方法。</li><li>演示、练习、案例和考核方式。</li><li>常见错误、安全须知和资料清单。</li><li>考核标准与补训机制。</li></ol><h3>讲义结构</h3><p>场景导入 → 概念解释 → 操作演示 → 正反例 → 课堂练习 → 常见错误 → 小结与检查表。每页只解决一个问题。</p>`,
+                        todos: ['定义培训对象、先修知识和可观察目标', '写 60 分钟培训大纲与时间分配', '制作至少 5 页讲义：概念、演示、正反例、练习、检查表', '为学员设计 5 题形成性评价']
+                    },
+                    {
+                        title: '组织课堂、指导操作与评价学习效果',
+                        scope: 'official',
+                        scopeNote: '三级·培训与指导',
+                        lesson: `<h3>课堂组织</h3><p>先示范一次完整流程，再让学员照着做，最后在变化场景中独立完成。每 15 至 20 分钟安排一次互动或练习，避免长时间单向讲解。</p><h3>指导方法</h3><ul><li>先问学员卡在哪一步，再给最小提示。</li><li>用正例、反例和边界例解释判定。</li><li>对反复错误回到规范，而不是只说“再做一遍”。</li><li>记录共性问题，更新讲义与检查表。</li></ul><h3>评价</h3><p>知识用小测，操作看交付物，一致性看抽样复核。评价标准要提前公布，最好用 rubric：正确性、完整性、规范性、可追溯性和独立完成度。</p>`,
+                        todos: ['设计一次 20 分钟演示与一次 15 分钟练习', '为 3 类常见错误准备提示和反例', '制定操作考核 rubric', '做一次同伴试讲并收集反馈']
+                    },
+                    {
+                        title: '工程扩展：LLM、RAG 与 Agent 的正确位置',
+                        scope: 'extension',
+                        scopeNote: 'AI 应用工程师扩展 · 不计入三级考试范围',
+                        lesson: `<h3>这是扩展，不是三级考纲</h3><p>三级正式要求是数据、训练、测试、系统设计和培训。LLM、RAG、Agent、向量数据库属于 AI 应用工程能力，本单元用于连接你的转岗目标，不能把它们当成三级官方考试内容。</p><h3>适用边界</h3><ul><li><strong>Prompt：</strong>快速定义输出与约束，适合原型；稳定性要靠评测和回归。</li><li><strong>RAG：</strong>适合企业知识问答和需要来源依据的场景；重点是切分、检索、重排、引用和拒答。</li><li><strong>微调：</strong>适合稳定风格、格式或特定任务，但不能可靠注入频繁变化的知识。</li><li><strong>Agent：</strong>适合多步骤工具调用；风险、权限、可观测性和回退要求更高。</li></ul><h3>工程闭环</h3><p>需求 → 数据/知识 → 原型 → 固定评测集 → 自动与人工评测 → 安全与性能测试 → 灰度 → 监控 → 迭代。三级的数据与测试方法可以直接复用。</p>`,
+                        todos: ['为 RAG、微调、Prompt 各写一个适用和不适用场景', '设计一个 20 题企业知识问答评测集', '定义引用、拒答、延迟和成本的验收指标', '说明 Agent 场景中的权限、工具失败与人工接管']
+                    }
+                ],
+                lab: {
+                    title: '实操：60 分钟初级标注培训与试讲',
+                    scope: 'practice',
+                    scopeNote: '官方主题实操 · 培训与指导',
+                    lesson: `<h3>任务</h3><p>为五级/四级人员设计一堂 60 分钟“工单意图标注”培训，并完成试讲。</p><h3>交付要求</h3><ul><li>培训大纲、目标、时间分配和资料清单。</li><li>讲义覆盖标签定义、正反例、演示、练习和常见错误。</li><li>至少 5 道形成性评价题。</li><li>操作考核 rubric 和补训规则。</li></ul>`,
+                    todos: ['完成 60 分钟培训大纲', '完成讲义与 5 道评价题', '准备一次 10 分钟试讲', '收集反馈并修订讲义']
+                },
+                recap: {
+                    title: '复盘：官方能力与转岗能力如何映射',
+                    scope: 'review',
+                    scopeNote: '阶段复盘',
+                    lesson: `<h3>一张映射表</h3><ul><li>业务分析 → 需求分析、流程改造、产品设计。</li><li>数据规范 → 数据工程、标注管理、数据质量。</li><li>模型训练与测试 → 评测体系、回归、上线质量。</li><li>智能系统设计 → AI 产品与人机协作。</li><li>培训指导 → 技术分享、文档、带人能力。</li></ul><p>这些能力对 AI 应用工程师有迁移价值，但岗位还要求编码、API、系统工程、部署、可观测性和项目作品。不要把“考过三级”当作“完成转岗”。</p>`,
+                    todos: ['为每项三级能力写一个可展示作品证据', '找出自己最薄弱的工程能力', '把 RAG 扩展内容放回项目计划而不是考试清单', '更新下一阶段作品集目标']
+                },
+                weekly: [
+                    { q: '培训目标最重要的特征是？', options: ['术语越多越好', '可观察、可评估', '时长越长越好', '只讲理论'], answer: 1 },
+                    { q: '指导学员时更有效的做法是？', options: ['直接替学员完成', '先定位卡点，再给最小提示', '只说“你错了”', '删除规范'], answer: 1 },
+                    { q: 'RAG 在本计划中的定位是？', options: ['三级官方必考模块', 'AI 应用工程师工程扩展', '数据清洗工具', '证书名称'], answer: 1 },
+                    { q: '操作考核 rubric 通常不包括？', options: ['正确性', '规范性', '可追溯性', '开发者是否喜欢某品牌'], answer: 3 },
+                    { q: '对五级/四级人员培训数据标注，最应强调？', options: ['只看论文', '标签定义、正反例、流程和质量检查', '背模型参数', '学习显卡驱动'], answer: 1 }
+                ]
+            },
+            {
+                n: 8,
+                theme: '综合实操、模拟与结课复盘',
+                units: [
+                    {
+                        title: '综合案例：从需求到数据、训练、测试与产品方案',
+                        scope: 'official',
+                        scopeNote: '三级·综合应用',
+                        lesson: `<h3>贯穿案例</h3><p>选择“客服工单智能分类与回复助手”，把八周内容串成一套交付：业务流程图、数据字典、采集/清洗/标注规范、数据集卡片、训练与评估报告、功能/性能/安全测试、产品使用分析、人机交互流程和培训讲义。</p><h3>评分意识</h3><p>每个模块都要有目标、输入、步骤、输出、指标、风险和责任人。案例题不要只写概念，要能在给定场景下做出可执行决策。</p><div class="highlight-box">这套交付同时可以作为 AI 应用工程师作品集：把数据、评测、工程、产品和文档放在一个项目里展示。</div>`,
+                        todos: ['确定综合案例、用户和业务目标', '建立交付物目录与完成标准', '把八周文档整理进同一版本库', '请他人按目录逐项验收']
+                    },
+                    {
+                        title: '模拟理论：按权重安排复习与答题',
+                        scope: 'review',
+                        scopeNote: '模拟策略 · 非官方题库',
+                        lesson: `<h3>按权重复习</h3><p>把时间优先放在智能训练和智能系统设计，再覆盖业务分析和培训指导，最后补职业道德与基础。每天用错题驱动复习，不要从头到尾平均用力。</p><h3>答题结构</h3><ul><li>概念题：定义＋关键区别＋一个业务例子。</li><li>流程题：目标、角色、步骤、异常、审核、版本。</li><li>指标题：公式、含义、业务代价和阈值。</li><li>案例题：背景、问题、方案、风险、验收。</li></ul><p>以下内容是本页自编练习，不是官方题库，也不保证覆盖当地试卷。</p>`,
+                        todos: ['按三级权重排一周复习时间', '整理错题本：概念、计算、审题、业务判断', '完成两套限时自测并复盘', '把低于 80% 的模块重新安排复习']
+                    },
+                    {
+                        title: '模拟技能与结课成果验收',
+                        scope: 'practice',
+                        scopeNote: '综合实操 · 非官方模拟题',
+                        lesson: `<h3>2 小时技能模拟</h3><p>给一个新产品场景，要求完成：业务数据流程、清洗与标注规范、数据集维护、模型训练与指标、功能/性能/安全测试、测试报告、产品使用分析、人机交互流程、初级培训讲义。</p><h3>验收 rubric</h3><ul><li>业务目标与流程完整，异常路径清楚。</li><li>数据规范可执行，版本与审核可追溯。</li><li>指标计算正确，错误分析有证据。</li><li>测试覆盖合理，报告能支持发布决策。</li><li>交互有分流、拒答和人工兜底。</li><li>培训材料能让初级人员独立操作。</li></ul><div class="highlight-box">结课不等于报考成功。是否报考，还应单独核对当地条件、费用、补贴和证书用途。</div>`,
+                        todos: ['完成 2 小时限时技能模拟', '按 rubric 自评并邀请他人复核', '整理作品集项目 README 与演示材料', '单独完成报考核对表，不把学习完成当报名资格']
+                    }
+                ],
+                lab: {
+                    title: '实操：综合项目答辩与作品集验收',
+                    scope: 'practice',
+                    scopeNote: '综合扩展 · 作品集',
+                    lesson: `<h3>答辩结构</h3><p>用 5 分钟讲清：业务问题、用户、数据方案、模型/算法选择、评测指标、测试结果、产品优化、人机交互、风险和下一步。再用 5 分钟回答追问。</p><h3>必须展示的证据</h3><ul><li>业务流程图和数据字典。</li><li>清洗/标注规范与数据集卡片。</li><li>混淆矩阵、错误分析、测试报告。</li><li>产品指标、交互流程和人工兜底。</li><li>代码仓库、README、演示或截图。</li></ul>`,
+                    todos: ['整理项目 README 与架构图', '准备 5 分钟演示和 10 个追问', '检查所有指标都可追溯', '完成一次同伴评审并修订']
+                },
+                recap: {
+                    title: '结课复盘：证书、能力与下一步',
+                    scope: 'review',
+                    scopeNote: '结课复盘',
+                    lesson: `<h3>三个独立判断</h3><ol><li><strong>能力：</strong>我是否真的能完成数据、训练、测试、产品与培训交付？</li><li><strong>证据：</strong>我是否有可展示的项目、报告、代码和演示？</li><li><strong>证书：</strong>当地是否允许我报考？成本、时间与用途是否值得？</li></ol><p>如果前两项不足，先补项目和工程能力；如果第三项不确定，不要被培训机构的“包过”“包就业”话术推动。</p><h3>下一阶段建议</h3><p>用 Android 工程优势切入端侧 AI、AI 应用平台、智能终端或工具链方向，继续补 Python/服务端、API、RAG 评测、部署和可观测性。</p>`,
+                    todos: ['分别给能力、证据、证书三项打分', '列出作品集还缺的 3 个证据', '查询当地最新申报条件并保存依据', '制定下一阶段 30 天工程与项目计划']
+                },
+                weekly: [
+                    { q: '综合案例中最能支撑“可执行性”的是？', options: ['只有技术名词', '目标、步骤、输入输出、指标、风险与责任人', '只有截图', '只有模型名称'], answer: 1 },
+                    { q: '按三级权重复习，时间更应优先给？', options: ['智能训练与智能系统设计', '只看职业道德', '只背英文缩写', '只做界面设计'], answer: 0 },
+                    { q: '测试报告结论文档最重要的是？', options: ['只写“通过”', '范围、缺陷、剩余风险与发布建议', '团队人数', '电脑型号'], answer: 1 },
+                    { q: '人机交互设计应包含？', options: ['只保留自动处理', '自动、人审、转人工、拒答与审计', '去掉反馈入口', '隐藏失败状态'], answer: 1 },
+                    { q: '完成本计划是否等于具备三级报名资格？', options: ['等于', '不等于，需当地备案评价机构确认', '只要付费就等于', '有硕士学历就一定等于'], answer: 1 }
+                ]
+            }
+        ];
+
+        // 每日小测题库：只覆盖核心学习单元，不冒充官方题库。
+        // 键为 buildPlanData() 中的学习日索引；实操、复盘、阶段测和休息日不在此处补题。
+        var dailyQuizBank = {
+            7: [
+                { q: '图像模糊、严重遮挡和曝光错误，首先属于哪类问题？', options: ['标签定义问题', '采集与数据质量问题', '产品定价问题', '培训排期问题'], answer: 1, desc: '这些问题直接影响输入数据可用性，应先进入采集和质检规则，而不是用更多标注掩盖。' },
+                { q: '训练视觉数据前发现人脸和证件信息，较合理的处理是？', options: ['保留原图方便识别', '只删除文件名', '按规范脱敏、限制访问并保留审计记录', '上传到公开网盘'], answer: 2, desc: '隐私处理需要同时覆盖内容脱敏、访问控制和留痕，不能只做表面处理。' }
+            ],
+            8: [
+                { q: '工单文本同时存在重复记录和近似重复记录，最稳妥的做法是？', options: ['只按文本完全相等去重', '在划分训练集与测试集前统一去重并记录规则', '训练后再随机删除', '把所有重复样本都留给测试集'], answer: 1, desc: '近重复样本可能造成训练集与测试集泄漏，应在切分前统一识别和留痕。' },
+                { q: '两名标注员对同一工单意图给出不同标签，首先应？', options: ['随机选一个', '直接删除工单', '按标签优先级和边界规则复核，必要时进入仲裁', '改成“其他”并结束'], answer: 2, desc: '标签冲突需要可执行的裁决机制，仲裁结果还能反过来完善标注规范。' }
+            ],
+            9: [
+                { q: '语音采集方案应至少明确哪些信息？', options: ['只写录音设备品牌', '采样率、声道、格式、环境、说话人和授权', '只写文件数量', '只写转写员姓名'], answer: 1, desc: '这些字段共同决定语音数据能否复现、质检和合规使用。' },
+                { q: '遇到听不清或多人重叠说话时，转写规范应？', options: ['凭上下文随意补全', '统一留空并定义标记和复核流程', '直接删除整段录音', '改写成另一个故事'], answer: 1, desc: '转写不能猜测事实；应定义不可辨认、重叠和待复核的标记方式。' }
+            ],
+            14: [
+                { q: '一条可执行的数据清洗规则至少应写清什么？', options: ['只有规则名称', '触发条件、处理方式、责任人、留痕和统计口径', '只写使用的编程语言', '只写清洗后的截图'], answer: 1, desc: '规则要能被另一个人执行、审计和复现，不能停留在经验描述。' },
+                { q: '为什么通常应在训练集、验证集、测试集切分前完成去重和泄漏检查？', options: ['为了避免近重复样本跨集合导致指标虚高', '为了让训练集更小', '为了省去测试环节', '为了增加模型参数'], answer: 0, desc: '同源或近重复样本跨集合会泄漏测试信息，使评估结果偏乐观。' }
+            ],
+            15: [
+                { q: '标注规范中的“边界样例”主要用于？', options: ['装饰文档', '帮助标注员区分相邻标签的疑难情况', '替代全部正例', '只给审核人员看'], answer: 1, desc: '边界样例把抽象定义落到可判断的案例，是降低标注分歧的关键材料。' },
+                { q: '衡量多名标注员是否一致的指标更接近？', options: ['设备利用率', '标注一致率或冲突率', '页面点击率', '模型参数量'], answer: 1, desc: '一致率和冲突率能揭示规范歧义、培训不足或样本本身难以判断的问题。' }
+            ],
+            16: [
+                { q: '涉及时间变化明显的业务数据，划分训练集和测试集时更应优先考虑？', options: ['随机打散所有记录', '按时间或实体分组，避免未来信息泄漏', '只按文件大小切分', '让测试集占 99%'], answer: 1, desc: '业务分布随时间变化时，随机切分可能把未来模式泄漏给训练。' },
+                { q: '数据集卡片最适合记录什么？', options: ['只记录文件大小', '来源、用途、切分、标签、质量、限制和版本', '只记录模型准确率', '只记录开发者姓名'], answer: 1, desc: '数据集卡片是数据血缘和使用边界的最小说明，应与版本一起维护。' }
+            ],
+            21: [
+                { q: '开始复杂模型实验前，较合理的做法是？', options: ['先建立简单基线并固定实验记录口径', '只调参不记录', '直接使用测试集选模型', '只看一次演示结果'], answer: 0, desc: '基线让后续改进有参照，固定配置、种子和指标便于复现与比较。' },
+                { q: '调参和模型选择通常应使用哪些数据？', options: ['测试集', '训练集和验证集', '只使用线上日志', '所有数据混合使用'], answer: 1, desc: '测试集应尽量保持独立，用于最终评估，不能被反复用于选型。' }
+            ],
+            22: [
+                { q: '类别严重不平衡时，只报告 Accuracy 的主要风险是？', options: ['计算一定更慢', '多数类可能掩盖少数类的高漏检', '模型一定不能部署', '无法保存文件'], answer: 1, desc: 'Accuracy 可能很高，但少数关键类别仍然大量漏判，应结合 Precision、Recall、F1 和混淆矩阵。' },
+                { q: '高风险工单漏判代价很高时，业务护栏指标更应关注？', options: ['总体平均分', '高风险类别的 Recall 和人工兜底覆盖率', '按钮颜色', '服务器品牌'], answer: 1, desc: '关键风险要用能反映漏检代价的指标和兜底机制来控制。' }
+            ],
+            23: [
+                { q: '错误分析分类时，以下哪组维度较合理？', options: ['数据、标签、模型、阈值、后处理', '颜色、字体、图标、边框', '姓名、年龄、部门、工位', '手机品牌、型号、颜色、价格'], answer: 0, desc: '按根因归类能帮助决定下一轮工作应改数据、标签、模型还是决策阈值。' },
+                { q: '算法选型最不应只看什么？', options: ['任务类型和数据规模', '延迟、成本和可维护性', '流行度而忽略约束', '错误代价和回退方案'], answer: 2, desc: '算法应服务于业务约束和验收指标，不能只因流行就跟风选择。' }
+            ],
+            28: [
+                { q: '功能测试用例至少应覆盖哪几类情况？', options: ['只覆盖正常输入', '正常、边界、异常和权限', '只看首页', '只测模型名称'], answer: 1, desc: '完整功能测试需要同时验证正常路径、边界条件、异常处理和权限边界。' },
+                { q: '生成式功能上线前的回归测试应特别关注？', options: ['只检查页面颜色', '拒答、引用、敏感输出和关键问题集的稳定性', '只测试一次成功回复', '只统计模型参数量'], answer: 1, desc: '生成式系统输出有波动，必须用固定回归集和风险场景持续检查。' }
+            ],
+            29: [
+                { q: '性能报告中使用 P95 或 P99 延迟而不是只看平均值，主要因为？', options: ['平均值一定错误', '更能暴露慢请求和尾部用户体验', '数值看起来更大', '可以减少测试用例'], answer: 1, desc: '平均值会掩盖少数很慢的请求，尾部延迟更接近真实用户遇到的卡顿。' },
+                { q: '性能测试还应验证哪些保护机制？', options: ['超时、限流、降级和资源监控', '只验证开机速度', '只验证文案长度', '只验证团队人数'], answer: 0, desc: '系统需要在过载和依赖故障时可控降级，并留下可观测证据。' }
+            ],
+            30: [
+                { q: '安全测试中，恶意输入诱导模型泄露系统提示词属于哪类风险？', options: ['纯视觉问题', '输入与提示注入风险', '数据库容量问题', '培训报名问题'], answer: 1, desc: '提示注入和越权诱导需要通过输入约束、权限隔离、输出检查和红队用例处理。' },
+                { q: '处理身份证、手机号等敏感信息的测试数据时，应采用？', options: ['生产原值直接复制', '合成数据、脱敏数据和最小权限访问', '放入公开示例', '只改文件名'], answer: 1, desc: '测试环境也应最小化敏感数据，避免二次泄漏。' }
+            ],
+            35: [
+                { q: '分析智能产品使用数据时，漏斗最适合回答什么问题？', options: ['用户在哪些步骤流失', '模型使用什么显卡', '标注员姓名', '证书等级'], answer: 0, desc: '漏斗把使用流程拆成阶段，帮助定位转化损失和人工接管发生的环节。' },
+                { q: '除了核心转化指标，还应设置什么？', options: ['更多装饰性动画', '错误率、投诉率、人工接管率等护栏指标', '只设置收入指标', '只设置下载量'], answer: 1, desc: '护栏指标防止为了优化单一目标而牺牲质量、安全或用户体验。' }
+            ],
+            36: [
+                { q: '优化需求排序时较合理的考虑是？', options: ['只看谁声音大', '影响、置信度、成本和风险的组合', '只看模型是否最新', '只看页面美观'], answer: 1, desc: '优先级应同时考虑业务价值、证据强度、实施成本和失败风险。' },
+                { q: '无法进行随机 A/B 测试时，可以采用什么替代方案？', options: ['直接宣布成功', '前后对比、灰度发布或准实验，并说明混杂因素', '取消所有验收', '只询问开发者感受'], answer: 1, desc: '准实验也能提供证据，但必须明确其局限并保留回退方案。' }
+            ],
+            37: [
+                { q: '高风险、低置信度的请求更适合走哪条路径？', options: ['自动执行且不记录', '人工审核或转人工，并提供审计记录', '永久拒答所有用户', '交给随机模型'], answer: 1, desc: '风险与置信度共同决定分流，高风险低置信度需要人审或转人工兜底。' },
+                { q: '人机交互流程至少应设计哪几条路径？', options: ['只有自动成功路径', '自动、人审、转人工、拒答和失败回退', '只有登录和退出', '只有付费页面'], answer: 1, desc: '完整流程要覆盖成功、低置信度、高风险、无依据和系统失败等情况。' }
+            ],
+            42: [
+                { q: '编写培训讲义时，学习目标最好是？', options: ['“了解人工智能”', '可观察、可评价的行为目标，例如能按规范标注并解释理由', '只列名词', '只放公司简介'], answer: 1, desc: '可观察目标便于设计练习、形成性评价和后续补训。' },
+                { q: '一份 60 分钟初级培训大纲至少应包含？', options: ['目标、对象、时间分配、内容、练习和评价', '只有讲师姓名', '只有参考文献', '只有产品价格'], answer: 0, desc: '清晰的结构能让他人复现培训并判断学习效果。' }
+            ],
+            43: [
+                { q: '培训后判断学员是否掌握操作，最适合使用？', options: ['只看签到', 'rubric、操作考核和形成性评价证据', '只看课堂气氛', '只发证书'], answer: 1, desc: '学习效果需要可观察的产出和评分标准，而不是出勤或感觉。' },
+                { q: '学员反复出现同一类标注错误时，较合理的指导是？', options: ['只批评一次', '定位错误类型，给反例、演示、练习和补训规则', '直接放弃', '跳过考核'], answer: 1, desc: '指导应针对根因提供可练习的纠偏路径，并再次验证效果。' }
+            ],
+            44: [
+                { q: 'RAG 最直接解决的是哪类问题？', options: ['让模型访问外部知识并在回答中引用依据', '替代所有数据清洗', '自动获得职业资格', '消除所有幻觉'], answer: 0, desc: 'RAG 通过检索外部知识增强回答，但仍需评测检索质量、引用和拒答边界。' },
+                { q: '企业知识问答的验收至少应包含？', options: ['只检查一次演示', '引用、拒答、准确性、延迟和成本的固定评测集', '只统计模型参数', '只检查页面颜色'], answer: 1, desc: '工程扩展也要用可重复的评测和业务约束验收，不能只靠主观演示。' }
+            ],
+            49: [
+                { q: '综合案例的交付链最合理的是？', options: ['只交一张截图', '业务目标→数据规范→训练评估→测试→产品交互→培训与复盘', '只交模型文件', '只交报名表'], answer: 1, desc: '完整交付链能体现三级四个职业功能之间的衔接和证据可追溯性。' },
+                { q: '作品集指标可追溯的最小要求是？', options: ['只写漂亮结果', '说明数据、口径、计算方式、测试条件和局限', '只放最高分', '删除失败案例'], answer: 1, desc: '可追溯的指标才能被他人复核，也更能支撑面试中的技术追问。' }
+            ],
+            50: [
+                { q: '按三级权重安排复习时，时间应优先覆盖？', options: ['智能训练和智能系统设计', '只看职业道德', '只背缩写', '只做页面设计'], answer: 0, desc: '理论权重中智能训练和智能系统设计各占 30%，技能考核中也占主要部分。' },
+                { q: '案例题较稳妥的答题结构是？', options: ['只写模型名称', '背景、问题、方案、风险、验收和回退', '只写个人感受', '只列参考文献'], answer: 1, desc: '结构化答案能同时体现业务判断、执行步骤和风险意识。' }
+            ],
+            51: [
+                { q: '2 小时技能模拟应优先模拟什么？', options: ['只写自我介绍', '官方技能功能中的完整任务链和交付物', '只看视频', '只背选择题'], answer: 1, desc: '技能考核更关注能否在限定情境下做出流程、规范、测试、方案和培训交付。' },
+                { q: '完成本计划后，关于报名资格的正确判断是？', options: ['自动获得三级资格', '仍需按国家标准和当地机构要求单独核验', '只要作品集好就一定免考', '证书等同于高级工程师职称'], answer: 1, desc: '学习完成、作品集和报名资格是三件独立的事，必须分别核验。' }
+            ]
+        };
+
+        function buildPlanData() {
+            var result = [];
+            for (var w = 0; w < curriculum.length; w++) {
+                var week = curriculum[w];
+                for (var u = 0; u < week.units.length; u++) {
+                    var unit = week.units[u];
+                    result.push({
+                        title: '第' + week.n + '周 · 第' + (u + 1) + '课：' + unit.title,
+                        scope: unit.scope,
+                        scopeNote: unit.scopeNote,
+                        lesson: unit.lesson,
+                        todos: unit.todos,
+                        quiz: unit.quiz || dailyQuizBank[result.length] || []
+                    });
+                }
+                var lab = week.lab;
+                result.push({
+                    title: '第' + week.n + '周 · 实操：' + lab.title.replace(/^实操：/, ''),
+                    scope: lab.scope,
+                    scopeNote: lab.scopeNote,
+                    lesson: lab.lesson,
+                    todos: lab.todos,
+                    quiz: []
+                });
+                var recap = week.recap;
+                result.push({
+                    title: '第' + week.n + '周 · 复盘：' + recap.title.replace(/^复盘：/, ''),
+                    scope: recap.scope,
+                    scopeNote: recap.scopeNote,
+                    lesson: recap.lesson,
+                    todos: recap.todos,
+                    quiz: []
+                });
+                result.push({
+                    title: '第' + week.n + '周 · 阶段测',
+                    scope: 'weekly',
+                    scopeNote: '自编阶段测 · 非官方题库',
+                    lesson: '<h3>本周阶段测</h3><p>先完成本周三课、实操和复盘，再提交 5 道选择题。阶段测用于发现薄弱模块，不代表正式考试难度或官方题库。</p><p>完成后回到错题对应单元，补一条自己的业务例子，再进入下一周。</p>',
+                    todos: ['复习本周三课的核心概念与交付物', '检查实操文档是否能被别人直接执行', '完成 5 道阶段测并记录错题', '为每个错题补一个业务例子'],
+                    quiz: [],
+                    isWeekly: true,
+                    weeklyQuiz: week.weekly
+                });
+                result.push({
+                    isRest: true,
+                    title: '第' + week.n + '周 · 弹性复盘日',
+                    scope: 'rest',
+                    scopeNote: '休息与补缺',
+                    lesson: '<h3>弹性复盘日</h3><p>今天不新增知识点。补未完成的任务、整理错题和文档，或者彻底休息。持续学习比短期透支更重要。</p>',
+                    todos: ['回看本周未完成任务', '整理一个可展示的交付物', '记录下周的一个具体改进动作', '保证休息，不安排新的理论课'],
+                    quiz: []
+                });
+            }
+            return result;
+        }
+
+        var planData = buildPlanData();
+
+        // 代码练习检查规则辅助函数
+        function rule(label, test) {
+            return { label: label, test: test };
+        }
+
+        function countMatches(text, regex) {
+            return (text.match(regex) || []).length;
+        }
+
+        // 每周实操的“作答区”。这里检查的是交付物结构，不假装能自动评价专业质量。
+        var practiceData = {
+            3: {
+                title: '客服工单数据流程与异常清单',
+                language: 'Markdown',
+                type: 'markdown',
+                prompt: '写出业务目标、数据链路、数据字典、审核规则和异常处理。',
+                requirements: ['包含业务目标与流程', '包含至少 5 个字段', '包含审核与抽检', '包含至少 3 个异常分支', '包含版本或留痕机制'],
+                starter: '# 客服工单数据流程\n\n## 业务目标\n\nTODO\n\n## 数据链路\n\nTODO\n\n## 数据字典\n\nTODO\n\n## 审核与抽检\n\nTODO\n\n## 异常处理\n\nTODO\n',
+                hint: '按“采集→处理→审核→交付”的顺序写，并在每一步写责任人和输出物。',
+                solution: '# 客服工单数据流程\n\n## 业务目标\n把工单从提交到可训练数据的流转标准化，减少漏标和敏感信息风险。\n\n## 数据链路\n工单系统采集 → 脱敏去重 → 标签映射 → 人工审核 → 数据集版本发布。\n\n## 数据字典\n- ticket_id：字符串，必填，工单唯一编号\n- text：字符串，必填，工单正文\n- category：枚举，必填，业务分类\n- created_at：日期时间，必填\n- source：枚举，必填，来源渠道\n- reviewer：字符串，审核后填写\n\n## 审核与抽检\n每批抽检 20%，标签一致率低于 90% 整批退回；负责人复核并记录版本。\n\n## 异常处理\n空文本：退回采集人；重复工单：保留最新非空记录并标记 duplicate_of；敏感信息：脱敏后复核；标签冲突：提交仲裁。\n\n## 版本与留痕\n使用 data-v1.0，保存清洗日志、审核记录和变更说明。\n',
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule('包含业务目标', function(code) { return /目标|问题/.test(code); }),
+                    rule('包含数据流程', function(code) { return /采集|数据链路/.test(code) && /处理|清洗/.test(code) && /审核/.test(code); }),
+                    rule('包含至少 5 个字段', function(code) { return countMatches(code, /^[-*]\s*[A-Za-z_]+\s*[:：]/gm) >= 5 || countMatches(code, /^[-*]\s*[\u4e00-\u9fa5A-Za-z_]+\s*[:：]/gm) >= 5; }),
+                    rule('包含抽检或审核阈值', function(code) { return /抽检|抽样|阈值|一致率/.test(code); }),
+                    rule('包含至少 3 个异常分支', function(code) { return countMatches(code, /空|重复|敏感|冲突|退回|异常/g) >= 3; }),
+                    rule('包含版本或留痕', function(code) { return /版本|留痕|日志|变更/.test(code); })
+                ]
+            },
+            10: {
+                title: '多模态现场采集方案',
+                language: 'Markdown',
+                type: 'markdown',
+                prompt: '为巡检 App 设计照片、文本、语音的采集、脱敏、配对与质检方案。',
+                requirements: ['覆盖视觉/文本/语音', '包含格式与字段', '包含隐私脱敏', '包含配对主键', '包含质检与抽检'],
+                starter: '# 多模态现场采集方案\n\n## 数据范围\n\nTODO\n\n## 格式与字段\n\nTODO\n\n## 隐私与脱敏\n\nTODO\n\n## 配对与重试\n\nTODO\n\n## 质检\n\nTODO\n',
+                hint: '同一次巡检要有 inspection_id 作为主键；分别写三类数据的格式、质量和失败处理。',
+                solution: '# 多模态现场采集方案\n\n## 数据范围\n巡检照片、缺陷描述文本、现场口述语音。\n\n## 格式与字段\n- 照片：JPG，记录 resolution、device、EXIF、inspection_id\n- 文本：UTF-8，记录 content、category、inspection_id\n- 语音：WAV、16kHz，记录 duration、speaker、inspection_id\n\n## 隐私与脱敏\n人脸、车牌、证件自动模糊；文本去除手机号和地址；语音转写后遮盖个人信息。\n\n## 配对与重试\n以 inspection_id 绑定三类数据；弱网使用本地队列和指数退避，上传后校验文件哈希。\n\n## 质检\n照片检查模糊和遮挡；文本检查空值和乱码；语音检查截断和噪声。每批抽检 10%，不合格退回补采并记录原因。\n',
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule('覆盖三类数据', function(code) { return /照片|视觉|图像/.test(code) && /文本|文字/.test(code) && /语音|音频/.test(code); }),
+                    rule('包含数据格式', function(code) { return /JPG|PNG|WAV|MP3|UTF-8/.test(code); }),
+                    rule('包含隐私脱敏', function(code) { return /脱敏|隐私|人脸|手机号|敏感/.test(code); }),
+                    rule('包含配对主键', function(code) { return /inspection_id|主键|配对|绑定/.test(code); }),
+                    rule('包含质检与抽检', function(code) { return /质检|抽检|退回/.test(code); })
+                ]
+            },
+            17: {
+                title: '清洗规范、标注规范与数据集卡片',
+                language: 'Markdown',
+                type: 'markdown',
+                prompt: '针对问题样例写一份可执行的数据治理交付物。',
+                requirements: ['覆盖缺失/重复/敏感信息', '写标签定义与边界例', '写试标与仲裁', '包含数据集版本与偏差', '包含泄漏检查'],
+                starter: '# 数据治理交付物\n\n## 问题盘点\n\nTODO\n\n## 清洗规范\n\nTODO\n\n## 标注规范\n\nTODO\n\n## 数据集卡片\n\nTODO\n\n## 泄漏检查\n\nTODO\n',
+                hint: '每条规则最好包含触发条件、处理方式、责任人和留痕字段。',
+                solution: '# 数据治理交付物\n\n## 问题盘点\n缺失文本 120 条；重复工单 35 组；敏感手机号 8 条；标签冲突 16 条。\n\n## 清洗规范\n- 空文本：退回采集人，不进入训练集。\n- 重复工单：按 ticket_id 保留最新非空记录，旧记录标记 duplicate_of。\n- 敏感信息：手机号掩码，保留脱敏日志。\n- 历史标签：按映射表转换，无法映射的标记 unknown。\n\n## 标注规范\n标签为退款、物流、账号、其他。退款必须涉及资金退回；物流必须涉及配送；无法判断时进入仲裁。每类附正例、反例和边界例。先试标 50 条，一致率低于 90% 不开大规模标注。\n\n## 数据集卡片\n版本 data-v1.0；来源客服工单；用途训练和评估；已知偏差为夜间工单较少；禁止用于自动拒绝用户请求；维护人数据负责人。\n\n## 泄漏检查\n按用户和工单分组切分；检查完全重复和近重复文本；训练、验证、测试之间不得共享同一工单或同一用户。\n',
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule('覆盖缺失与重复', function(code) { return /缺失|空文本/.test(code) && /重复|去重/.test(code); }),
+                    rule('包含隐私处理', function(code) { return /敏感|脱敏|手机号/.test(code); }),
+                    rule('包含标签定义与边界', function(code) { return /标签/.test(code) && /边界|正例|反例/.test(code); }),
+                    rule('包含试标与仲裁', function(code) { return /试标|校准/.test(code) && /仲裁|一致率/.test(code); }),
+                    rule('包含数据集版本与偏差', function(code) { return /版本/.test(code) && /偏差|覆盖/.test(code); }),
+                    rule('包含泄漏检查', function(code) { return /泄漏|切分/.test(code); })
+                ]
+            },
+            24: {
+                title: '模型评估与错误分析报告',
+                language: 'Markdown',
+                type: 'markdown',
+                prompt: '写一份三分类模型的评估报告，至少包含指标、错误分析和下一轮实验。',
+                requirements: ['包含数据版本与切分', '包含混淆矩阵或核心指标', '包含至少 3 类错误', '包含改进假设', '包含回退条件'],
+                starter: '# 模型评估与错误分析\n\n## 任务与数据\n\nTODO\n\n## 核心指标\n\nTODO\n\n## 错误分析\n\nTODO\n\n## 下一轮实验\n\nTODO\n\n## 回退条件\n\nTODO\n',
+                hint: '不要只写 F1。写清误报和漏报的业务代价，以及最差类别。',
+                solution: '# 模型评估与错误分析\n\n## 任务与数据\n三分类工单模型，数据版本 data-v1.0，按用户分组切分训练/验证/测试。\n\n## 核心指标\n测试集 Accuracy 0.84，宏平均 F1 0.79。物流类 Recall 0.65，是当前最差类别；退款类 Precision 0.92。\n\n## 错误分析\n1. 标签错误：历史物流标签未迁移。\n2. 数据不足：夜间工单样本少。\n3. 边界不清：退款与账号问题存在交叉描述。\n4. 阈值问题：低置信度仍自动分类。\n\n## 下一轮实验\n补充夜间物流样本；修订标签优先级；对低置信度样本引入人工复核；比较阈值调整前后的宏平均 F1 和人工成本。\n\n## 回退条件\n若宏平均 F1 低于基线 0.75，或高风险工单漏报率超过 5%，回退上一模型版本并转人工。\n',
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule('包含数据版本或切分', function(code) { return /版本|训练集|验证集|测试集|切分/.test(code); }),
+                    rule('包含核心指标', function(code) { return /Precision|Recall|F1|准确率|混淆矩阵/i.test(code); }),
+                    rule('包含至少 3 类错误', function(code) { return countMatches(code, /标签|样本|边界|阈值|数据|模型/g) >= 3; }),
+                    rule('包含改进假设', function(code) { return /实验|假设|下一轮|改进/.test(code); }),
+                    rule('包含回退条件', function(code) { return /回退|低于|超过/.test(code); })
+                ]
+            },
+            31: {
+                title: 'OCR 票据识别测试报告',
+                language: 'Markdown',
+                type: 'markdown',
+                prompt: '为 OCR 票据识别写功能、性能、安全测试与发布建议。',
+                requirements: ['包含范围与通过标准', '包含功能边界用例', '包含性能和成本', '包含安全与隐私', '包含缺陷与发布建议'],
+                starter: '# OCR 票据识别测试报告\n\n## 范围与标准\n\nTODO\n\n## 功能测试\n\nTODO\n\n## 性能测试\n\nTODO\n\n## 安全测试\n\nTODO\n\n## 缺陷与结论\n\nTODO\n',
+                hint: '测试报告要明确没测什么、剩余风险是什么，以及建议发布、灰度还是阻断。',
+                solution: '# OCR 票据识别测试报告\n\n## 范围与标准\n覆盖金额、日期、发票号识别及写入。P95 延迟不超过 3 秒，字段准确率不低于 95%，无高危隐私缺陷。\n\n## 功能测试\n覆盖清晰、模糊、旋转、遮挡、缺字段、重复上传、非票据、权限不足和超时降级。\n\n## 性能测试\n在 50 并发下 P95 延迟 2.6 秒，错误率 1.2%；峰值 100 并发时 P99 延迟 8 秒，触发限流。\n\n## 安全测试\n验证敏感字段日志脱敏、越权访问、恶意文件和超长输入；发现低危日志残留并已修复。\n\n## 缺陷与结论\n剩余风险为低质量图片的金额识别错误。建议先灰度 10% 流量，高风险金额进入人工复核，错误率超过 2% 自动回退。\n',
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule('包含范围与标准', function(code) { return /范围/.test(code) && /标准|阈值/.test(code); }),
+                    rule('包含边界功能用例', function(code) { return /模糊|遮挡|缺字段|非票据|重复/.test(code); }),
+                    rule('包含性能指标', function(code) { return /P95|P99|并发|延迟|吞吐/.test(code); }),
+                    rule('包含安全与隐私', function(code) { return /安全|隐私|脱敏|越权/.test(code); }),
+                    rule('包含发布建议', function(code) { return /灰度|发布|回退|阻断/.test(code); })
+                ]
+            },
+            38: {
+                title: '客服助手数据分析与优化方案',
+                language: 'Markdown',
+                type: 'markdown',
+                prompt: '写数据分析、根因假设、优化方案和实验设计。',
+                requirements: ['定义指标与分群', '包含根因假设', '包含数据/模型/交互/人工措施', '包含实验方案', '包含风险护栏'],
+                starter: '# 客服助手优化方案\n\n## 指标与分群\n\nTODO\n\n## 根因假设\n\nTODO\n\n## 优化措施\n\nTODO\n\n## 实验设计\n\nTODO\n\n## 风险护栏\n\nTODO\n',
+                hint: '任何根因假设都要写验证数据；任何优化措施都要写预期指标和风险。',
+                solution: '# 客服助手优化方案\n\n## 指标与分群\n任务完成率 62%，人工接管率 31%，P95 延迟 8 秒。按新旧用户、问题类型和设备分群。\n\n## 根因假设\n1. 知识库缺少退款政策，导致答非所问。\n2. 检索结果无引用，用户不信任。\n3. 低置信度没有转人工。\n4. 长回答增加等待时间。\n\n## 优化措施\n数据：补制度文档和固定评测集；模型：增加重排与引用；交互：低置信度先确认再转人工；人工：高风险问题直接接管。\n\n## 实验设计\n灰度 10% 用户，观察 14 天；主指标为任务完成率，护栏为投诉率、人工成本和 P95 延迟。\n\n## 风险护栏\n投诉率上升超过 1 个百分点或高风险误答出现 1 例，立即回退。\n',
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule('包含指标与分群', function(code) { return /完成率|接管率/.test(code) && /分群|用户|类型/.test(code); }),
+                    rule('包含根因假设', function(code) { return /假设|根因/.test(code); }),
+                    rule('包含多类措施', function(code) { return /数据/.test(code) && /模型|检索/.test(code) && /交互|人工/.test(code); }),
+                    rule('包含实验设计', function(code) { return /A\/B|实验|灰度/.test(code); }),
+                    rule('包含风险护栏', function(code) { return /投诉|风险|回退/.test(code); })
+                ]
+            },
+            45: {
+                title: '60 分钟初级标注培训包',
+                language: 'Markdown',
+                type: 'markdown',
+                prompt: '写一份面向五级/四级人员的培训大纲、讲义要点和考核 rubric。',
+                requirements: ['包含对象与目标', '包含时间分配', '包含正反例和练习', '包含评价方式', '包含常见错误和补训'],
+                starter: '# 工单意图标注培训\n\n## 对象与目标\n\nTODO\n\n## 时间分配\n\nTODO\n\n## 讲义要点\n\nTODO\n\n## 练习与评价\n\nTODO\n\n## 常见错误与补训\n\nTODO\n',
+                hint: '培训目标写成“学员能完成什么”，不要写成“了解什么”。',
+                solution: '# 工单意图标注培训\n\n## 对象与目标\n对象为五级/四级数据标注人员。完成后能按规范标注四类工单，正确率达到 90%，并知道何时提交仲裁。\n\n## 时间分配\n10 分钟场景导入；15 分钟标签定义与正反例；10 分钟演示；15 分钟练习；5 分钟讲评；5 分钟小测。\n\n## 讲义要点\n退款、物流、账号、其他四类定义；交叉描述优先级；敏感信息处理；不确定样本进入仲裁。\n\n## 练习与评价\n每人标 20 条，抽 5 条复核；rubric 包含正确性、规范性、可追溯性和独立完成度。\n\n## 常见错误与补训\n常见错误包括把咨询当退款、忽略敏感信息、凭感觉标其他。未达 90% 者参加 20 分钟补训并重新试标。\n',
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule('包含对象与目标', function(code) { return /对象/.test(code) && /目标/.test(code); }),
+                    rule('包含时间分配', function(code) { return /分钟/.test(code); }),
+                    rule('包含正反例或标签定义', function(code) { return /正例|反例|定义/.test(code); }),
+                    rule('包含练习与评价', function(code) { return /练习/.test(code) && /rubric|评价|正确率/.test(code); }),
+                    rule('包含常见错误与补训', function(code) { return /错误/.test(code) && /补训|重新/.test(code); })
+                ]
+            },
+            52: {
+                title: '综合项目答辩与作品集 README',
+                language: 'Markdown',
+                type: 'markdown',
+                prompt: '写清项目价值、数据、模型、评测、测试、产品和人机交互证据。',
+                requirements: ['包含业务问题与用户', '包含数据与评测指标', '包含测试与风险', '包含人机交互兜底', '包含个人贡献与下一步'],
+                starter: '# 智能工单助手\n\n## 业务问题\n\nTODO\n\n## 数据与方案\n\nTODO\n\n## 评测与测试\n\nTODO\n\n## 人机交互与风险\n\nTODO\n\n## 个人贡献与下一步\n\nTODO\n',
+                hint: '第一屏先写“解决什么问题、结果如何”，不要先堆技术栈。',
+                solution: '# 智能工单助手\n\n## 业务问题\n客服工单分类慢、重复咨询多。目标是缩短处理时间并降低误分类。\n\n## 数据与方案\n构建工单数据集卡片、清洗与标注规范；使用文本分类模型作为基线；扩展 RAG 回复并保留引用。\n\n## 评测与测试\n宏平均 F1 0.79，高风险工单 Recall 0.93；P95 延迟 2.6 秒；完成功能、性能、安全和回归测试。\n\n## 人机交互与风险\n低置信度请求要求用户确认或转人工；无依据时拒答；日志保留审计信息。\n\n## 个人贡献与下一步\n负责数据规范、评测集、错误分析、测试报告和演示。下一步补充真实用户灰度与成本监控。\n',
+                todoIndexes: [0, 1, 2, 3],
+                rules: [
+                    rule('包含业务问题或用户', function(code) { return /业务|用户|问题/.test(code); }),
+                    rule('包含数据方案', function(code) { return /数据|标注|清洗/.test(code); }),
+                    rule('包含评测指标', function(code) { return /F1|Recall|Precision|准确率|延迟/i.test(code); }),
+                    rule('包含测试与风险', function(code) { return /测试/.test(code) && /风险|安全/.test(code); }),
+                    rule('包含人机交互与兜底', function(code) { return /人工|拒答|兜底|置信度/.test(code); }),
+                    rule('包含个人贡献与下一步', function(code) { return /贡献|负责/.test(code) && /下一步/.test(code); })
+                ]
+            }
+        };
+
+
+        // 初始化
+        function init() {
+            // 绑定标签点击事件
+            var tabs = document.querySelectorAll('.tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].addEventListener('click', function(e) {
+                    var tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            }
+
+            updateDayInfo();
+            renderLesson();
+            renderTodo();
+            renderQuiz();
+            renderWeeklyQuiz();
+            loadProgress();
+            var initialCheckinDate = new Date();
+            calendarViewYear = initialCheckinDate.getFullYear();
+            calendarViewMonth = initialCheckinDate.getMonth();
+            selectedCheckinDate = getLocalDateKey(initialCheckinDate);
+            githubProfile = loadGithubProfile();
+            updateActualClock();
+            renderCheckinPanel();
+            renderGithubControls();
+            restoreGithubSession();
+            setInterval(updateActualClock, 1000);
+        }
+
+        // 计算当前学习日
+        function getCalendarDayDifference(startDate, endDate) {
+            var startUtc = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+            var endUtc = Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+            return Math.round((endUtc - startUtc) / (1000 * 60 * 60 * 24));
+        }
+
+        function getTodayDayIndex() {
+            var rawIndex = getCalendarDayDifference(new Date(START_DATE), new Date());
+            return Math.min(planData.length - 1, Math.max(0, rawIndex));
+        }
+
+        function getDayIndexForDateKey(dateKey) {
+            var selected = parseLocalDateKey(dateKey);
+            if (!selected) return null;
+            return getCalendarDayDifference(new Date(START_DATE), selected);
+        }
+
+        function getCurrentDayIndex() {
+            return getTodayDayIndex() + currentDayOffset;
+        }
+
+        // 更新日期信息
+        function updateDayInfo() {
+            var dayIndex = getCurrentDayIndex();
+            var dayData = planData[dayIndex % planData.length];
+            var date = new Date(START_DATE);
+            date.setDate(date.getDate() + dayIndex);
+
+            document.getElementById('dateInfo').innerHTML =
+                date.toLocaleDateString('zh-CN') + ' · ' + dayData.title;
+            document.getElementById('dayLabel').textContent = '第 ' + (dayIndex + 1) + ' 天';
+        }
+
+        function renderCurrentDayContent() {
+            updateDayInfo();
+            renderLesson();
+            renderTodo();
+            renderQuiz();
+            renderWeeklyQuiz();
+            loadProgress();
+        }
+
+        function syncCheckinDateToDayIndex(dayIndex) {
+            var date = new Date(START_DATE);
+            date.setDate(date.getDate() + dayIndex);
+            selectedCheckinDate = getLocalDateKey(date);
+            calendarViewYear = date.getFullYear();
+            calendarViewMonth = date.getMonth();
+            renderCheckinPanel();
+        }
+
+        function navigateToLearningDay(dayIndex, shouldScroll) {
+            if (!Number.isFinite(dayIndex) || dayIndex < 0) return false;
+            currentDayOffset = dayIndex - getTodayDayIndex();
+            renderCurrentDayContent();
+            syncCheckinDateToDayIndex(dayIndex);
+
+            if (shouldScroll) {
+                var target = document.getElementById('learningContentStart');
+                if (target) {
+                    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+                }
+            }
+            return true;
+        }
+
+        // 实际日期、日历选择与打卡记录
+        function padNumber(value) {
+            return String(value).padStart(2, '0');
+        }
+
+        function getLocalDateKey(date) {
+            return date.getFullYear() + '-' + padNumber(date.getMonth() + 1) + '-' + padNumber(date.getDate());
+        }
+
+        function formatLocalClock(date) {
+            return padNumber(date.getHours()) + ':' + padNumber(date.getMinutes()) + ':' + padNumber(date.getSeconds());
+        }
+
+        function parseLocalDateKey(dateKey) {
+            var parts = String(dateKey || '').split('-');
+            if (parts.length !== 3) return null;
+            var parsed = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            return isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function normalizeCheckinRecord(item) {
+            if (!item) return null;
+            var checkinDate = item.checkinDate || item.localDate || item.date || '';
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(checkinDate)) return null;
+
+            var checkedInAt = item.checkedInAt || item.actualTimestamp || '';
+            var checkedInDate = checkedInAt ? new Date(checkedInAt) : null;
+            var checkedInLocalDate = item.checkedInLocalDate || '';
+            var checkedInLocalTime = item.checkedInLocalTime || item.localTime || item.time || '';
+
+            if ((!checkedInLocalDate || !checkedInLocalTime) && checkedInDate && !isNaN(checkedInDate.getTime())) {
+                checkedInLocalDate = checkedInLocalDate || getLocalDateKey(checkedInDate);
+                checkedInLocalTime = checkedInLocalTime || formatLocalClock(checkedInDate);
+            }
+            if (!checkedInAt) {
+                checkedInDate = new Date();
+                checkedInAt = checkedInDate.toISOString();
+                checkedInLocalDate = checkedInLocalDate || getLocalDateKey(checkedInDate);
+                checkedInLocalTime = checkedInLocalTime || formatLocalClock(checkedInDate);
+            }
+
+            return {
+                id: item.id || 'checkin_' + checkinDate + '_' + String(checkedInAt).replace(/[^0-9]/g, ''),
+                checkinDate: checkinDate,
+                checkedInAt: checkedInAt,
+                checkedInLocalDate: checkedInLocalDate,
+                checkedInLocalTime: checkedInLocalTime,
+                timeZone: item.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local'
+            };
+        }
+
+        function dedupeCheckinRecords(records) {
+            var byDate = {};
+            (records || []).forEach(function(item) {
+                var record = normalizeCheckinRecord(item);
+                if (!record) return;
+                var existing = byDate[record.checkinDate];
+                if (!existing || String(record.checkedInAt) < String(existing.checkedInAt)) {
+                    byDate[record.checkinDate] = record;
+                }
+            });
+            return Object.keys(byDate).map(function(dateKey) {
+                return byDate[dateKey];
+            }).sort(function(a, b) {
+                return b.checkinDate.localeCompare(a.checkinDate);
+            });
+        }
+
+        function normalizeCheckinStorageOwner(owner) {
+            return String(owner || '').trim().toLowerCase() || 'local';
+        }
+
+        function getCheckinStorageOwner() {
+            return normalizeCheckinStorageOwner(githubProfile && githubProfile.login);
+        }
+
+        function getScopedCheckinStorageKey(owner) {
+            var storageOwner = owner === undefined ? getCheckinStorageOwner() : normalizeCheckinStorageOwner(owner);
+            return CHECKIN_STORAGE_KEY + ':owner:' + encodeURIComponent(storageOwner);
+        }
+
+        function loadCheckinRecordsForOwner(owner) {
+            var storageOwner = normalizeCheckinStorageOwner(owner);
+            try {
+                var scopedKey = getScopedCheckinStorageKey(storageOwner);
+                var stored = localStorage.getItem(scopedKey);
+                var needsMigration = false;
+                if (!stored && storageOwner === 'local') {
+                    stored = localStorage.getItem(CHECKIN_STORAGE_KEY) || localStorage.getItem(LEGACY_CHECKIN_STORAGE_KEY);
+                    needsMigration = Boolean(stored);
+                }
+                var parsed = JSON.parse(stored || '[]');
+                if (!Array.isArray(parsed)) return [];
+                var normalized = dedupeCheckinRecords(parsed);
+                if (needsMigration) saveCheckinRecordsForOwner(normalized, 'local');
+                return normalized;
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveCheckinRecordsForOwner(records, owner) {
+            var storageOwner = normalizeCheckinStorageOwner(owner);
+            try {
+                localStorage.setItem(getScopedCheckinStorageKey(storageOwner), JSON.stringify(dedupeCheckinRecords(records)));
+                if (storageOwner === 'local') {
+                    localStorage.removeItem(CHECKIN_STORAGE_KEY);
+                    localStorage.removeItem(LEGACY_CHECKIN_STORAGE_KEY);
+                }
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function loadCheckinRecords() {
+            return loadCheckinRecordsForOwner(getCheckinStorageOwner());
+        }
+
+        function saveCheckinRecords(records) {
+            return saveCheckinRecordsForOwner(records, getCheckinStorageOwner());
+        }
+
+        function clearLocalCheckinRecords() {
+            try {
+                localStorage.removeItem(getScopedCheckinStorageKey('local'));
+                localStorage.removeItem(CHECKIN_STORAGE_KEY);
+                localStorage.removeItem(LEGACY_CHECKIN_STORAGE_KEY);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function getCheckinRecordForDate(records, dateKey) {
+            for (var i = 0; i < records.length; i++) {
+                if (records[i].checkinDate === dateKey) return records[i];
+            }
+            return null;
+        }
+
+        function renderCheckinCalendar() {
+            var grid = document.getElementById('checkinCalendarGrid');
+            var monthTitle = document.getElementById('actualMonth');
+            if (!grid || !monthTitle) return;
+
+            var now = new Date();
+            var todayKey = getLocalDateKey(now);
+            var records = dedupeCheckinRecords(loadCheckinRecords());
+            var checkedDates = {};
+            records.forEach(function(record) { checkedDates[record.checkinDate] = true; });
+
+            monthTitle.textContent = calendarViewYear + '年' + (calendarViewMonth + 1) + '月';
+            var firstWeekday = new Date(calendarViewYear, calendarViewMonth, 1).getDay();
+            var daysInMonth = new Date(calendarViewYear, calendarViewMonth + 1, 0).getDate();
+            var html = '';
+
+            for (var cell = 0; cell < 42; cell++) {
+                var dayNumber = cell - firstWeekday + 1;
+                if (dayNumber < 1 || dayNumber > daysInMonth) {
+                    html += '<span class="calendar-day-empty" aria-hidden="true"></span>';
+                    continue;
+                }
+
+                var dateKey = calendarViewYear + '-' + padNumber(calendarViewMonth + 1) + '-' + padNumber(dayNumber);
+                var classes = ['calendar-day-btn'];
+                if (dateKey === todayKey) classes.push('is-today');
+                if (dateKey === selectedCheckinDate) classes.push('is-selected');
+                if (checkedDates[dateKey]) classes.push('has-checkin');
+                var statusText = checkedDates[dateKey] ? '，已打卡' : '';
+                html += '<button class="' + classes.join(' ') + '" type="button" data-date="' + dateKey + '" ' +
+                    'aria-label="' + dateKey + statusText + '" aria-selected="' + (dateKey === selectedCheckinDate ? 'true' : 'false') + '">' +
+                    '<span class="calendar-day-number">' + dayNumber + '</span>' +
+                    '<span class="calendar-day-check" aria-hidden="true">✓</span>' +
+                    '</button>';
+            }
+
+            grid.innerHTML = html;
+            var buttons = grid.querySelectorAll('.calendar-day-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', function() {
+                    selectCheckinDate(this.getAttribute('data-date'));
+                });
+            }
+        }
+
+        function renderSelectedCheckinState() {
+            var records = loadCheckinRecords();
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            var todayKey = getLocalDateKey(today);
+            var selected = parseLocalDateKey(selectedCheckinDate) || new Date();
+            selected.setHours(0, 0, 0, 0);
+            var selectedKey = getLocalDateKey(selected);
+            var record = getCheckinRecordForDate(records, selectedKey);
+            var isFuture = selected.getTime() > today.getTime();
+            var isToday = selectedKey === todayKey;
+
+            document.getElementById('actualDay').textContent = padNumber(selected.getDate());
+            document.getElementById('actualWeekday').textContent = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][selected.getDay()];
+            document.getElementById('actualYear').textContent = selected.getFullYear();
+
+            var button = document.getElementById('checkinButton');
+            if (button) {
+                button.disabled = Boolean(record);
+                button.classList.toggle('done', Boolean(record));
+                if (record) {
+                    button.textContent = isFuture ? '该日已提前打卡' : (isToday ? '今日已打卡' : '该日已打卡');
+                } else if (isToday) {
+                    button.textContent = '今日打卡';
+                } else if (isFuture) {
+                    button.textContent = '提前打卡 · ' + (selected.getMonth() + 1) + '月' + selected.getDate() + '日';
+                } else {
+                    button.textContent = '补打卡 · ' + (selected.getMonth() + 1) + '月' + selected.getDate() + '日';
+                }
+            }
+
+            var actualCheckin = document.getElementById('actualCheckin');
+            if (actualCheckin) {
+                if (record) {
+                    var actualDateKey = record.checkedInLocalDate || '';
+                    var checkinKind = actualDateKey && actualDateKey > record.checkinDate ? '（补记）' : (actualDateKey && actualDateKey < record.checkinDate ? '（提前打卡）' : '');
+                    actualCheckin.textContent = '实际打卡：' + record.checkedInLocalDate + ' ' + record.checkedInLocalTime + checkinKind;
+                    actualCheckin.title = '所选日期：' + record.checkinDate + '；实际记录时间：' + record.checkedInLocalDate + ' ' + record.checkedInLocalTime;
+                } else {
+                    actualCheckin.textContent = isFuture ? '该日期尚未打卡，可提前打卡' : (isToday ? '今日尚未打卡' : '该日期尚未打卡');
+                    actualCheckin.removeAttribute('title');
+                }
+            }
+
+            var summary = document.getElementById('checkinSummary');
+            var todayRecord = getCheckinRecordForDate(records, todayKey);
+            if (summary) {
+                summary.classList.toggle('success', Boolean(todayRecord));
+                summary.textContent = todayRecord
+                    ? '今日已打卡 ' + todayRecord.checkedInLocalTime + ' · 过去可补记，未来可提前打卡'
+                    : '本机时间 · 今日尚未打卡，过去可补记，未来可提前打卡';
+            }
+        }
+
+        function renderCheckinHistory() {
+            var records = dedupeCheckinRecords(loadCheckinRecords());
+            var count = document.getElementById('checkinCount');
+            var recordList = document.getElementById('checkinRecordList');
+            var toggleText = document.getElementById('checkinHistoryToggleText');
+            var historyPanel = document.getElementById('checkinHistory');
+            var historyToggle = document.getElementById('checkinHistoryToggle');
+
+            if (count) count.textContent = String(records.length);
+            if (toggleText && historyPanel) {
+                toggleText.textContent = historyPanel.hidden ? '查看打卡记录' : '收起打卡记录';
+            }
+            if (historyToggle && historyPanel) {
+                historyToggle.setAttribute('aria-expanded', String(!historyPanel.hidden));
+            }
+            if (!recordList) return;
+
+            if (records.length === 0) {
+                recordList.innerHTML = '<li class="checkin-history-empty">还没有打卡记录</li>';
+                return;
+            }
+
+            var historyHtml = '';
+            records.forEach(function(item) {
+                var actualDateKey = item.checkedInLocalDate || '';
+                var recordBadge = actualDateKey > item.checkinDate ? '补' : (actualDateKey < item.checkinDate ? '提' : '');
+                historyHtml += '<li class="checkin-record" title="实际打卡：' + escapeHtml(item.checkedInLocalDate + ' ' + item.checkedInLocalTime) + '">' +
+                    '<span class="checkin-record-date">' + escapeHtml(item.checkinDate) +
+                    (recordBadge ? '<span class="checkin-record-badge">' + recordBadge + '</span>' : '') + '</span>' +
+                    '<span class="checkin-record-time">' + escapeHtml(item.checkedInLocalTime) + '</span>' +
+                    '</li>';
+            });
+            recordList.innerHTML = historyHtml;
+        }
+
+        function renderCheckinPanel() {
+            lastCheckinRenderDate = getLocalDateKey(new Date());
+            renderCheckinCalendar();
+            renderSelectedCheckinState();
+            renderCheckinHistory();
+        }
+
+        function updateActualClock() {
+            var now = new Date();
+            var timeEl = document.getElementById('actualTime');
+            if (!timeEl) return;
+            timeEl.textContent = formatLocalClock(now);
+
+            var todayKey = getLocalDateKey(now);
+            if (todayKey !== lastCheckinRenderDate) {
+                var previousToday = lastCheckinRenderDate;
+                lastCheckinRenderDate = todayKey;
+                if (!selectedCheckinDate || selectedCheckinDate === previousToday) {
+                    selectedCheckinDate = todayKey;
+                }
+                calendarViewYear = now.getFullYear();
+                calendarViewMonth = now.getMonth();
+                renderCheckinPanel();
+            }
+        }
+
+        function changeCheckinMonth(offset) {
+            var nextMonth = new Date(calendarViewYear, calendarViewMonth + offset, 1);
+            calendarViewYear = nextMonth.getFullYear();
+            calendarViewMonth = nextMonth.getMonth();
+            renderCheckinCalendar();
+        }
+
+        function selectTodayForCheckin() {
+            navigateToLearningDay(getTodayDayIndex(), true);
+        }
+
+        function selectCheckinDate(dateKey) {
+            var selected = parseLocalDateKey(dateKey);
+            if (!selected) return;
+            selectedCheckinDate = dateKey;
+            calendarViewYear = selected.getFullYear();
+            calendarViewMonth = selected.getMonth();
+
+            var learningDayIndex = getDayIndexForDateKey(dateKey);
+            if (learningDayIndex !== null && learningDayIndex >= 0 && learningDayIndex < planData.length) {
+                navigateToLearningDay(learningDayIndex, true);
+            } else {
+                renderCheckinPanel();
+            }
+        }
+
+        function checkInSelectedDate() {
+            var selected = parseLocalDateKey(selectedCheckinDate);
+            if (!selected) return;
+            var now = new Date();
+            var records = loadCheckinRecords();
+            if (getCheckinRecordForDate(records, selectedCheckinDate)) {
+                renderCheckinPanel();
+                return;
+            }
+
+            records.unshift({
+                id: 'checkin_' + now.getTime(),
+                checkinDate: selectedCheckinDate,
+                checkedInAt: now.toISOString(),
+                checkedInLocalDate: getLocalDateKey(now),
+                checkedInLocalTime: formatLocalClock(now),
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local'
+            });
+
+            if (!saveCheckinRecords(records)) {
+                document.getElementById('checkinSummary').textContent = '打卡失败：浏览器本地存储不可用';
+                return;
+            }
+            renderCheckinPanel();
+            if (getGithubToken() && githubProfile) syncCheckinsWithGithub(true);
+        }
+
+        function toggleCheckinHistory() {
+            var panel = document.getElementById('checkinHistory');
+            var button = document.getElementById('checkinHistoryToggle');
+            if (!panel || !button) return;
+            panel.hidden = !panel.hidden;
+            renderCheckinHistory();
+        }
+
+        // GitHub 账号隔离的 Gist 同步
+        function loadGithubProfile() {
+            try {
+                var parsed = JSON.parse(localStorage.getItem(GITHUB_PROFILE_STORAGE_KEY) || 'null');
+                return parsed && parsed.login ? parsed : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function saveGithubProfile(profile) {
+            try {
+                if (profile) {
+                    localStorage.setItem(GITHUB_PROFILE_STORAGE_KEY, JSON.stringify(profile));
+                } else {
+                    localStorage.removeItem(GITHUB_PROFILE_STORAGE_KEY);
+                }
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function getGithubToken() {
+            try {
+                return sessionStorage.getItem(GITHUB_TOKEN_SESSION_KEY) || '';
+            } catch (error) {
+                return '';
+            }
+        }
+
+        function setGithubToken(token) {
+            try {
+                if (token) {
+                    sessionStorage.setItem(GITHUB_TOKEN_SESSION_KEY, token);
+                } else {
+                    sessionStorage.removeItem(GITHUB_TOKEN_SESSION_KEY);
+                }
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function setGithubStatus(message, tone) {
+            var status = document.getElementById('githubSyncStatus');
+            if (!status) return;
+            status.textContent = message;
+            status.className = 'github-status' + (tone ? ' ' + tone : '');
+        }
+
+        function renderGithubControls() {
+            var button = document.getElementById('githubConnectButton');
+            var hasSession = Boolean(getGithubToken());
+            if (hasSession && githubProfile) {
+                setGithubStatus('GitHub 已连接 · @' + githubProfile.login, 'success');
+                if (button) button.textContent = '管理同步';
+            } else if (githubProfile) {
+                setGithubStatus('上次账号 @' + githubProfile.login + ' · 等待授权', '');
+                if (button) button.textContent = '重新连接';
+            } else {
+                setGithubStatus('记录仅保存在本地', '');
+                if (button) button.textContent = '连接 GitHub';
+            }
+        }
+
+        function renderGithubDialog() {
+            var authView = document.getElementById('githubAuthView');
+            var connectedView = document.getElementById('githubConnectedView');
+            var userLabel = document.getElementById('githubUserLabel');
+            var gistSummary = document.getElementById('githubGistSummary');
+            var gistLink = document.getElementById('githubGistLink');
+            var connected = Boolean(getGithubToken() && githubProfile);
+
+            if (authView) authView.hidden = connected;
+            if (connectedView) connectedView.hidden = !connected;
+            if (connected && githubProfile) {
+                if (userLabel) userLabel.textContent = '@' + githubProfile.login;
+                if (gistSummary) {
+                    gistSummary.textContent = githubProfile.gistId
+                        ? '打卡记录按日期保存在该账号的私人 Gist 中'
+                        : '在下一次同步时会自动创建私人 Gist';
+                }
+                if (gistLink) {
+                    gistLink.hidden = !githubProfile.gistUrl;
+                    if (githubProfile.gistUrl) gistLink.href = githubProfile.gistUrl;
+                }
+            }
+        }
+
+        function openGithubDialog() {
+            var dialog = document.getElementById('githubDialog');
+            if (!dialog) return;
+            renderGithubDialog();
+            setGithubDialogError('');
+            if (!dialog.open) dialog.showModal();
+        }
+
+        function closeGithubDialog() {
+            var dialog = document.getElementById('githubDialog');
+            if (dialog && dialog.open) dialog.close();
+        }
+
+        function setGithubDialogError(message) {
+            var error = document.getElementById('githubDialogError');
+            if (error) error.textContent = message || '';
+        }
+
+        function setGithubDialogBusy(isBusy) {
+            var input = document.getElementById('githubTokenInput');
+            var button = document.getElementById('githubConnectSubmit');
+            if (input) input.disabled = isBusy;
+            if (button) {
+                button.disabled = isBusy;
+                button.textContent = isBusy ? '正在连接并同步...' : '连接并同步';
+            }
+        }
+
+        async function githubRequest(path, options, tokenOverride) {
+            var token = tokenOverride || getGithubToken();
+            var headers = {
+                'Accept': 'application/vnd.github+json',
+                'X-GitHub-Api-Version': '2022-11-28'
+            };
+            if (token) headers.Authorization = 'Bearer ' + token;
+            var requestOptions = Object.assign({}, options || {});
+            requestOptions.headers = Object.assign(headers, requestOptions.headers || {});
+
+            var response = await fetch('https://api.github.com' + path, requestOptions);
+            var responseText = await response.text();
+            var data = null;
+            try { data = responseText ? JSON.parse(responseText) : null; } catch (error) { data = null; }
+            if (!response.ok) {
+                var requestError = new Error((data && data.message) || ('GitHub API 请求失败（' + response.status + '）'));
+                requestError.status = response.status;
+                throw requestError;
+            }
+            return data;
+        }
+
+        async function findGithubGist(profile, token) {
+            if (profile && profile.gistId) {
+                try {
+                    return await githubRequest('/gists/' + encodeURIComponent(profile.gistId), {}, token);
+                } catch (error) {
+                    if (error.status !== 404) throw error;
+                }
+            }
+            var gists = await githubRequest('/gists?per_page=100', {}, token);
+            if (!Array.isArray(gists)) return null;
+            for (var i = 0; i < gists.length; i++) {
+                if (gists[i].files && gists[i].files[GITHUB_GIST_FILENAME]) return gists[i];
+            }
+            return null;
+        }
+
+        async function readGithubGistRecords(gist) {
+            if (!gist || !gist.files || !gist.files[GITHUB_GIST_FILENAME]) return [];
+            var gistFile = gist.files[GITHUB_GIST_FILENAME];
+            var content = gistFile.content || '';
+            if (gistFile.truncated && gistFile.raw_url) {
+                var rawResponse = await fetch(gistFile.raw_url);
+                if (!rawResponse.ok) throw new Error('无法读取 GitHub Gist 内容');
+                content = await rawResponse.text();
+            }
+            try {
+                var parsed = JSON.parse(content || '{}');
+                return Array.isArray(parsed) ? parsed : (Array.isArray(parsed.records) ? parsed.records : []);
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function applyGistToProfile(profile, gist) {
+            if (!gist) return profile;
+            profile.gistId = gist.id || profile.gistId || '';
+            profile.gistUrl = gist.html_url || profile.gistUrl || '';
+            profile.gistUpdatedAt = gist.updated_at || '';
+            return profile;
+        }
+
+        async function writeGithubGist(profile, records, token) {
+            var payload = {
+                schemaVersion: 1,
+                owner: profile.login,
+                updatedAt: new Date().toISOString(),
+                records: dedupeCheckinRecords(records)
+            };
+            var files = {};
+            files[GITHUB_GIST_FILENAME] = { content: JSON.stringify(payload, null, 2) };
+            var body = JSON.stringify({
+                description: 'AI Engineer Plan check-ins for @' + profile.login,
+                files: files
+            });
+            var gist;
+            if (profile.gistId) {
+                try {
+                    gist = await githubRequest('/gists/' + encodeURIComponent(profile.gistId), {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: body
+                    }, token);
+                } catch (error) {
+                    if (error.status !== 404) throw error;
+                    profile.gistId = '';
+                }
+            }
+            if (!profile.gistId) {
+                gist = await githubRequest('/gists', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        description: 'AI Engineer Plan check-ins for @' + profile.login,
+                        public: false,
+                        files: files
+                    })
+                }, token);
+            }
+            return applyGistToProfile(profile, gist);
+        }
+
+        async function connectGithubAccount() {
+            var input = document.getElementById('githubTokenInput');
+            var token = input ? input.value.trim() : '';
+            setGithubDialogError('');
+            if (!token) {
+                setGithubDialogError('请先填写 GitHub Token。');
+                return;
+            }
+
+            setGithubDialogBusy(true);
+            try {
+                var user = await githubRequest('/user', {}, token);
+                if (!user || !user.login) throw new Error('无法识别 GitHub 账号');
+
+                var previousProfile = loadGithubProfile();
+                var nextOwner = normalizeCheckinStorageOwner(user.login);
+                var sameAccount = Boolean(previousProfile && normalizeCheckinStorageOwner(previousProfile.login) === nextOwner);
+                var profile = {
+                    login: user.login,
+                    avatarUrl: user.avatar_url || '',
+                    gistId: sameAccount ? (previousProfile.gistId || '') : ''
+                };
+                var gist = await findGithubGist(profile, token);
+                var remoteRecords = gist ? await readGithubGistRecords(gist) : [];
+                var localRecords = loadCheckinRecordsForOwner('local');
+                var accountRecords = sameAccount ? loadCheckinRecordsForOwner(nextOwner) : [];
+                var mergedRecords = dedupeCheckinRecords(localRecords.concat(accountRecords, remoteRecords));
+
+                applyGistToProfile(profile, gist);
+                profile = await writeGithubGist(profile, mergedRecords, token);
+                if (!saveCheckinRecordsForOwner(mergedRecords, nextOwner)) {
+                    throw new Error('浏览器本地存储不可用，记录已写入 GitHub 但未能保存到当前设备');
+                }
+                if (!setGithubToken(token)) throw new Error('浏览器会话存储不可用，无法安全保存授权');
+
+                githubProfile = profile;
+                saveGithubProfile(profile);
+                clearLocalCheckinRecords();
+                if (input) input.value = '';
+                renderCheckinPanel();
+                renderGithubControls();
+                renderGithubDialog();
+                setGithubStatus('已同步 ' + mergedRecords.length + ' 条记录 · @' + profile.login, 'success');
+                closeGithubDialog();
+            } catch (error) {
+                var message = error && error.message ? error.message : 'GitHub 连接失败';
+                if (error && (error.status === 401 || error.status === 403)) {
+                    message = 'Token 无效或权限不足，请确认 Classic Token 已勾选 gist 权限。';
+                }
+                setGithubDialogError(message);
+            } finally {
+                setGithubDialogBusy(false);
+            }
+        }
+
+        async function syncCheckinsWithGithub(automatic) {
+            if (githubSyncing) return false;
+            var token = getGithubToken();
+            if (!token || !githubProfile) {
+                if (!automatic) openGithubDialog();
+                return false;
+            }
+
+            githubSyncing = true;
+            setGithubStatus('正在同步到 GitHub...', '');
+            try {
+                var profile = githubProfile;
+                var storageOwner = normalizeCheckinStorageOwner(profile.login);
+                var gist = await findGithubGist(profile, token);
+                var remoteRecords = gist ? await readGithubGistRecords(gist) : [];
+                var localRecords = loadCheckinRecordsForOwner('local');
+                var accountRecords = loadCheckinRecordsForOwner(storageOwner);
+                var mergedRecords = dedupeCheckinRecords(localRecords.concat(accountRecords, remoteRecords));
+                applyGistToProfile(profile, gist);
+                profile = await writeGithubGist(profile, mergedRecords, token);
+                if (!saveCheckinRecordsForOwner(mergedRecords, storageOwner)) {
+                    throw new Error('浏览器本地存储不可用，记录已写入 GitHub 但未能保存到当前设备');
+                }
+                githubProfile = profile;
+                saveGithubProfile(profile);
+                clearLocalCheckinRecords();
+                renderCheckinPanel();
+                renderGithubControls();
+                renderGithubDialog();
+                setGithubStatus('已同步 ' + mergedRecords.length + ' 条记录 · @' + profile.login, 'success');
+                return true;
+            } catch (error) {
+                var message = error && error.message ? error.message : 'GitHub 同步失败';
+                if (error && (error.status === 401 || error.status === 403)) {
+                    message = 'GitHub 授权失效或 Token 缺少 gist 权限';
+                }
+                setGithubStatus('本地已保存 · ' + message, 'error');
+                if (!automatic) setGithubDialogError(message);
+                return false;
+            } finally {
+                githubSyncing = false;
+            }
+        }
+
+        function restoreGithubSession() {
+            var token = getGithubToken();
+            if (!token) return;
+            if (!githubProfile) {
+                setGithubToken('');
+                renderGithubControls();
+                return;
+            }
+            syncCheckinsWithGithub(true);
+        }
+
+        function disconnectGithubAccount() {
+            setGithubToken('');
+            githubProfile = null;
+            saveGithubProfile(null);
+            var input = document.getElementById('githubTokenInput');
+            if (input) input.value = '';
+            renderCheckinPanel();
+            renderGithubControls();
+            renderGithubDialog();
+            closeGithubDialog();
+        }
+
+        // 切换上一天/下一天
+        function prevDay() {
+            var previousIndex = Math.max(0, getCurrentDayIndex() - 1);
+            navigateToLearningDay(previousIndex, false);
+        }
+
+        function nextDay() {
+            var nextIndex = Math.min(planData.length - 1, getCurrentDayIndex() + 1);
+            navigateToLearningDay(nextIndex, false);
+        }
+
+        // 切换标签页
+        function switchTab(tabName) {
+            var tabs = document.querySelectorAll('.tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+                if (tabs[i].getAttribute('data-tab') === tabName) {
+                    tabs[i].classList.add('active');
+                }
+            }
+
+            var panels = document.querySelectorAll('.panel');
+            for (var j = 0; j < panels.length; j++) {
+                panels[j].classList.remove('active');
+            }
+            document.getElementById(tabName + 'Panel').classList.add('active');
+        }
+
+        // 渲染学习内容
+        function renderLesson() {
+            var dayIndex = getCurrentDayIndex();
+            var dayData = planData[dayIndex % planData.length];
+            var content = document.getElementById('lessonContent');
+            document.getElementById('lessonTitle').textContent = dayData.title;
+
+            if (dayData.isRest) {
+                content.innerHTML = '<div class="rest-tip">今日是休息日，好好休息复盘 💪</div>';
+                return;
+            }
+
+            var scopeLabels = {
+                official: '三级官方核心',
+                practice: '官方主题实操',
+                review: '复盘',
+                extension: 'AI 应用工程师扩展',
+                weekly: '自编阶段测',
+                rest: '弹性复盘'
+            };
+            var scopeClass = dayData.scope ? 'scope-' + dayData.scope : 'scope-official';
+            var scopeLabel = scopeLabels[dayData.scope] || '三级官方核心';
+            var scopeNote = dayData.scopeNote || '';
+            content.innerHTML = '<div class="lesson-scope ' + scopeClass + '">' +
+                '<span class="scope-badge">' + scopeLabel + '</span>' +
+                '<span>' + escapeHtml(scopeNote) + '</span></div>' + dayData.lesson;
+        }
+
+        // 渲染待办
+        function renderTodo() {
+            var dayIndex = getCurrentDayIndex();
+            var planIndex = dayIndex % planData.length;
+            var dayData = planData[planIndex];
+            var practice = practiceData[planIndex];
+            var list = document.getElementById('todoList');
+
+            if (dayData.isRest) {
+                list.innerHTML = '<div class="rest-tip">今日是休息日，好好休息复盘即可 💪</div>';
+                return;
+            }
+
+            var movedIndexes = practice && practice.todoIndexes ? practice.todoIndexes : [];
+            var html = '';
+            var remainingCount = 0;
+
+            for (var i = 0; i < dayData.todos.length; i++) {
+                if (movedIndexes.indexOf(i) !== -1) continue;
+
+                var id = 'todo_' + dayIndex + '_' + i;
+                html += '<div class="todo-item" id="' + id + '_item">' +
+                    '<input type="checkbox" id="' + id + '" onchange="saveTodo(' + dayIndex + ',' + i + ')">' +
+                    '<label for="' + id + '">' + dayData.todos[i] + '</label>' +
+                    '</div>';
+                remainingCount++;
+            }
+
+            if (remainingCount === 0) {
+                html = '<div class="quiz-empty">今日的动手练习已移入「每日小测」，完成作答后可以直接检查结果。' +
+                    '<br><button class="practice-btn primary" onclick="switchTab(\'quiz\')">前往每日小测</button></div>';
+            } else if (practice) {
+                html += '<div class="practice-box"><strong>提示：</strong>今日实操题已移入「每日小测」，' +
+                    '<a href="javascript:void(0)" onclick="switchTab(\'quiz\')">去完成实操并检查</a>。</div>';
+            }
+
+            list.innerHTML = html;
+        }
+        // 渲染每日小测
+        function renderQuiz() {
+            var dayIndex = getCurrentDayIndex();
+            var planIndex = dayIndex % planData.length;
+            var dayData = planData[planIndex];
+            var practice = practiceData[planIndex];
+            var list = document.getElementById('quizList');
+            var guide = document.getElementById('quizGuide');
+            var submitButton = document.getElementById('dailyQuizSubmit');
+            var scoreEl = document.getElementById('dailyScore');
+
+            renderPractice(planIndex);
+
+            if (dayData.isRest) {
+                guide.textContent = '今天是休息复盘日，暂时没有新的练习和选择题。';
+                list.innerHTML = '<div class="rest-tip">今日无每日小测，好好休息复盘即可 💪</div>';
+                submitButton.style.display = 'none';
+                scoreEl.style.display = 'none';
+                return;
+            }
+
+            if (!dayData.quiz || dayData.quiz.length === 0) {
+                guide.textContent = practice
+                    ? '今日先完成上面的实操任务；本日没有额外选择题。'
+                    : '今日没有额外选择题，可完成实操并前往「每周阶段测」。';
+                list.innerHTML = practice
+                    ? '<div class="quiz-empty">今日没有额外的选择题，可完成实操并前往「每周阶段测」检验本周学习效果。</div>'
+                    : '<div class="rest-tip">今日无额外选择题，可前往「每周阶段测」做阶段测</div>';
+                submitButton.style.display = 'none';
+                scoreEl.style.display = 'none';
+                return;
+            }
+
+            guide.textContent = practice
+                ? '先完成上面的实操任务，再提交选择题，检查今天是否真正掌握。'
+                : '完成今日选择题，提交后即可查看答案与解析。';
+            submitButton.style.display = 'inline-block';
+            scoreEl.style.display = 'none';
+
+            var html = '<div class="quiz-group-heading"><h3>选择题巩固</h3><span>共 ' + dayData.quiz.length + ' 题</span></div>';
+            for (var i = 0; i < dayData.quiz.length; i++) {
+                var q = dayData.quiz[i];
+                var optionsHtml = '';
+                for (var j = 0; j < q.options.length; j++) {
+                    optionsHtml += '<label><input type="radio" name="daily_' + dayIndex + '_' + i + '" value="' + j + '"> ' + q.options[j] + '</label>';
+                }
+                html += '<div class="quiz-item">' +
+                    '<div class="quiz-question">' + (i+1) + '. ' + q.q + '</div>' +
+                    '<div class="quiz-options">' + optionsHtml + '</div>' +
+                    '<div class="quiz-result" id="daily_result_' + dayIndex + '_' + i + '"></div>' +
+                    '</div>';
+            }
+            list.innerHTML = html;
+            restoreDailyQuizCache(dayIndex, planIndex, dayData);
+        }
+
+        // 转义展示用文本
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, function(char) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[char];
+            });
+        }
+
+        function getPracticeDraftKey(planIndex) {
+            return 'ai_trainer_level3_practice_' + planIndex;
+        }
+
+        function getPracticeDoneKey(planIndex) {
+            return 'ai_trainer_level3_practice_done_' + planIndex;
+        }
+
+        function getPracticeCacheKey(planIndex) {
+            return 'ai_trainer_level3_practice_cache_v2_' + planIndex;
+        }
+
+        function loadPracticeDraft(planIndex) {
+            try {
+                return localStorage.getItem(getPracticeDraftKey(planIndex));
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function loadPracticeCache(planIndex) {
+            var cached = readLocalJson(getPracticeCacheKey(planIndex));
+            if (cached && typeof cached.code === 'string') return cached;
+
+            var legacyDraft = loadPracticeDraft(planIndex);
+            var legacyDone = false;
+            try {
+                legacyDone = localStorage.getItem(getPracticeDoneKey(planIndex)) === '1';
+            } catch (error) {
+                legacyDone = false;
+            }
+            if (legacyDraft !== null || legacyDone) {
+                return {
+                    version: 1,
+                    code: legacyDraft === null ? '' : legacyDraft,
+                    passed: legacyDone,
+                    result: null,
+                    updatedAt: null
+                };
+            }
+            return null;
+        }
+
+        function savePracticeCache(planIndex, patch) {
+            var next = Object.assign({}, loadPracticeCache(planIndex) || {}, patch || {});
+            next.version = 1;
+            next.updatedAt = new Date().toISOString();
+            writeLocalJson(getPracticeCacheKey(planIndex), next);
+
+            try {
+                if (typeof next.code === 'string') {
+                    localStorage.setItem(getPracticeDraftKey(planIndex), next.code);
+                }
+                if (next.passed) {
+                    localStorage.setItem(getPracticeDoneKey(planIndex), '1');
+                } else {
+                    localStorage.removeItem(getPracticeDoneKey(planIndex));
+                }
+            } catch (error) {
+                // 新缓存写入失败时仍可使用旧版草稿键。
+            }
+            return next;
+        }
+
+        function formatPracticeCacheTime(isoValue) {
+            if (!isoValue) return '';
+            var value = new Date(isoValue);
+            if (isNaN(value.getTime())) return '';
+            return value.toLocaleString('zh-CN', {
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+        }
+
+        function updatePracticeStatus(planIndex, passed) {
+            var status = document.getElementById('practiceStatus_' + planIndex);
+            if (status) {
+                status.classList.toggle('visible', Boolean(passed));
+            }
+        }
+
+        function renderPracticeResult(planIndex, result) {
+            var resultsEl = document.getElementById('practiceResults_' + planIndex);
+            if (!resultsEl || !result) return;
+
+            var rulesHtml = '';
+            var rules = Array.isArray(result.rules) ? result.rules : [];
+            for (var i = 0; i < rules.length; i++) {
+                rulesHtml += '<li class="practice-rule ' + (rules[i].passed ? 'pass' : 'fail') + '">' +
+                    '<span aria-hidden="true">' + (rules[i].passed ? '✅' : '❌') + '</span>' +
+                    '<span>' + escapeHtml(rules[i].label) + '</span></li>';
+            }
+
+            var summary = result.summary || (result.allPassed ? '已通过检查' : '检查尚未全部通过');
+            var summaryClass = result.allPassed ? 'success' : 'warning';
+            var checkedAt = formatPracticeCacheTime(result.checkedAt);
+            resultsEl.hidden = false;
+            resultsEl.innerHTML = '<div class="practice-check-summary ' + summaryClass + '">' +
+                (result.allPassed ? '🎉 ' : '🔎 ') + escapeHtml(summary) + '</div>' +
+                (rulesHtml ? '<ul class="practice-rule-list">' + rulesHtml + '</ul>' : '') +
+                '<p class="practice-note">' +
+                (checkedAt ? '上次检查：' + escapeHtml(checkedAt) + ' · ' : '') +
+                '检查结果已缓存于本机，刷新或切换日期后可恢复；继续编辑后请重新检查。</p>';
+        }
+
+        function savePracticeDraft(planIndex, value) {
+            savePracticeCache(planIndex, {
+                code: value,
+                passed: false,
+                result: null,
+                checkedAt: null
+            });
+            updatePracticeStatus(planIndex, false);
+
+            var resultsEl = document.getElementById('practiceResults_' + planIndex);
+            if (resultsEl) {
+                resultsEl.hidden = true;
+                resultsEl.innerHTML = '';
+            }
+            var status = document.getElementById('practiceDraftStatus_' + planIndex);
+            if (status) {
+                status.textContent = '已自动缓存 · 修改后请重新检查';
+            }
+        }
+
+        // 渲染代码练习
+        function renderPractice(planIndex) {
+            var container = document.getElementById('practiceSection');
+            var practice = practiceData[planIndex];
+
+            if (!practice) {
+                container.innerHTML = '';
+                return;
+            }
+
+            var requirementsHtml = '';
+            for (var i = 0; i < practice.requirements.length; i++) {
+                requirementsHtml += '<li>' + escapeHtml(practice.requirements[i]) + '</li>';
+            }
+
+            var cache = loadPracticeCache(planIndex);
+            var isDone = Boolean(cache && cache.passed);
+
+            container.innerHTML = '<section class="practice-card" id="practiceCard_' + planIndex + '">' +
+                '<div class="practice-card-header">' +
+                    '<div><span class="practice-eyebrow">DAILY PRACTICE</span>' +
+                    '<h3 class="practice-title">' + escapeHtml(practice.title) + '</h3></div>' +
+                    '<div><span class="practice-language-tag">' + escapeHtml(practice.language) + '</span>' +
+                    '<span class="practice-status' + (isDone ? ' visible' : '') + '" id="practiceStatus_' + planIndex + '">已通过检查</span></div>' +
+                '</div>' +
+                '<p class="practice-prompt">' + escapeHtml(practice.prompt) + '</p>' +
+                '<div class="practice-requirements"><strong>验收要求</strong><ul>' + requirementsHtml + '</ul></div>' +
+                '<div class="practice-editor-label"><label for="practiceCode_' + planIndex + '">作答区</label>' +
+                    '<span class="practice-draft-status" id="practiceDraftStatus_' + planIndex + '">' +
+                    (cache ? '已恢复本机缓存 · 继续编辑会自动保存' : '草稿与检查结果自动缓存') + '</span></div>' +
+                '<textarea class="practice-editor" id="practiceCode_' + planIndex + '" spellcheck="false" aria-label="练习作答区"></textarea>' +
+                '<div class="practice-actions">' +
+                    '<button class="practice-btn primary" type="button" id="practiceCheck_' + planIndex + '">检查代码</button>' +
+                    '<button class="practice-btn" type="button" id="practiceHintBtn_' + planIndex + '">查看提示</button>' +
+                    '<button class="practice-btn" type="button" id="practiceSolutionBtn_' + planIndex + '">查看参考答案</button>' +
+                '</div>' +
+                '<div class="practice-panel" id="practiceHint_' + planIndex + '" hidden>' +
+                    '<strong>提示：</strong><span id="practiceHintText_' + planIndex + '"></span></div>' +
+                '<div class="practice-panel solution" id="practiceSolution_' + planIndex + '" hidden>' +
+                    '<strong>参考答案（请先独立尝试）</strong>' +
+                    '<pre class="practice-solution-code"><code id="practiceSolutionCode_' + planIndex + '"></code></pre></div>' +
+                '<div class="practice-results" id="practiceResults_' + planIndex + '" hidden aria-live="polite"></div>' +
+                '</section>';
+
+            var editor = document.getElementById('practiceCode_' + planIndex);
+            editor.value = cache ? cache.code : practice.starter;
+            editor.addEventListener('input', function() {
+                savePracticeDraft(planIndex, editor.value);
+            });
+            editor.addEventListener('keydown', function(event) {
+                if (event.key !== 'Tab') return;
+                event.preventDefault();
+                var start = editor.selectionStart;
+                var end = editor.selectionEnd;
+                editor.value = editor.value.substring(0, start) + '    ' + editor.value.substring(end);
+                editor.selectionStart = editor.selectionEnd = start + 4;
+                savePracticeDraft(planIndex, editor.value);
+            });
+            document.getElementById('practiceHintText_' + planIndex).textContent = practice.hint;
+            document.getElementById('practiceSolutionCode_' + planIndex).textContent = practice.solution;
+            document.getElementById('practiceCheck_' + planIndex).addEventListener('click', function() {
+                checkPractice(planIndex);
+            });
+            document.getElementById('practiceHintBtn_' + planIndex).addEventListener('click', function() {
+                togglePracticeHint(planIndex);
+            });
+            document.getElementById('practiceSolutionBtn_' + planIndex).addEventListener('click', function() {
+                togglePracticeSolution(planIndex);
+            });
+
+            if (cache && cache.result) {
+                renderPracticeResult(planIndex, cache.result);
+            } else if (cache && cache.passed) {
+                renderPracticeResult(planIndex, {
+                    allPassed: true,
+                    summary: '该项目之前已通过检查，编辑后会重新校验。',
+                    rules: [],
+                    checkedAt: cache.checkedAt
+                });
+            }
+        }
+
+        // 在浏览器本地检查关键要求
+        function checkPractice(planIndex) {
+            var practice = practiceData[planIndex];
+            var editor = document.getElementById('practiceCode_' + planIndex);
+            var resultsEl = document.getElementById('practiceResults_' + planIndex);
+            if (!practice || !editor || !resultsEl) return;
+
+            var code = editor.value;
+            if (!code.trim()) {
+                resultsEl.hidden = false;
+                resultsEl.innerHTML = '<div class="practice-check-summary warning">请先写下代码，再进行检查。</div>';
+                editor.focus();
+                return;
+            }
+
+            var passedCount = 0;
+            var ruleResults = [];
+            for (var i = 0; i < practice.rules.length; i++) {
+                var currentRule = practice.rules[i];
+                var passed = false;
+                try {
+                    passed = Boolean(currentRule.test(code));
+                } catch (error) {
+                    passed = false;
+                }
+                if (passed) passedCount++;
+                ruleResults.push({ label: currentRule.label, passed: passed });
+            }
+
+            var allPassed = passedCount === practice.rules.length;
+            var summary = allPassed
+                ? '通过全部 ' + practice.rules.length + ' 项关键检查，做得不错！'
+                : '通过 ' + passedCount + ' / ' + practice.rules.length + ' 项，请根据未通过项继续完善。';
+            var checkedAt = new Date().toISOString();
+            var result = {
+                allPassed: allPassed,
+                passedCount: passedCount,
+                total: practice.rules.length,
+                summary: summary,
+                rules: ruleResults,
+                checkedAt: checkedAt
+            };
+
+            renderPracticeResult(planIndex, result);
+            savePracticeCache(planIndex, {
+                code: code,
+                passed: allPassed,
+                result: result,
+                checkedAt: checkedAt
+            });
+            updatePracticeStatus(planIndex, allPassed);
+        }
+
+        function togglePracticeHint(planIndex) {
+            var panel = document.getElementById('practiceHint_' + planIndex);
+            var button = document.getElementById('practiceHintBtn_' + planIndex);
+            if (!panel || !button) return;
+            panel.hidden = !panel.hidden;
+            button.textContent = panel.hidden ? '查看提示' : '收起提示';
+        }
+
+        function togglePracticeSolution(planIndex) {
+            var panel = document.getElementById('practiceSolution_' + planIndex);
+            var button = document.getElementById('practiceSolutionBtn_' + planIndex);
+            if (!panel || !button) return;
+            panel.hidden = !panel.hidden;
+            button.textContent = panel.hidden ? '查看参考答案' : '收起参考答案';
+        }
+        // 渲染每周大测
+        function renderWeeklyQuiz() {
+            var dayIndex = getCurrentDayIndex();
+            var weekIndex = Math.floor(dayIndex / 7);
+            var weeklyIndex = weekIndex * 7 + 5;
+            var weeklyData = planData[weeklyIndex];
+            var list = document.getElementById('weeklyQuizList');
+
+            if (!weeklyData || !weeklyData.isWeekly) {
+                list.innerHTML = '<div class="rest-tip">本周阶段测将在第 6 天解锁</div>';
+                document.querySelector('#weeklyPanel .submit-btn').style.display = 'none';
+                return;
+            }
+            document.querySelector('#weeklyPanel .submit-btn').style.display = 'inline-block';
+
+            var html = '';
+            for (var i = 0; i < weeklyData.weeklyQuiz.length; i++) {
+                var q = weeklyData.weeklyQuiz[i];
+                var optionsHtml = '';
+                for (var j = 0; j < q.options.length; j++) {
+                    optionsHtml += '<label><input type="radio" name="weekly_' + weekIndex + '_' + i + '" value="' + j + '"> ' + q.options[j] + '</label>';
+                }
+                html += '<div class="quiz-item">' +
+                    '<div class="quiz-question">' + (i+1) + '. ' + q.q + '</div>' +
+                    '<div class="quiz-options">' + optionsHtml + '</div>' +
+                    '<div class="quiz-result" id="weekly_result_' + weekIndex + '_' + i + '"></div>' +
+                    '</div>';
+            }
+            list.innerHTML = html;
+            restoreWeeklyQuizCache(weekIndex, weeklyData);
+        }
+
+        // 本地缓存通用读写
+        function readLocalJson(key) {
+            try {
+                var parsed = JSON.parse(localStorage.getItem(key) || 'null');
+                return parsed && typeof parsed === 'object' ? parsed : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function writeLocalJson(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // 每日选择题缓存
+        function getDailyQuizCacheKey(planIndex) {
+            return 'ai_trainer_level3_daily_quiz_cache_v2_' + planIndex;
+        }
+
+        function collectDailyQuizAnswers(dayIndex, answerCount) {
+            var answers = {};
+            for (var i = 0; i < answerCount; i++) {
+                var selected = document.querySelector('input[name="daily_' + dayIndex + '_' + i + '"]:checked');
+                if (selected) answers[i] = parseInt(selected.value);
+            }
+            return answers;
+        }
+
+        function clearDailyQuizResults(dayIndex, answerCount) {
+            for (var i = 0; i < answerCount; i++) {
+                var resultEl = document.getElementById('daily_result_' + dayIndex + '_' + i);
+                if (resultEl) {
+                    resultEl.className = 'quiz-result';
+                    resultEl.textContent = '';
+                }
+            }
+        }
+
+        function gradeDailyQuiz(dayIndex, dayData, answers) {
+            var correct = 0;
+            for (var i = 0; i < dayData.quiz.length; i++) {
+                var question = dayData.quiz[i];
+                var resultEl = document.getElementById('daily_result_' + dayIndex + '_' + i);
+                var selectedValue = answers && answers[i] !== undefined ? parseInt(answers[i]) : NaN;
+
+                if (isNaN(selectedValue)) {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '未作答；正确答案：' + question.options[question.answer] + '。解析：' + question.desc;
+                } else if (selectedValue === question.answer) {
+                    correct++;
+                    resultEl.className = 'quiz-result correct';
+                    resultEl.textContent = '✅ 回答正确！' + question.desc;
+                } else {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '❌ 回答错误。正确答案：' + question.options[question.answer] + '。解析：' + question.desc;
+                }
+            }
+
+            var scoreEl = document.getElementById('dailyScore');
+            if (scoreEl) {
+                scoreEl.style.display = 'block';
+                scoreEl.textContent = '本次得分：' + correct + ' / ' + dayData.quiz.length + ' · 已缓存';
+            }
+            return correct;
+        }
+
+        function restoreDailyQuizCache(dayIndex, planIndex, dayData) {
+            var answerCount = dayData.quiz.length;
+            var cache = readLocalJson(getDailyQuizCacheKey(planIndex));
+            if (cache && cache.answers) {
+                for (var i = 0; i < answerCount; i++) {
+                    if (cache.answers[i] === undefined) continue;
+                    var input = document.querySelector('input[name="daily_' + dayIndex + '_' + i + '"][value="' + cache.answers[i] + '"]');
+                    if (input) input.checked = true;
+                }
+            }
+
+            var inputs = document.querySelectorAll('input[name^="daily_' + dayIndex + '_"]');
+            for (var k = 0; k < inputs.length; k++) {
+                inputs[k].addEventListener('change', function() {
+                    var answers = collectDailyQuizAnswers(dayIndex, answerCount);
+                    var previousCache = readLocalJson(getDailyQuizCacheKey(planIndex));
+                    writeLocalJson(getDailyQuizCacheKey(planIndex), {
+                        version: 1,
+                        answers: answers,
+                        submitted: false,
+                        updatedAt: new Date().toISOString()
+                    });
+                    clearDailyQuizResults(dayIndex, answerCount);
+                    var scoreEl = document.getElementById('dailyScore');
+                    if (previousCache && previousCache.submitted) {
+                        scoreEl.style.display = 'block';
+                        scoreEl.textContent = '答案已更新，请重新提交';
+                    } else {
+                        scoreEl.style.display = 'none';
+                    }
+                });
+            }
+
+            if (cache && cache.submitted && cache.answers) {
+                gradeDailyQuiz(dayIndex, dayData, cache.answers);
+            }
+        }
+
+        // 每周大测缓存
+        function getWeeklyQuizCacheKey(weekIndex) {
+            return 'ai_trainer_level3_weekly_quiz_cache_v2_' + weekIndex;
+        }
+
+        function collectWeeklyQuizAnswers(weekIndex, answerCount) {
+            var answers = {};
+            for (var i = 0; i < answerCount; i++) {
+                var selected = document.querySelector('input[name="weekly_' + weekIndex + '_' + i + '"]:checked');
+                if (selected) answers[i] = parseInt(selected.value);
+            }
+            return answers;
+        }
+
+        function clearWeeklyQuizResults(weekIndex, answerCount) {
+            for (var i = 0; i < answerCount; i++) {
+                var resultEl = document.getElementById('weekly_result_' + weekIndex + '_' + i);
+                if (resultEl) {
+                    resultEl.className = 'quiz-result';
+                    resultEl.textContent = '';
+                }
+            }
+        }
+
+        function gradeWeeklyQuiz(weekIndex, weeklyData, answers) {
+            var correct = 0;
+            for (var i = 0; i < weeklyData.weeklyQuiz.length; i++) {
+                var question = weeklyData.weeklyQuiz[i];
+                var resultEl = document.getElementById('weekly_result_' + weekIndex + '_' + i);
+                var selectedValue = answers && answers[i] !== undefined ? parseInt(answers[i]) : NaN;
+
+                if (isNaN(selectedValue)) {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '未作答；正确答案：' + question.options[question.answer] + '。';
+                } else if (selectedValue === question.answer) {
+                    correct++;
+                    resultEl.className = 'quiz-result correct';
+                    resultEl.textContent = '✅ 正确';
+                } else {
+                    resultEl.className = 'quiz-result wrong';
+                    resultEl.textContent = '❌ 错误，正确答案：' + question.options[question.answer];
+                }
+            }
+
+            var scoreEl = document.getElementById('weeklyScore');
+            if (scoreEl) {
+                scoreEl.style.display = 'block';
+                scoreEl.textContent = '周测得分：' + correct + ' / ' + weeklyData.weeklyQuiz.length + ' · 已缓存';
+            }
+            return correct;
+        }
+
+        function restoreWeeklyQuizCache(weekIndex, weeklyData) {
+            var answerCount = weeklyData.weeklyQuiz.length;
+            var cache = readLocalJson(getWeeklyQuizCacheKey(weekIndex));
+            if (cache && cache.answers) {
+                for (var i = 0; i < answerCount; i++) {
+                    if (cache.answers[i] === undefined) continue;
+                    var input = document.querySelector('input[name="weekly_' + weekIndex + '_' + i + '"][value="' + cache.answers[i] + '"]');
+                    if (input) input.checked = true;
+                }
+            }
+
+            var inputs = document.querySelectorAll('input[name^="weekly_' + weekIndex + '_"]');
+            for (var k = 0; k < inputs.length; k++) {
+                inputs[k].addEventListener('change', function() {
+                    var answers = collectWeeklyQuizAnswers(weekIndex, answerCount);
+                    var previousCache = readLocalJson(getWeeklyQuizCacheKey(weekIndex));
+                    writeLocalJson(getWeeklyQuizCacheKey(weekIndex), {
+                        version: 1,
+                        answers: answers,
+                        submitted: false,
+                        updatedAt: new Date().toISOString()
+                    });
+                    clearWeeklyQuizResults(weekIndex, answerCount);
+                    var scoreEl = document.getElementById('weeklyScore');
+                    if (previousCache && previousCache.submitted) {
+                        scoreEl.style.display = 'block';
+                        scoreEl.textContent = '答案已更新，请重新提交';
+                    } else {
+                        scoreEl.style.display = 'none';
+                    }
+                });
+            }
+
+            if (cache && cache.submitted && cache.answers) {
+                gradeWeeklyQuiz(weekIndex, weeklyData, cache.answers);
+            } else {
+                var scoreEl = document.getElementById('weeklyScore');
+                if (scoreEl) scoreEl.style.display = 'none';
+            }
+        }
+
+        // 提交每日小测
+        function submitDailyQuiz() {
+            var dayIndex = getCurrentDayIndex();
+            var planIndex = dayIndex % planData.length;
+            var dayData = planData[planIndex];
+            if (!dayData.quiz || dayData.quiz.length === 0) return;
+
+            var answers = collectDailyQuizAnswers(dayIndex, dayData.quiz.length);
+            var correct = gradeDailyQuiz(dayIndex, dayData, answers);
+            writeLocalJson(getDailyQuizCacheKey(planIndex), {
+                version: 1,
+                answers: answers,
+                submitted: true,
+                correct: correct,
+                total: dayData.quiz.length,
+                updatedAt: new Date().toISOString()
+            });
+        }
+
+        // 提交每周大测
+        function submitWeeklyQuiz() {
+            var weekIndex = Math.floor(getCurrentDayIndex() / 7);
+            var weeklyIndex = weekIndex * 7 + 5;
+            var weeklyData = planData[weeklyIndex];
+            if (!weeklyData || !weeklyData.weeklyQuiz) return;
+
+            var answers = collectWeeklyQuizAnswers(weekIndex, weeklyData.weeklyQuiz.length);
+            var correct = gradeWeeklyQuiz(weekIndex, weeklyData, answers);
+            writeLocalJson(getWeeklyQuizCacheKey(weekIndex), {
+                version: 1,
+                answers: answers,
+                submitted: true,
+                correct: correct,
+                total: weeklyData.weeklyQuiz.length,
+                updatedAt: new Date().toISOString()
+            });
+        }
+
+        // 本地存储进度
+        function saveTodo(dayIndex, todoIndex) {
+            var checkbox = document.getElementById('todo_' + dayIndex + '_' + todoIndex);
+            var item = document.getElementById('todo_' + dayIndex + '_' + todoIndex + '_item');
+
+            if (checkbox.checked) {
+                item.classList.add('done');
+            } else {
+                item.classList.remove('done');
+            }
+
+            var key = 'ai_trainer_level3_todo_' + dayIndex;
+            var doneList = JSON.parse(localStorage.getItem(key) || '[]');
+            if (checkbox.checked) {
+                if (doneList.indexOf(todoIndex) === -1) doneList.push(todoIndex);
+            } else {
+                var newList = [];
+                for (var k = 0; k < doneList.length; k++) {
+                    if (doneList[k] !== todoIndex) newList.push(doneList[k]);
+                }
+                doneList = newList;
+            }
+            localStorage.setItem(key, JSON.stringify(doneList));
+        }
+
+        // 加载进度
+        function loadProgress() {
+            var dayIndex = getCurrentDayIndex();
+            var key = 'ai_trainer_level3_todo_' + dayIndex;
+            var doneList = JSON.parse(localStorage.getItem(key) || '[]');
+
+            for (var i = 0; i < doneList.length; i++) {
+                var checkbox = document.getElementById('todo_' + dayIndex + '_' + doneList[i]);
+                var item = document.getElementById('todo_' + dayIndex + '_' + doneList[i] + '_item');
+                if (checkbox && item) {
+                    checkbox.checked = true;
+                    item.classList.add('done');
+                }
+            }
+        }
+
+        // 页面加载完成后初始化
+        window.onload = init;
+    </script>
+</body>
+</html>
