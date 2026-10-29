@@ -1,13 +1,15 @@
-# AI 应用工程师 · 学习打卡计划
+# AI 学习中心 · 双路线打卡计划
 
-这个仓库包含两套可直接在浏览器中使用的交互式学习计划：
+这个仓库包含一个统一学习中心首页和两套可直接在浏览器中使用的交互式学习计划：
 
-- **AI 应用工程师 30 天筑基计划**：首页 `index.html`
+- **AI 学习中心**：`index.html`
+- **AI 应用工程师 30 天筑基计划**：`ai-engineer-30day.html`
 - **人工智能训练师三级/高级工 8 周打卡计划**：`ai-trainer-level3.html`
 
 ## 在线访问
 
-- AI 应用工程师 30 天计划：https://xylia43.github.io/ai-engineer-plan/
+- AI 学习中心：https://xylia43.github.io/ai-engineer-plan/
+- AI 应用工程师 30 天计划：https://xylia43.github.io/ai-engineer-plan/ai-engineer-30day.html
 - 人工智能训练师三级/高级工打卡计划：https://xylia43.github.io/ai-engineer-plan/ai-trainer-level3.html
 
 ## 三级/高级工计划的资料边界
@@ -72,6 +74,7 @@ python3 -m http.server 8000
 然后访问：
 
 - `http://localhost:8000/`
+- `http://localhost:8000/ai-engineer-30day.html`
 - `http://localhost:8000/ai-trainer-level3.html`
 
 ## 本地缓存
