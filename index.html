@@ -854,7 +854,7 @@
                 <span class="github-status" id="githubSyncStatus">记录仅保存在本地</span>
                 <button class="github-sync-btn" type="button" id="githubConnectButton" onclick="openGithubDialog()">连接 GitHub</button>
             </div>
-            <div class="checkin-note">每台设备本地优先；连接 GitHub 后按账号保存到个人 Gist</div>
+            <div class="checkin-note">点击日期查看当天学习内容 · 连接 GitHub 后按账号保存到个人 Gist</div>
         </section>
     </div>
 
@@ -889,7 +889,7 @@
         <button onclick="nextDay()">下一天 →</button>
     </div>
 
-    <div class="tabs">
+    <div class="tabs" id="learningContentStart">
         <div class="tab active" data-tab="lesson">今日学习</div>
         <div class="tab" data-tab="todo">每日待办</div>
         <div class="tab" data-tab="quiz">每日小测</div>
@@ -2862,13 +2862,24 @@ pytest
         }
 
         // 计算当前学习日
+        function getCalendarDayDifference(startDate, endDate) {
+            var startUtc = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+            var endUtc = Date.UTC(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+            return Math.round((endUtc - startUtc) / (1000 * 60 * 60 * 24));
+        }
+
+        function getTodayDayIndex() {
+            return Math.max(0, getCalendarDayDifference(new Date(START_DATE), new Date()));
+        }
+
+        function getDayIndexForDateKey(dateKey) {
+            var selected = parseLocalDateKey(dateKey);
+            if (!selected) return null;
+            return getCalendarDayDifference(new Date(START_DATE), selected);
+        }
+
         function getCurrentDayIndex() {
-            var today = new Date();
-            today.setHours(0,0,0,0);
-            var start = new Date(START_DATE);
-            start.setHours(0,0,0,0);
-            var diff = Math.floor((today - start) / (1000*60*60*24));
-            return Math.max(0, diff) + currentDayOffset;
+            return getTodayDayIndex() + currentDayOffset;
         }
 
         // 更新日期信息
@@ -2881,6 +2892,40 @@ pytest
             document.getElementById('dateInfo').innerHTML = 
                 date.toLocaleDateString('zh-CN') + ' · ' + dayData.title;
             document.getElementById('dayLabel').textContent = '第 ' + (dayIndex + 1) + ' 天';
+        }
+
+        function renderCurrentDayContent() {
+            updateDayInfo();
+            renderLesson();
+            renderTodo();
+            renderQuiz();
+            renderWeeklyQuiz();
+            loadProgress();
+        }
+
+        function syncCheckinDateToDayIndex(dayIndex) {
+            var date = new Date(START_DATE);
+            date.setDate(date.getDate() + dayIndex);
+            selectedCheckinDate = getLocalDateKey(date);
+            calendarViewYear = date.getFullYear();
+            calendarViewMonth = date.getMonth();
+            renderCheckinPanel();
+        }
+
+        function navigateToLearningDay(dayIndex, shouldScroll) {
+            if (!Number.isFinite(dayIndex) || dayIndex < 0) return false;
+            currentDayOffset = dayIndex - getTodayDayIndex();
+            renderCurrentDayContent();
+            syncCheckinDateToDayIndex(dayIndex);
+
+            if (shouldScroll) {
+                var target = document.getElementById('learningContentStart');
+                if (target) {
+                    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+                }
+            }
+            return true;
         }
 
         // 实际日期、日历选择与打卡记录
@@ -3192,11 +3237,7 @@ pytest
         }
 
         function selectTodayForCheckin() {
-            var today = new Date();
-            calendarViewYear = today.getFullYear();
-            calendarViewMonth = today.getMonth();
-            selectedCheckinDate = getLocalDateKey(today);
-            renderCheckinPanel();
+            navigateToLearningDay(getTodayDayIndex(), true);
         }
 
         function selectCheckinDate(dateKey) {
@@ -3205,7 +3246,13 @@ pytest
             selectedCheckinDate = dateKey;
             calendarViewYear = selected.getFullYear();
             calendarViewMonth = selected.getMonth();
-            renderCheckinPanel();
+
+            var learningDayIndex = getDayIndexForDateKey(dateKey);
+            if (learningDayIndex !== null && learningDayIndex >= 0) {
+                navigateToLearningDay(learningDayIndex, true);
+            } else {
+                renderCheckinPanel();
+            }
         }
 
         function checkInSelectedDate() {
@@ -3588,24 +3635,12 @@ pytest
 
         // 切换上一天/下一天
         function prevDay() {
-            currentDayOffset--;
-            if (getCurrentDayIndex() < 0) currentDayOffset++;
-            updateDayInfo();
-            renderLesson();
-            renderTodo();
-            renderQuiz();
-            renderWeeklyQuiz();
-            loadProgress();
+            var previousIndex = Math.max(0, getCurrentDayIndex() - 1);
+            navigateToLearningDay(previousIndex, false);
         }
 
         function nextDay() {
-            currentDayOffset++;
-            updateDayInfo();
-            renderLesson();
-            renderTodo();
-            renderQuiz();
-            renderWeeklyQuiz();
-            loadProgress();
+            navigateToLearningDay(getCurrentDayIndex() + 1, false);
         }
 
         // 切换标签页
